@@ -1,0 +1,278 @@
+/* --- Переменные --- */
+:root {
+  --sidebar-condensed-width: 40px; /* Ширина сжатой шторки (иконки) */
+  --sidebar-full-width: 240px;    /* Ширина полной шторки (меню) - на скрине она шире 220 */
+  --sidebar-bg-color: rgba(33, 33, 33, 0.6);    /* Цвет фона шторки (темный) */
+  --main-bg-color: #020E1C;       /* Основной фон страницы */
+  --sidebar-transition-duration: 0.3s;
+}
+
+/* --- Общие стили для body --- */
+body {
+  overflow-x: hidden; /* Предотвращает горизонтальный скролл */
+  position: relative;
+  background-color: var(--main-bg-color);
+  font-family: 'Roboto', sans-serif;
+}
+
+/* --- Шторка (SIDEBAR) - общий контейнер --- */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0; 
+  height: 100vh;
+  background-color: transparent;
+  z-index: 200; 
+  width: var(--sidebar-condensed-width); 
+  transition: width var(--sidebar-transition-duration) ease-in-out;
+  display: flex; 
+  pointer-events: none;
+}
+/* Разрешаем события для видимых частей шторки */
+.sidebar > * {
+    pointer-events: auto;
+}
+
+/* --- Сжатая шторка (Иконки) --- */
+.sidebar-condensed {
+  margin-top: 50px;
+  border-radius: 25px;
+  border-bottom: 1px solid white;
+  width: var(--sidebar-condensed-width);
+  height: 180px; 
+  background-color: rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  visibility: visible;
+  transition: opacity var(--sidebar-transition-duration) ease-in-out, 
+              visibility var(--sidebar-transition-duration) ease-in-out,
+              width var(--sidebar-transition-duration) ease-in-out;
+}
+
+.sidebar-condensed-content {
+  padding-top: var(--header-bottom-height); /* <<=== ОТСТУП СВЕРХУ */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: calc(var(--header-bottom-height) + 20px); /* Пример: отступ header-bottom + еще 20px */
+}
+
+.nav_sidebar_condensed ul {
+  list-style: none;
+  padding: 23px 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+
+.nav_sidebar_condensed ul li a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 26px;
+  height: 26px;
+  transition: background-color 0.2s ease;
+}
+
+.nav_sidebar_condensed ul li a img {
+  width: 26px;
+  height: 26px;
+}
+.nav_sidebar_condensed ul li a:hover img,
+.nav_sidebar_condensed ul li a.active img {
+    filter: none; /* Убираем фильтр для активных/hover */
+}
+
+
+/* --- Полная шторка (Детальное меню) --- */
+.sidebar-full {
+  width: var(--sidebar-full-width); /* Фиксированная ширина при раскрытии */
+  height: 100%; /* Занимает всю высоту родителя .sidebar */
+  position: absolute; /* Позиционируется внутри .sidebar */
+  left: 0;
+  top: 0;
+  background-color: var(--sidebar-bg-color); /* Тот же фон */
+  padding: 30px 30px 30px 10px;
+  box-sizing: border-box;
+  overflow-y: auto; /* Прокрутка для длинного меню */
+  overflow-x: hidden; /* Предотвратить горизонтальный скролл */
+  
+  opacity: 0; /* Изначально невидима */
+  visibility: hidden;
+  transform: translateX(-20px); /* Небольшой сдвиг для анимации появления */
+  transition: opacity var(--sidebar-transition-duration) ease-in-out 0.1s, /* небольшая задержка для opacity */
+              visibility var(--sidebar-transition-duration) ease-in-out 0.1s,
+              transform var(--sidebar-transition-duration) ease-in-out 0.1s;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-full-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+  min-height: 30px;
+  margin-left: 10px;
+  gap: 30px;
+}
+
+.sidebar-logo img {
+  height: 28px; /* Размер лого в шторке */
+  display: block;
+}
+
+.nav-section {
+  padding: 15px 0px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.nav-section:last-of-type {
+    margin-bottom: 0;
+}
+
+.nav-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 15px;
+  padding-left: 10px;
+  line-height: 125%;
+  margin-top: 0px;
+}
+
+.nav_sidebar_full ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav_sidebar_full ul li a {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Расстояние между иконкой и текстом */
+  padding: 10px;
+  border-radius: 8px;
+  color: #D1D1D6;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav_sidebar_full ul li a:hover {
+  background-color: rgba(217, 217, 217, 0.1);
+  color: white;
+}
+.nav_sidebar_full ul li a.active { /* Активный пункт в полной шторке */
+  background-color: #E52E52; /* Ярко-красный, как на скрине */
+  color: white;
+  font-weight: 500;
+}
+.nav_sidebar_full ul li a.active img {
+    filter: brightness(0) invert(1); /* Делает иконку белой на цветном фоне */
+}
+
+
+.nav_sidebar_full ul li a img {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.friends-list .friend-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(255,255,255,0.1); /* Легкая обводка аватарок */
+}
+
+.show-more-friends {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    font-size: 13px;
+    color: #8A8A8E;
+    cursor: pointer;
+    border-radius: 8px;
+}
+.show-more-friends img { width: 16px; height: 16px; }
+.show-more-friends:hover { background-color: rgba(255, 255, 255, 0.08); color: #D1D1D6;}
+
+.sidebar-socials {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.sidebar-socials a img {
+  width: 36px;
+  height: 36px;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+.sidebar-socials a:hover img { opacity: 1; }
+
+/* --- Состояние ОТКРЫТОЙ шторки --- */
+body.sidebar-open .sidebar {
+  width: var(--sidebar-full-width);
+}
+
+body.sidebar-open .sidebar-condensed {
+  opacity: 0;
+  visibility: hidden;
+  width: 0; 
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+body.sidebar-open .sidebar-full {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0); /* Показываем полную шторку */
+}
+
+body.sidebar-open .header .sidebar-toggle {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none; /* Чтобы нельзя было кликнуть на невидимую кнопку */
+}
+
+/* --- Сдвиг Хедера и Основного контента --- */
+.header, .main-content {
+  transition: margin-left var(--sidebar-transition-duration) ease-in-out,
+              width var(--sidebar-transition-duration) ease-in-out; /* Для хедера */
+}
+
+.header {
+  position: fixed; /* Уже есть в header-footer.css */
+  top: 0;          /* Уже есть */
+  left: 0;         /* Управляем через margin-left, а не left */
+  width: calc(100% - var(--sidebar-condensed-width)); /* Изначальная ширина хедера */
+  z-index: 100;    /* Уже есть, ниже шторки */
+}
+
+.main-content {
+  padding-top: var(--header-total-height); /* Отступ под фиксированный хедер */
+}
+
+/* Когда шторка ОТКРЫТА, увеличиваем отступ для хедера и контента */
+body.sidebar-open .header {
+  margin-left: var(--sidebar-full-width);
+  width: calc(100% - var(--sidebar-full-width));
+}
+
+body.sidebar-open .logo_header {
+  display: none;
+}
+
+body.sidebar-open .main-content {
+  margin-left: var(--sidebar-full-width);
+}

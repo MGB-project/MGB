@@ -1,0 +1,41 @@
+{% extends 'sign_page.html' %}
+
+{% load static %}
+
+{% block sign_content %}
+  <div class="sign_content">
+
+    {% if form.errors %}
+      <p style="color: red;">Неверные данные. Попробуйте снова.</p>
+    {% endif %}
+    <h1>Welcome back!</h1>
+    <form class="form_content" action="{% url 'users:login' %}" method="post">
+      <div class="form-inputs">
+        {% csrf_token %}
+        {{ form.username }}
+        {{ form.password }}
+      </div>
+
+      <div class="remember-me">
+        <input type="checkbox" name="remember_me" id="remember_me">
+        <label for="remember_me">Remember me</label>
+      </div>
+
+      <div class="login-links">
+        <button class="btn-log-next" type="submit">Sign In</button>
+        <a href="#">Forgot your password?</a>
+        <a href="{% url 'users:register' %}">Don't have an account? Sign Up.</a>
+      </div>
+
+      <div class="lines-or">
+        <hr>
+        <p style="color: white;"> or </p>
+        <hr>
+      </div>
+
+      <button style="margin-top: 15px;">Sign up with Google</button>
+      
+      
+    </form>
+  </div>
+{% endblock %}

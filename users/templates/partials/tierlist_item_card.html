@@ -1,0 +1,20 @@
+{% load static %}
+{% comment %} partials/tierlist_item_card.html {% endcomment %}
+
+<div class="tier-item-card" 
+    draggable="true" 
+    data-item-id="{{ item.id }}" {# PK модели Game/Movie/Book #}
+    data-item-external-id="{% if content_type_slug == 'games' %}{{ item.game_id }}{% elif content_type_slug == 'movies' %}{{ item.tmdb_id }}{% elif content_type_slug == 'books' %}{{ item.google_id }}{% endif %}"
+    data-content-type="{{ content_type_slug }}"
+    title="{% if content_type_slug == 'games' %}{{ item.name }}{% elif content_type_slug == 'movies' %}{{ item.title }}{% elif content_type_slug == 'books' %}{{ item.title }}{% endif %}">
+    
+    {% if content_type_slug == 'games' %}
+        <img src="{{ item.cover_url|default:'/static/imgs/default_placeholder.png' }}" alt="{{ item.name }}">
+    {% elif content_type_slug == 'movies' %}
+        <img src="{{ item.poster_path|default:'/static/imgs/default_placeholder.png' }}" alt="{{ item.title }}">
+    {% elif content_type_slug == 'books' %}
+        <img src="{{ item.thumbnail|default:'/static/imgs/default_placeholder.png' }}" alt="{{ item.title }}">
+    {% endif %}
+    {# Можно добавить очень маленькое название под картинкой, если нужно #}
+    {# <span class="tier-item-title">{{ item.title_or_name|truncatechars:15 }}</span> #}
+</div>

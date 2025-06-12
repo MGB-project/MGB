@@ -1,0 +1,116 @@
+{% load static %}
+{% load humanize %}
+{% load movie_tags %} {% load game_tags %} {% load book_tags %}
+
+<div class="reviews-block">
+    {% if reviews %}
+        {% for review in reviews %}
+        <div class="review-card">
+            <div class="review-card-left">
+                {% if review.movie and review.movie.poster_path %}
+                    <a href="{% url 'movie_detail' review.movie.id %}">
+                        <img src="{{ review.movie.poster_path }}" alt="{{ review.movie.title }}">
+                    </a>
+                    <div class="small-btns">
+                        {% movie_actions movie=review.movie size='small' show_learn_more=False show_rating=True %}
+                    </div>
+                {% elif review.game and review.game.cover_url %}
+                    <a href="{% url 'game_detail' review.game.id %}">
+                        <img src="{{ review.game.cover_url }}" alt="{{ review.game.name }}">
+                    </a>
+                    <div class="small-btns">
+                        {% game_actions game=review.game size='small' show_learn_more=False show_rating=True %}
+                    </div>
+                {% elif review.book and review.book.thumbnail %}
+                    <a href="{% url 'book_detail' review.book.id %}">
+                        <img src="{{ review.book.thumbnail }}" alt="{{ review.book.title }}">
+                    </a>
+                    <div class="small-btns">
+                        {% book_actions book=review.book size='small' show_learn_more=False show_rating=True %}
+                    </div>
+                {% else %}
+                    <div class="review-item-placeholder-image">?</div>
+                {% endif %}
+            </div>
+
+            <div class="review-card-main">
+                <div class="review-card-header">
+                    <h3 class="review-item-title">
+                        {% if review.movie %}<a href="#">{{ review.movie.title }}</a>{% endif %}
+                        {% if review.game %}<a href="#">{{ review.game.name }}</a>{% endif %}
+                        {% if review.book %}<a href="#">{{ review.book.title }}</a>{% endif %}
+                    </h3>
+
+                    {% comment %} Отображаем рейтинг пользователя, если есть, иначе "?" {% endcomment %}
+                    {% if review.item_user_rating is not None %}
+                        {% with user_rating=review.item_user_rating %}
+                            {%   if user_rating >= 8 %}
+                                {%     with bgcolor="#15B000" %} {# Зеленый #}
+                                        <span class="rating" style="background-color: {{ bgcolor }};">
+                                            {{ user_rating|floatformat:0 }}
+                                        </span>
+                                    {% endwith %}
+                            {% elif user_rating >= 5 %}
+                                {%     with bgcolor="#FCDA17" %} {# Желтый #}
+                                        <span class="rating" style="background-color: {{ bgcolor }};">
+                                            {{ user_rating|floatformat:0 }}
+                                        </span>
+                                    {% endwith %}
+                            {% elif user_rating > 1 %} {# От 2 до 4 включительно #}
+                                {%     with bgcolor="#FF4949" %} {# Красный #}
+                                        <span class="rating" style="background-color: {{ bgcolor }};">
+                                            {{ user_rating|floatformat:0 }}
+                                        </span>
+                                    {% endwith %}
+                            {% else %} {# 1 и ниже, или если вдруг рейтинг окажется не числом после преобразования, хотя не должен #}
+                                {%     with bgcolor="#B7485C" %} {# Темно-розовый/красный #}
+                                        <span class="rating" style="background-color: {{ bgcolor }};">
+                                            {{ user_rating|floatformat:0 }}
+                                        </span>
+                                    {% endwith %}
+                            {% endif %}
+                        {% endwith %}
+                    {% else %}
+                        {# Если ТЕКУЩИЙ пользователь не ставил оценку этому предмету #}
+                        <span class="rating" style="background-color: gray;">?</span>
+                    {% endif %}
+                </div>
+
+                <hr class="review-line">
+
+                <div class="review-user-title-block">
+                    {% if review.title %}
+                    <h4 class="review-user-title">{{ review.title }}</h4>
+                    {% endif %}
+                    <span class="review-timestamp">{{ review.created_at|naturaltime }}</span>
+                </div>
+                
+                <div class="review-text-content">
+                <div class="review-content-left">
+                    <p class="review-text-snippet">
+                        {{ review.content|truncatewords_html:35 }}
+                        {% if review.content|wordcount > 35 %}
+                            <a href="#" class="read-more-review-link" data-review-id="{{ review.id }}">more</a>
+                        {% endif %}
+                    </p>
+                    <p class="full-review-text" data-review-id="{{ review.id }}" style="display:none;">
+                        <span class="review-full-text">{{ review.content|linebreaksbr }}</span>
+                        <a href="#" class="read-less-review-link" data-review-id="{{ review.id }}">less</a>
+                    </p>
+                </div>
+                </div>
+                <div class="likes">
+                    <button class="like-btn" data-id="{{ review.id }}"> {# Было comment.id #}
+                        <img src="{% if user in review.likes.all %}{% static 'imgs/icons/red_like_comment.svg' %}{% else %}{% static 'imgs/icons/like_comment.svg' %}{% endif %}" alt="Like Button">
+                    </button>
+                    <span class="like-count">{{ review.likes.count }}</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p class="no-reviews-message">No reviews found matching your criteria.</p>
+    {% endif %}
+</div>
+
+<script src="{% static 'scripts/profile/reviews/review_list.js' %}"></script>

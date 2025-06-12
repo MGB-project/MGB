@@ -1,0 +1,297 @@
+{% extends 'template.html' %}
+
+{% load static %}
+{% load book_tags %}
+
+{% block title %}
+  Books
+{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/books/books.css' %}">
+  <link rel="stylesheet" href="{% static 'css/books/main-block.css' %}">
+  <link rel="stylesheet" href="{% static 'css/books/small-block.css' %}">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+{% endblock %}
+
+{% block content %}
+  {# ----- СЛАЙДЕР ДЛЯ ГЛАВНЫХ КНИГ ----- #}
+  {% if main_books_for_django %}
+    <div class="book-showcase-slider-container">
+      <div class="left-block">
+        <div class="book-info">
+          <div id="showcaseBookTitle">Loading title...</div>
+          <div class="mini-info">
+            
+            <div class="custom-book-ratings">
+              <span id="showcaseBookRating" class="meta-rating" style="display: none;">?.?</span>
+        
+              <div class="book-meta-authors" id="showcaseBookAuthors">Loading authors...</div>
+        
+              <div class="date-pages">
+                <span id="showcaseBookYear">2----</span>
+                <span id="showcaseBookPages" style="display: none;">---- pages</span>
+              </div>
+            </div>
+            <div id="showcaseBookDescription" class="description">Loading description...</div>
+          </div>
+          <div class="book-showcase-actions" id="showcaseBookActions">
+            {# Кнопки действий будут обновляться через JS #}
+          </div>
+        </div>
+      </div>
+
+      {# ----- ПРАВАЯ ЧАСТЬ: КАРУСЕЛЬ ОБЛОЖЕК ----- #}
+      <div class="book-showcase-carousel-panel">
+        <div class="swiper book-cover-swiper">
+          <div class="swiper-wrapper">
+            {% for book in main_books_for_django %}
+              <div class="swiper-slide book-cover-slide" 
+                   data-book-id-pk="{{ book.id }}"
+                   data-book-google-id="{{ book.google_id }}"> 
+                <img src="{% if book.thumbnail %}{{ book.thumbnail }}{% elif book.custom_photo %}{{ book.custom_photo }}{% else %}{% static 'imgs/placeholder_book_cover_large.png' %}{% endif %}" 
+                     alt="{{ book.title }}">
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        {# ----- КНОПКИ НАВИГАЦИИ ДЛЯ КАРУСЕЛИ ОБЛОЖЕК - ТЕПЕРЬ ПОД СВАЙПЕРОМ ----- #}
+        <div class="book-cover-navigation">
+            <div class="swiper-button-prev book-cover-swiper-button-prev"></div>
+            <div class="swiper-button-next book-cover-swiper-button-next"></div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <p>No main books to display.</p>
+  {% endif %}
+  {# ----- КОНЕЦ СЛАЙДЕРА ----- #}
+
+
+    <div class="books-container">
+
+      <!-- RESENTLY-TRENDING-CONTAINER -->
+      <div class="resently-trending-container">
+        <div class="resently-trending-title">
+          <div class="title-hr">
+            <hr>
+            <h1>Recently Trending</h1>
+          </div>
+          <div class="title-right">
+            <a class="view-more" href="#">
+              View more
+              <img src="{% static 'imgs/books_icons/recently_arrow.svg' %}" >
+            </a>
+          </div>
+        </div>
+
+        <div class="recently-block">
+          {% if recently_trending_small_books %}
+            {% for book in recently_trending_small_books|slice:":8" %}
+              <div class="trending-book-default-card">
+                <a href="{% url 'book_detail' book.google_id %}">
+                    {% if book.custom_header_photo %}
+                      <div class="small-book-bg" style="background: url({{ book.custom_header_photo }});">
+                    {% else %}
+                      <div class="small-book-bg" style="background: url({{ book.thumbnail }});">
+                    {% endif %} 
+
+                    {% if book.average_rating %}
+                      <span class="book-rating" style="background-color: {{ book.rating_color }};">{{ book.mgb_average_rating }}</span>
+                    {% else %}
+                      <span class="book-rating">?</span>
+                    {% endif %}
+                  </div>
+                  {% if book.title|length > 20 %}
+                    <h2>{{ book.title|slice:":15" }}...</h2>
+                  {% else %}
+                    <h2>{{ book.title }}</h2>
+                  {% endif %}
+                </a>
+                <div class="books-btns">
+                  {% book_actions book=book size='small' show_learn_more=False show_rating=True %}
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <div class="recently-block">
+          {% if recently_trending_small_books %}
+            {% for book in recently_trending_small_books|slice:"8:" %}
+              <div class="trending-book-default-card">
+                <a href="{% url 'book_detail' book.google_id %}">
+                    {% if book.custom_header_photo %}
+                      <div class="small-book-bg" style="background: url({{ book.custom_header_photo }});">
+                    {% else %}
+                      <div class="small-book-bg" style="background: url({{ book.thumbnail }});">
+                    {% endif %} 
+
+                    {% if book.average_rating %}
+                      <span class="book-rating" style="background-color: {{ book.rating_color }};">{{ book.mgb_average_rating }}</span>
+                    {% else %}
+                      <span class="book-rating">?</span>
+                    {% endif %}
+                  </div>
+                  {% if book.title|length > 20 %}
+                    <h2>{{ book.title|slice:":15" }}...</h2>
+                  {% else %}
+                    <h2>{{ book.title }}</h2>
+                  {% endif %}
+                </a>
+                <div class="books-btns">
+                  {% book_actions book=book size='small' show_learn_more=False show_rating=True %}
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- TOP-RATED-CONTAINER -->
+      <div class="top-rated-container">
+        <div class="top-rated-title">
+          <div class="title-hr">
+            <hr>
+            <h1>Popular books</h1>
+          </div>
+          <div class="title-right">
+            <div class="nav-buttons">
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div>
+            </div>
+            <a class="view-more" href="#">
+              View more
+              <img src="{% static 'imgs/books_icons/top_rated_arrow.svg' %}" >
+            </a>
+          </div>
+        </div>
+
+        <div class="swiper-container">
+          <div class="swiper top-rated-swiper">
+            <div class="swiper-wrapper">
+              {% if popular_books %}
+                {% for book in popular_books %}
+                  <div class="swiper-slide">
+                    <a href="{% url 'book_detail' book.google_id %}">
+                      {% if book.custom_header_photo %}
+                        <div class="small-book-bg" style="background: url({{ book.custom_header_photo }});">
+                      {% else %}
+                        <div class="small-book-bg" style="background: url({{ book.thumbnail }});">
+                      {% endif %} \
+                      {% if book.mgb_average_rating %}
+                        <span class="book-rating">{{ book.mgb_average_rating }}</span>
+                      {% else %}
+                        <span class="book-rating">?</span>
+                      {% endif %}
+                      </div>
+                      {% if book.title|length > 23 %}
+                        <h2>{{ book.title|slice:":20" }}...</h2>
+                      {% else %}
+                        <h2>{{ book.title }}</h2>
+                      {% endif %}
+                    </a>
+                    <div class="books-btns">
+                      {% book_actions book=book size='small' show_learn_more=False show_rating=True %}
+                    </div>
+                  </div>
+                  
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEW BOOKS -->
+      <!--------------------------------------------------------------------------------------------------------------------------------->
+      <!-- TOP-RATED-CONTAINER -->
+      <div class="new-books-container">
+        <div class="new-books-title">
+          <div class="title-hr">
+            <hr>
+            <h1>New books</h1>
+          </div>
+          <div class="title-right">
+            <div class="nav-buttons">
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div>
+            </div>
+            <a class="view-more" href="#">
+              View more
+              <img src="{% static 'imgs/books_icons/top_rated_arrow.svg' %}" >
+            </a>
+          </div>
+        </div>
+
+        <div class="swiper-container">
+          <div class="swiper new-books-swiper">
+            <div class="swiper-wrapper">
+              {% if new_books %}
+                {% for book in new_books %}
+                  <div class="swiper-slide">
+                    <a href="{% url 'book_detail' book.google_id %}">
+                      {% if book.custom_header_photo %}
+                        <div class="small-book-bg" style="background: url({{ book.custom_header_photo }});">
+                      {% else %}
+                        <div class="small-book-bg" style="background: url({{ book.thumbnail }});">
+                      {% endif %} 
+
+                      {% if book.average_rating %}
+                        <span class="book-rating" style="background-color: {{ book.rating_color }};">{{ book.mgb_average_rating }}</span>
+                      {% else %}
+                        <span class="book-rating">?</span>
+                      {% endif %}
+                      </div>
+                      {% if book.title|length > 23 %}
+                        <h2>{{ book.title|slice:":20" }}...</h2>
+                      {% else %}
+                        <h2>{{ book.title }}</h2>
+                      {% endif %}
+                    </a>
+                    <div class="books-btns">
+                      {% book_actions book=book size='small' show_learn_more=False show_rating=True %}
+                    </div>
+                  </div>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOME-CONTAINER -->
+      <!--------------------------------------------------------------------------------------------------------------------------------->
+    </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="{% static 'scripts/books/books.js' %}"></script>
+{% endblock %}
+
+
+{% block bottom_js %}
+  <script>
+    const mainBooksData = [];
+    {% for book_data in main_books_js_data %}
+      mainBooksData.push({
+        id: "{{ book_data.id|escapejs }}",
+        google_id: "{{ book_data.google_id|escapejs }}",
+        title: "{{ book_data.title|escapejs }}",
+        authors: [{% for author_name in book_data.authors %}"{{ author_name|escapejs }}"{% if not forloop.last %},{% endif %}{% endfor %}],
+        rating: "{{ book_data.rating|escapejs }}",
+        year: "{{ book_data.year|escapejs }}",
+        pages: "{{ book_data.pages }}",
+        description: "{{ book_data.description|striptags|truncatewords:50|escapejs }}",
+        cover_url: "{{ book_data.cover_url|escapejs }}",
+        actions_html: '{{ book_data.actions_html|escapejs|safe }}'
+
+      });
+    {% endfor %}
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <script src="{% static 'scripts/books/books.js' %}?v=1"></script>
+{% endblock %}

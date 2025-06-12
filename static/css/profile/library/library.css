@@ -1,0 +1,112 @@
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.section-title-chip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100px; height: 30px;
+  color: #020E1C;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.section-line {
+  flex-grow: 1;
+  height: 2px;
+}
+
+.section-item-count {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100px; height: 30px;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+/* Кнопка-стрелка */
+.section-toggle-btn {
+  background-color: #2b2b2b64;
+  border-radius: 50%;
+  border: none;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;
+  line-height: 1;
+}
+
+.section-toggle-btn:hover {
+  background: #3a3f45;
+  color: #fff;
+}
+
+/* Обертка для правых элементов управления */
+.section-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Расстояние между счетчиком и кнопкой */
+  flex-shrink: 0; /* Не сжимать эту группу */
+}
+
+
+/* -------------- Favourite -------------- */
+.wishlist-section .section-line {
+  background: linear-gradient(to right, #41ECFF 0%, #2A3137 100%);
+}
+.wishlist-chip { background-color: #41ECFF; }
+.wishlist-section .section-item-count {
+  border: 1px solid #41ECFF;
+  color: #41ECFF;
+}
+.wishlist-section .section-toggle-btn { color: #41ECFF; }
+.wishlist-section .section-toggle-btn:hover { border: 1px solid #41ECFF; }
+
+/* -------------- Played / Watched / Read -------------- */
+.status1-section .section-line {
+  background: linear-gradient(to right, #15B000 0%, #2A3137 100%);
+}
+.played-chip, .watched-chip, .read-chip { background-color: #15B000; }
+.status1-section .section-item-count {
+  border: 1px solid #15B000;
+  color: #15B000;
+}
+.status1-section .section-toggle-btn { color: #15B000; }
+.status1-section .section-toggle-btn:hover { border: 1px solid #15B000; }
+
+/* -------------- Playing / Watching / Reading -------------- */
+.status2-section .section-line {
+  background: linear-gradient(to right, #FCDA17 0%, #2A3137 100%);
+}
+.playing-chip, .watching-chip, .reading-chip { background-color: #FCDA17;}
+.status2-section .section-item-count {
+  border: 1px solid #FCDA17;
+  color: #FCDA17;
+}
+.status2-section .section-toggle-btn { color: #FCDA17; }
+.status2-section .section-toggle-btn:hover { border: 1px solid #FCDA17; }
+
+/* --------------Dropped-------------- */
+.status3-section .section-line {
+  background: linear-gradient(to right, #C04445 0%, #2A3137 100%);
+}
+.dropped-chip { background-color: #C04445; }
+.status3-section .section-item-count {
+  border: 1px solid #C04445;
+  color: #C04445;
+}
+.status3-section .section-toggle-btn { color: #C04445; }
+.status3-section .section-toggle-btn:hover { border: 1px solid #C04445; }

@@ -1,0 +1,119 @@
+{% extends 'template.html' %}
+
+{% load static %}
+
+{% block title %}Settings{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/profile/settings/settings.css' %}">
+  <link rel="stylesheet" href="{% static 'css/profile/settings/custom-modal.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="settings-content">
+    <div class="settings-tabs">
+      <h2>Account</h2>
+      <nav class="settings-tabs-nav">
+        
+        {# Кнопка Settings #}
+        <button class="tab-button active-tab" data-tab-target="#tab-settings">
+          Account Settings
+        </button>
+
+        {# Кнопка Privacy #}
+        <button class="tab-button" data-tab-target="#tab-privacy">
+
+          Privacy
+        </button>
+
+        {# Кнопка Contact #}
+        <button class="tab-button" data-tab-target="#tab-contact">
+
+          Contact
+        </button>
+      </nav>
+    </div>
+
+    <div class="settings-tabs-content">
+      {# Панель Overview - видима по умолчанию #}
+      <div class="tab-content active-content" id="tab-settings">
+        <h1>Account Content</h1>
+        <div class="change-mail">
+          <div class="custom-input-wrapper">
+            <label for="current_email_display">Email Address</label>
+            <input type="email" class="form-control" id="current_email_display"
+                   placeholder="Email Address" value="{{ request.user.email }}" disabled readonly>
+          </div>
+
+          <button class="btn btn-outline-secondary" type="button" id="triggerChangeEmailModal" title="Change Email">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="custom-modal-overlay is-hidden" id="changeEmailModalOverlay">
+          <div class="custom-modal" id="changeEmailModal">
+            
+            <div class="custom-modal-header">
+              {# Кнопка "Назад", будет видна только на втором шаге #}
+              <button type="button" class="modal-back-btn is-hidden" id="modalBackButton">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18L9 12L15 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <img src="{% static 'imgs/MGB_logo.svg' %}" alt="MGB Logo" class="modal-logo">
+              {# Пустой div для выравнивания логотипа по центру, если кнопка назад видима #}
+              <div class="modal-header-spacer"></div>
+            </div>
+
+            <div class="custom-modal-body">
+              <div id="emailChangeAlertContainer" class="modal-alert-container"></div>
+      
+              {# --- ШАГ 1: Ввод нового Email --- #}
+              <div id="emailStep1">
+                <h2 class="modal-step-title">Add your new email address</h2>
+                <p class="modal-step-subtitle">Enter it below to verify “<span id="emailToVerifyPlaceholder">{{ request.user.email }}</span>”.</p> {# Можно будет обновлять #}
+                
+                <form id="newEmailForm" data-send-code-url="{% url 'users:send_email_verification' %}">
+                    {% csrf_token %}
+                    <div class="form-group-modal">
+                        <input type="email" class="form-control-modal" id="new_email_input" name="new_email" placeholder="New email address" required>
+                    </div>
+                    <button type="submit" class="btn-modal-primary" id="sendVerificationCodeBtn">Continue</button>
+                </form>
+              </div>
+      
+              {# --- ШАГ 2: Ввод кода верификации --- #}
+              <div id="emailStep2" class="is-hidden">
+                <h2 class="modal-step-title">We sent you a code</h2>
+                <p class="modal-step-subtitle">Enter it below to verify “<strong id="sentToEmailDisplay">your-new-email@example.com</strong>”.</p>
+                
+                <form id="verifyEmailCodeForm" data-verify-url="{% url 'users:verify_and_change_email' %}">
+                    {% csrf_token %}
+                    <div class="form-group-modal">
+                        <input type="text" class="form-control-modal" id="verification_code_input" name="verification_code" placeholder="Verification code" required maxlength="6" minlength="6">
+                        <input type="hidden" id="hidden_new_email_for_verification" name="new_email">
+                    </div>
+                    <a href="#" class="modal-link" id="resendCodeLink">Didn't receive an email?</a>
+                    <button type="submit" class="btn-modal-primary" id="submitVerificationCodeBtn">Done</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-privacy">
+        <h1>Privacy Content</h1>
+      </div>
+
+      <div class="tab-content" id="tab-contact">
+        <h1>Contact Content</h1>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'scripts/profile/settings.js' %}"></script>
+{% endblock %}

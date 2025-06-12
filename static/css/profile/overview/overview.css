@@ -1,0 +1,838 @@
+/* ВЕРХНИЕ БЛОКИ */
+
+.user-dashboard-box {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+  font-family: 'Roboto', sans-serif;
+}
+
+.dashboard-box {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  
+  flex: 1;
+  height: 146px;
+  
+  padding: 30px;
+
+  border: 1px solid rgba(36, 36, 36, 0.3);
+  border-radius: 10px;
+  background: hsla(0, 0%, 100%, 0.03);
+
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+}
+
+.box-history {
+  flex: 1.3;
+}
+
+.recent-activity-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+}
+
+.recent-activity-item:hover .recent-activity-title {
+  text-decoration: underline;
+}
+
+.recent-activity-image {
+  width: 40px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.recent-activity-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.recent-activity-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: 6px 0px;
+  height: 100%;
+}
+
+.recent-activity-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #FFFFFF;
+  white-space: nowrap;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recent-activity-verb {
+  font-size: 12px;
+  color: #878787;
+  font-weight: 600;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recent-activity-timestamp {
+  font-size: 13px;
+  color: #a0a0a0;
+  white-space: nowrap;
+  margin-left: 10px;
+  flex-shrink: 0;
+  align-self: flex-start;
+  padding-top: 6px;
+}
+
+.no-recent-activity {
+  font-size: 14px;
+  color: #8E8E8E;
+  width: 100%;
+  padding: 10px 0;
+}
+
+.dashboard-box .box-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title-value {
+  font-size: 22px;
+  color: white;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.small-text {
+  font-size: 16px;
+  color: #8E8E8E;
+  font-weight: 700;
+}
+
+/* ФАВОРИТЫ БЛОК */
+.fav-container {
+  margin-top: 20px;
+  width: 100%;
+  height: 440px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 30px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.fav-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.fav-header-left,
+.fav-header-right {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 20px;
+  position: relative;
+}
+
+.fav-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 5px;
+  width: 75px;
+  height: 30px;
+  background-color: hwb(0 100% 0% / 0.05);
+}
+
+.fav-tabs button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.fav-tabs button.favorite-active-tab {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-fav-filters {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 30px;
+
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+}
+
+.all-fav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+
+  width: 106px;
+  height: 30px;
+  font-size: 13px;
+  font-weight: 700;
+
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.05);
+  box-sizing: border-box;
+}
+
+.fav-grid,
+.fav-list {
+    display: none; 
+    margin-top: 20px;
+    flex-grow: 1; 
+    overflow: hidden; 
+}
+
+.fav-grid.active-fav-view,
+.fav-list.active-fav-view {
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* Стили для popover/dropdown фильтров */
+.fav-filters-popover {
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0; 
+  width: 140px;
+  max-height: 150px;
+  background-color: #212124;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+  z-index: 99999;
+}
+
+.fav-filters-popover ul.fav-filters-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.fav-filters-popover ul.fav-filters-list li {
+  margin-bottom: 0px;
+}
+
+.fav-filters-popover ul.fav-filters-list li:last-child {
+  margin-bottom: 0;
+}
+
+.fav-filters-popover ul.fav-filters-list li label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 15px;
+  color: #f0f0f0;
+  line-height: 1.3;
+}
+
+.fav-filters-popover ul.fav-filters-list li label span {
+  white-space: nowrap;
+}
+
+
+/* КАСТОМНЫЕ ЧЕКБОКСЫ (из твоего последнего запроса) */
+.fav-filters-popover ul.fav-filters-list li input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid #656567;
+  border-radius: 5px;
+  margin-right: 10px;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  flex-shrink: 0;
+}
+
+.fav-filters-popover ul.fav-filters-list li input[type="checkbox"]:checked {
+  background-color: #30A449;
+  border-color: #30A449;
+}
+
+.fav-filters-popover ul.fav-filters-list li input[type="checkbox"]:checked::before {
+  content: '';
+  position: absolute;
+  left: 5.5px; /* Положение галочки */
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg);
+}
+
+.fav-filters-popover ul.fav-filters-list li input[type="checkbox"]:disabled {
+  border-color: #4a4a4c;
+  background-color: #2a2a2d;
+  cursor: default;
+}
+/* Стили для текста рядом с disabled чекбоксом */
+.fav-filters-popover ul.fav-filters-list li input[type="checkbox"]:disabled + span {
+  color: #777; /* Приглушаем текст */
+}
+/* Галочка для disabled, но активного "All" (если нужно) */
+.fav-filters-popover ul.fav-filters-list li input[type="checkbox"]:disabled:checked::before {
+  border-color: #6b8f76; /* Приглушенная зеленая галочка */
+}
+
+/* OVERVIEW LIST */
+/* -------------------------------------------------------------------------------------------------------- */
+.overview-favorites-ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+
+  height: 100%;
+  
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  
+  column-gap: 30px;
+  row-gap: 15px;
+  
+  overflow-x: auto; 
+  overflow-y: hidden; 
+}
+
+.overview-favorite-item {
+  width: 300px;
+  height: 54px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.overview-fav-item-link {
+  display: flex; 
+  align-items: center; 
+  text-decoration: none;
+  color: inherit; 
+  width: 100%;
+  height: 100%;
+  border-radius: 4px; 
+  transition: background-color 0.2s ease;
+}
+
+.overview-fav-item-link:hover {
+  background-color: #2a2a2e; 
+}
+
+.overview-fav-item-image {
+  width: 42px;
+  height: 54px;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.overview-fav-item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.overview-fav-item-info {
+  width: 180px;
+  flex-grow: 1;
+  margin-right: 30px;
+}
+
+.overview-fav-item-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.overview-fav-item-meta {
+  font-size: 12px;
+  color: #878787;
+  font-weight: 500;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.overview-fav-item-rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 34px;
+  height: 20px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #000000;
+}
+
+
+
+/* Сообщение "No favorites match..." */
+.no-filtered-favorites-message {
+    color: #a0a0a0;
+}
+
+/* STATA OVERVIEW */
+/* ---------------------------------------------------------------------- */
+/* styles/profile/overview/activity_heatmap.css (или в overview.css) */
+
+.profile-section.user-activity-section {
+  display: flex;
+  gap: 20px; /* Расстояние между статистикой и картой */
+  margin-top: 30px;
+  width: 100%;
+  height: 310px;
+}
+
+/* General Statistics */
+.general-statistics-container {
+  background-color: rgba(255, 255, 255, 0.03);
+  padding: 30px; /* ВАЖНО: общий паддинг контейнера */
+  border-radius: 20px;
+  width: 300px;
+  height: fit-content;
+  flex-shrink: 0;
+  
+  box-sizing: border-box;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.section-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #e0e0e0;
+  margin: 0 !important;
+}
+
+.header-accent-line {
+  width: 4px;
+  height: 20px;
+  background-color: #2EA043;
+  margin-right: 20px;
+  border-radius: 2px;
+}
+
+.general-statistics-container .header-accent-line {
+  background-color: #FCDA17;
+}
+
+.statistics-list {
+  list-style: none;
+  padding: 0;
+  margin: 15px 0 0 0;
+  font-size: 16px;
+}
+
+.statistics-list li {
+  display: flex;
+  grid-template-columns: auto min-content;
+  gap: 20px;
+  align-items: center;
+
+  color: #E4E4E4;
+  margin-bottom: 15px;
+  line-height: 1.25;
+  
+  padding-left: 25px;
+}
+
+.statistics-list li .stat-label {
+  width: 70px;
+}
+
+.statistics-list li .stat-value {
+  text-align: right;
+  color: #919191;
+  width: 75px;
+}
+
+/* Activity Heatmap */
+.activity-heatmap-container {
+  background-color: hsla(0, 0%, 100%, 0.03);
+  padding: 30px;
+  border-radius: 20px;
+  height: 100%;
+  flex-grow: 1;
+  box-sizing: border-box;
+}
+
+.activity-header {
+  justify-content: space-between;
+}
+.activity-header .header-left {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.activity-header .header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#activity-year-select {
+  background-color: #2c2f33;
+  color: #e0e0e0;
+  border: 1px solid #4f545c;
+  border-radius: 5px;
+  padding: 5px 8px;
+  font-size: 14px;
+  outline: none;
+}
+#activity-year-select:focus {
+  border-color: #7289da;
+}
+
+.btn-history-link {
+  border: 1px solid #2EA043;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+}
+.btn-history-link img {
+  margin-left: 5px;
+  width: 12px;
+  height: 12px;
+  filter: brightness(0) invert(1);
+}
+
+
+.heatmap-calendar-wrapper {
+  margin-top: 30px;
+}
+
+.heatmap-months-row {
+  position: relative;
+  margin-left: 26px;
+  margin-bottom: 5px;
+  height: 20px;
+}
+
+.heatmap-months-row > div {
+  position: absolute;
+  top: 0;
+  font-size: 13px;
+  color: #FFFFFF;
+  text-align: left;
+  line-height: 20px;
+}
+
+
+.heatmap-body {
+  display: flex;
+  align-items: flex-start; 
+}
+
+.heatmap-days-col {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  color: #FFFFFF;
+  margin-right: 10px;
+  width: auto; 
+  flex-shrink: 0;
+}
+
+.heatmap-days-col span {
+  height: 16px;
+  line-height: 16px;
+  display: block;
+}
+
+/* M */
+.heatmap-days-col span:nth-child(1) { margin-top: 0; }
+/* W (отступ равен одной ячейке + gap) */
+.heatmap-days-col span:nth-child(2) { margin-top: 20px }
+/* F */
+.heatmap-days-col span:nth-child(3) { margin-top: 20px }
+/* Su */
+.heatmap-days-col span:nth-child(4) { margin-top: 20px }
+
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(53, 16px);
+  grid-template-rows: repeat(7, 16px);
+  grid-auto-flow: column;
+  gap: 2px;
+}
+
+.heatmap-day-cell {
+  width: 16px;
+  height: 16px;
+  background-color: #393B40;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.heatmap-day-cell:hover {
+  outline: 1px solid #7289DA;
+}
+
+/* Цвета для уровней активности */
+.heatmap-day-cell.level-0, .heatmap-color-box.level-0 { background-color: rgba(44, 47, 51, 0.5); }
+.heatmap-day-cell.level-1, .heatmap-color-box.level-1 { background-color: #0e4429; }
+.heatmap-day-cell.level-2, .heatmap-color-box.level-2 { background-color: #033A16; }
+.heatmap-day-cell.level-3, .heatmap-color-box.level-3 { background-color: #2EA043; }
+.heatmap-day-cell.level-4, .heatmap-color-box.level-4 { background-color: #56D364; }
+
+
+.heatmap-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #a0a0a0;
+}
+.heatmap-color-box {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+}
+
+#heatmap-total-notes {
+  color: #4C5A66;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+/* === СТИЛИ ДЛЯ НОВОЙ ДИНАМИЧЕСКОЙ СЕТКИ === */
+.overview-fav-grid-actual {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 5px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.big-block {
+  width: 470px;
+  height: 325px;
+  background-color: rgba(30, 30, 30, 0.5);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative; /* Важно для newLayoutContainer */
+  display: grid;
+  grid-template-columns: 1fr; 
+  grid-template-rows: 1fr;   
+  transition: background-color 0.3s ease-in-out; /* Только фон анимируем здесь */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  flex-shrink: 0; 
+}
+
+/* 
+  Общие transition для opacity элементов внутри big-block, 
+  если они меняют opacity не через JS fadeIn/fadeOutPromise.
+  FADE_DURATION из JS (600ms) определяет основную анимацию.
+*/
+.big-block .fav-cell > a, 
+.big-block .fav-cell > .fav-cell-mini-grid,
+.big-block .fav-cell img { 
+    transition: opacity 0.6s ease-in-out; /* Соответствует FADE_DURATION */
+}
+
+
+.big-block.layout-2x2 {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 6px;
+  box-sizing: border-box;
+}
+
+.fav-cell {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(40, 40, 40, 0.7);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.fav-cell a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.fav-cell img { /* Стили для img внутри .fav-cell */
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+  /* opacity transition уже задан выше более общим селектором */
+}
+
+.fav-cell .placeholder-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: #777;
+  font-size: 0.9em;
+  text-align: center;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+/* === СТИЛИ ДЛЯ СТАРОГО СПИСКА И ФИЛЬТРОВ === */
+.fav-list {
+  display: none;
+  margin-top: 20px;
+  flex-grow: 1;
+  overflow: hidden;
+}
+.fav-list.active-fav-view {
+  display: flex;
+  flex-direction: column;
+}
+.overview-favorites-ul {
+  list-style-type: none; padding: 0; margin: 0; height: 100%;
+  display: flex; flex-direction: column; flex-wrap: wrap;
+  align-content: flex-start; column-gap: 30px; row-gap: 15px;
+  overflow-x: auto; overflow-y: hidden;
+}
+.overview-favorite-item {
+  width: 300px; height: 54px; box-sizing: border-box; flex-shrink: 0;
+}
+
+.fav-cell.showcase-cell {
+  padding: 3px;
+  box-sizing: border-box;
+}
+
+.fav-cell-mini-grid {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 3px;
+  /* opacity transition покрывается общим правилом выше */
+  /* transform не используется активно, но можно оставить для будущих эффектов */
+  /* transition: transform 0.5s ease-in-out; */ 
+}
+
+.fav-cell-mini-item {
+  width: 100%;
+  height: 100%;
+  background-color: #404040;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.fav-cell-mini-item a,
+.fav-cell-mini-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* Адаптивность */
+@media (max-width: 1450px) { /* Чуть больше запаса для 3х470 + gap */
+  .overview-fav-grid-actual {
+      justify-content: center; 
+  }
+}
+
+@media (max-width: 980px) { /* Точка, где 2 блока по 470 могут не влезть */
+    .overview-fav-grid-actual {
+        gap: 10px; /* Можно уменьшить gap между блоками */
+    }
+    .big-block {
+        /* Если нужно, чтобы блоки масштабировались, а не переносились по одному */
+        /* width: clamp(300px, 30vw, 470px); */ 
+    }
+}
+
+
+@media (max-width: 600px) { /* Когда блоки точно будут друг под другом */
+  .big-block {
+      width: 100%; 
+      max-width: 470px; /* Ограничение максимальной ширины */
+      height: auto; /* Автоматическая высота */
+      aspect-ratio: 470 / 325; /* Поддержание пропорций */
+      min-height: 200px; /* Минимальная высота, чтобы не схлопывался */
+  }
+  .overview-fav-grid-actual {
+      gap: 15px;
+  }
+}
+@media (max-width: 480px) {
+  .big-block {
+      min-height: 180px; /* Можно еще чуть скорректировать мин. высоту */
+  }
+   .big-block.layout-2x2 {
+      gap: 4px; /* Уменьшенный gap для ячеек 2x2 на малых экранах */
+  }
+  .fav-cell.showcase-cell {
+    padding: 2px; /* Уменьшенный padding для showcase ячейки */
+  }
+  .fav-cell-mini-grid {
+    gap: 2px; /* Уменьшенный gap для mini-grid */
+  }
+}

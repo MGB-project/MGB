@@ -1,0 +1,359 @@
+{% extends 'template.html' %}
+
+{% load static %}
+{% load game_tags %}
+
+{% block title %}
+  Games
+{% endblock %}
+
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/games/games.css' %}">
+  <link rel="stylesheet" href="{% static 'css/games/main-block.css' %}">
+  <link rel="stylesheet" href="{% static 'css/games/big-block.css' %}">
+  <link rel="stylesheet" href="{% static 'css/games/small-block.css' %}">
+  <link rel="stylesheet" href="{% static 'css/games/new-releases-block.css' %}">
+  <link rel="stylesheet" href="{% static 'css/games/upcoming-block.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+{% endblock %}
+
+{% block content %}
+  <div class="swiper-container">
+
+    <div class="swiper main-swiper">
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+
+      <div class="swiper-wrapper">
+        {% if main_games %}
+          {% for game in main_games %}
+            <div class="swiper-slide" style="background: url('{{ game.custom_header_photo }}');">
+              <a href="{% url 'game_detail' game.id %}">
+                <div class="video-bg">
+                  {% if game.video_custom %}
+                    <video autoplay muted loop playsinline>
+                      <source src="{{ game.video_custom.url }}" type="video/mp4">
+                    </video>
+                  {% elif game.youtube_trailer %}
+                    <iframe src="https://www.youtube.com/embed/{{ game.youtube_trailer }}?autoplay=1&mute=1" 
+                      frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+                    </iframe>
+                  {% endif %}
+                </div>
+              </a>
+                <div class="game-info">
+                  <h1 class="title-game">{{ game.name }}</h1>
+                  <div class="mini-info">
+                    <div class="rating-genres">
+                      <div class="custom-game-ratings">
+                        <span class="custom-game-rating" style="background-color: {{ game.rating_color }};">{{ game.total_rating }}</span>
+                        <div class="main-platfotms">
+                          {% for icon in game.platform_icons %}
+                            <img src="/static/{{ icon }}" alt="Platform Icon">
+                          {% endfor %}
+                        </div>
+                      </div>
+                      <div class="main-genres">
+                        {% for genre in game.genres|slice:":2" %}
+                          <span class="main-genre">{{ genre }}</span>
+                        {% endfor %}
+                        <div class="date-devs-company">
+                          <p>{{ game.release_date }}</p>
+                          <p>•</p>
+                          <p>{{ game.company }}</p>
+                        </div> 
+                      </div>
+                    </div>
+                    <div class="custom-game-description">
+                      <p class="main-game-description">{{ game.summary }}</p>
+                    </div>
+                  </div>
+                  <div class="main-btns">
+                    {# Используем тег для кнопок статуса, избранного, рейтинга #}
+                    {% game_actions game=game size='large' show_learn_more=True show_rating=True %}
+                  </div>
+                  
+                </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
+
+
+  <div class="games-container">
+
+    <!-- RESENTLY-TRENDING-CONTAINER -->
+    <div class="resently-trending-container">
+      <div class="resently-trending-title">
+        <div class="title-hr">
+          <hr>
+          <h1>Recently Trending</h1>
+        </div>
+      </div>
+      <div class="recently-block">
+        {% if recently_trending_small_games %}
+          {% for game in recently_trending_small_games %}
+            <div class="trending-game-default-card">
+              <a href="{% url 'game_detail' game.id %}" class="game-link">
+                  {% if game.custom_header_photo %}
+                    <div class="small-game-bg" style="background: url({{ game.custom_header_photo }});">
+                  {% else %}
+                    <div class="small-game-bg" style="background: url({{ game.cover_url }});">
+                  {% endif %} 
+                  <span class="game-rating" style="background-color: {{ game.rating_color }};">{{ game.total_rating }}</span>
+                </div>
+                <div class="platfotms">
+                  {% for icon in game.platform_icons %}
+                    <img src="/static/{{ icon }}" alt="Platform Icon">
+                  {% endfor %}
+                </div>
+                <h2>{{ game.name }}</h2>
+              </a>
+              <div class="games-btns">
+                {% game_actions game=game size='small' show_learn_more=False show_rating=True %}
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div class="recently-block">
+        {% if recently_trending_big_games %}
+          {% for game in recently_trending_big_games %}
+            <div class="trending-game-big-card">
+              <a href="{% url 'game_detail' game.id %}" class="game-link">
+                  {% if game.custom_header_photo %}
+                    <div class="big-tranding-game-bg" style="background: url({{ game.custom_header_photo }});">
+                  {% else %}
+                    <div class="big-tranding-game-bg" style="background: url({{ game.cover_url }});">
+                  {% endif %} 
+                    <span class="game-rating" style="background-color: {{ game.rating_color }}">{{ game.total_rating }}</span>
+                </div>
+                <div class="big-info">
+                  <div class="platfotms">
+                    {% for icon in game.platform_icons %}
+                      <img src="/static/{{ icon }}" alt="Platform Icon">
+                    {% endfor %}
+                  </div>
+                  <h2>{{ game.name }}</h2>
+                  <div class="games-btns">
+                    {% game_actions game=game size='small' show_learn_more=False show_rating=True %}
+                  </div>
+                </div>
+              </a>
+              
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- NEW-RELEASES-CONTAINER -->
+    <div class="new-releases-container">
+      <div class="new-releases-title">        
+        <div class="title-hr">
+          <hr>
+          <h1>New Releases</h1>
+        </div>
+      </div>
+
+      <div class="swiper-container">
+        <div class="swiper new-releases-swiper">
+          <div class="swiper-wrapper">
+            {% if new_games %}
+              {% for game in new_games %}
+                <div class="swiper-slide" style="background: url('{{ game.cover_url }}');">
+                  <a href="{% url 'game_detail' game.id %}">
+                    <span class="big-block-rating" style="background-color: {{ game.rating_color }};">{{ game.total_rating }}</span>
+                    
+                    <div class="new-releases-block">
+                      <div class="new-releases-bg" style="background: url('{{ game.cover_url }}');"></div>
+                      <div class="new-releases-info">
+                        <div class="game-title">
+                          <h2>{{ game.name }}</h2>
+                        </div>
+
+                        <div class="game-genres">
+                          {% for genre in game.genres|slice:":3" %}
+                            <span class="game-genre">{{ genre }}</span>
+                          {% endfor %}
+                        </div>
+
+                        <div class="game-description">
+                          <p>{{ game.summary }}</p>
+                        </div>
+                        
+                        <div class="game-tools">
+                          <div class="date-release">
+                            <h3>Release date:</h3>
+                            <p>{{ game.release_date }}</p>
+                          </div>
+
+                          <div class="all-reviews">
+                            <h3>All Rates:</h3>
+                            <p>{{ game.total_rating_count }}</p>
+                          </div>
+
+                          <div class="platfotms-new-releases">
+                            {% for icon in game.platform_icons %}
+                              <img src="/static/{{ icon }}" alt="Platform Icon">
+                            {% endfor %}
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+
+  <!-- TOP-RATED-CONTAINER -->
+  <div class="top-rated-container">
+    <div class="top-rated-title">
+      <div class="title-hr">
+        <hr>
+        <h1>Top Rated Games</h1>
+      </div>
+      <a class="view-more" href="#">
+        View more
+        <img src="{% static 'imgs/games_icons/top_rated_arrow.svg' %}" >
+      </a>
+    </div>
+
+    <div class="swiper-container">
+      <div class="swiper top-rated-swiper">
+        <div class="swiper-wrapper">
+          {% if top_popular_games %}
+            {% for game in top_popular_games %}
+              <div class="swiper-slide">
+                <a href="{% url 'game_detail' game.id %}" class="game-link">
+                  {% if game.custom_header_photo %}
+                    <div class="small-game-bg" style="background: url({{ game.custom_header_photo }});">
+                  {% else %}
+                    <div class="small-game-bg" style="background: url({{ game.cover_url }});">
+                  {% endif %} 
+                  <span class="game-rating" style="background-color: {{ game.rating_color }};">{{ game.total_rating }}</span>
+                </div>
+                <div class="platfotms">
+                  {% for icon in game.platform_icons %}
+                    <img src="/static/{{ icon }}" alt="Platform Icon">
+                  {% endfor %}
+                </div>
+                <h2>{{ game.name }}</h2>
+              </a>
+              <div class="games-btns">
+                {% game_actions game=game size='small' show_learn_more=False show_rating=True %}
+              </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+  </div>
+
+  <div class="upcoming-games-container">
+    <div class="upcoming-games-title">
+      <div class="title-hr">
+        <hr>
+        <h1>Soon</h1>
+      </div>
+    </div>
+    
+    <div class="swiper upcoming-games-swiper">
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+
+      <div class="swiper-wrapper">
+        {% if upcoming_games %}
+          {% for game in upcoming_games %}
+            {% if game.summary and game.name %}
+              {% if game.custom_header_photo %}
+                <div class="swiper-slide" style="background: url('{{ game.custom_header_photo }}');">
+              {% else %}
+                <div class="swiper-slide" style="background: url('{{ game.cover_url }}');">
+              {% endif %}
+                <a href="{% url 'game_detail' game.id %}" class="game-link">
+                  <div class="video-bg">
+                    {% if game.video_custom %}
+                      <video autoplay muted loop playsinline>
+                        <source src="{{ game.video_custom.url }}" type="video/mp4">
+                      </video>
+                    {% elif game.youtube_trailer %}
+                      <iframe src="https://www.youtube.com/embed/{{ game.youtube_trailer }}?autoplay=1&mute=1" 
+                        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+                      </iframe>
+                    {% endif %}
+                  </div>
+                </a>
+                  {% if game.custom_photo %}
+                    <img class="main-photo" src="{{ game.custom_photo }}" alt="">
+                  {% endif %}
+                  <div class="game-info">
+                    <div class="mini-info">
+                      <h2>{{ game.name }}</h2>
+                      <div class="custom-game-ratings">
+                        {% if game.total_rating|floatformat:1 and game.total_rating|floatformat:1 > 0 %}
+                            <span class="custom-game-rating" style="background-color: {{ game.rating_color|default:'gray' }};">
+                                {{ game.total_rating|floatformat:1 }}
+                            </span>
+                        {% else %}
+                            <span class="custom-game-rating" style="background-color: gray;">
+                                ?
+                            </span>
+                        {% endif %}
+
+                        {% for genre in genres|slice:":3" %}
+                          <span class="game-genre">{{ genre }}</span>
+                        {% endfor %}
+
+                        <div class="date-country-seasons-adult">
+                          {% if game.release_date %}
+                            <span class="date-block">{{ game.release_date|date:"Y" }}</span>
+                          {% endif %}
+
+                          {% if game.country %}
+                            <span class="country-block">{{ game.country }}</span>
+                          {% endif %}
+
+                          {% if game.adult == True %}
+                            <span class="adult-block">18+</span>
+                          {% endif %}
+
+                        </div>
+                      </div>
+                      <div class="custom-game-description">
+                        <p class="main-game-description">{{ game.summary }}</p>
+                      </div>
+                    </div>
+                    <div class="main-btns">
+                      {% game_actions game=game size='large' show_learn_more=True show_rating=True %}
+                    </div>
+                  </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="{% static 'scripts/games/games.js' %}"></script>
+
+{% endblock %}

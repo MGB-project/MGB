@@ -1,0 +1,296 @@
+.main-swiper .swiper-slide,
+.upcoming-movies-swiper .swiper-slide {
+  transition: 0.4s ease-in-out;
+  filter: brightness(0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* Подстраиваем под контейнер */
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  font-family: "Roboto", sans-serif;
+}
+
+.upcoming-movies-swiper .swiper-slide {
+  border-radius: 0;
+  filter: none;
+}
+
+.main-swiper .swiper-slide-active {
+  filter: brightness(1);
+}
+
+.main-swiper {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  height: 650px;
+  padding: 0 100px;
+}
+
+.upcoming-movies-swiper {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  height: 500px;
+  border-radius: 30px;
+}
+
+.main-swiper .swiper-slide-active {
+  opacity: 1;
+}
+
+.main-swiper .swiper-slide:not(.swiper-slide-active) {
+  filter: brightness(0.5) blur(2px);
+  height: 100%;
+}
+
+.video-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+
+.video-bg video, 
+.video-bg iframe, 
+.main-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Обеспечиваем полное заполнение */
+}
+
+.swiper-slide:hover .video-bg {
+  opacity: 1;
+}
+
+.swiper-pagination-bullet {
+  width: 40px !important;
+  height: 10px !important;
+  border-radius: 5px !important;
+  background: rgba(255, 255, 255, 0.4) !important;
+  opacity: 1 !important;
+  transition: background 0.3s ease !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: white !important;
+}
+
+/* Полностью убираем дефолтные стрелки Swiper */
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  display: none !important; /* Полностью скрываем */
+  content: none !important;
+}
+
+/* Кнопки (стрелки) */
+.swiper-button-prev,
+.swiper-button-next {
+  color: white !important;
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Убираем дефолтные стрелки Swiper */
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  content: none; /* Полностью убираем встроенный контент */
+  background: none; /* Убираем фон */
+}
+
+/* Добавляем свои иконки */
+.swiper-button-prev {
+  background-image: url('/static/imgs/icons/swiper_arrowprev.svg'); 
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  left: 75px !important;
+}
+
+.swiper-button-next {
+  background-image: url('/static/imgs/icons/swiper_arrownext.svg'); 
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  right: 75px !important;
+}
+
+.rating-genres {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.main-swiper .movie-info,
+.upcoming-movies-swiper .movie-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  left: 5%;
+  bottom: 140px;
+  width: auto;
+  gap: 10px;
+
+  max-width: 550px;
+  backdrop-filter: blur(3px);
+  background-color: rgba(11, 13, 16, 0.1);
+  border-radius: 30px;
+  padding: 30px;
+  position: absolute;
+  z-index: 2000;
+  border-bottom: 1px solid #FFFFFF;
+}
+
+.upcoming-movies-swiper .movie-info {
+  max-height: 210px;
+  height: auto;
+  left: 100px;
+  bottom: 70px;
+}
+
+.title-movie {
+  font-size: 38px;
+  font-weight: 700;
+}
+
+.movie-info .mini-info{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.movie-info .mini-info h2 {
+  font-size: 38px;
+  color: white;
+  font-weight: 600;
+}
+
+.custom-movie-rating {
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.custom-game-description .main-game-description {
+  max-width: 570px;
+  width: auto;
+}
+
+.custom-game-description .main-game-description p {
+  color: white;
+  font-size: 17px;
+  line-height: 150%;
+  margin: 0;
+  text-shadow: 
+    2px 2px 5px rgba(0, 0, 0, 0.7),  /* Основная тень для глубины */
+    0 0 10px rgba(255, 255, 255, 0.2); /* Легкое свечение */
+  transition: text-shadow 0.3s ease-in-out;
+}
+
+/* Усиленный эффект при наведении */
+.custom-game-description .main-game-description p:hover {
+  text-shadow: 
+    3px 3px 7px rgba(0, 0, 0, 0.9),  
+    0 0 15px rgba(255, 255, 255, 0.4);
+}
+
+.custom-game-rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 20px;
+  color: white;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  text-shadow: 
+    3px 3px 7px rgba(0, 0, 0, 0.9),  
+    0 0 15px rgba(255, 255, 255, 0.4);
+}
+
+.main-photo {
+  padding-left: max(24px, calc(50% - 740px));
+  position: absolute;
+  height: 130px;
+  width: 280px;
+  top: 250px;
+  margin: 0;
+  object-fit: contain;
+}
+
+.main-swiper .custom-movie-ratings {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  height: 26px;
+}
+
+.main-swiper .custom-movie-rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  width: 36px;
+  height: 20px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  text-shadow: 
+    1px 1px 3px rgba(0, 0, 0, 0.8),  /* Легкая тень для глубины */
+    0 0 6px rgba(255, 215, 0, 0.7), /* Золотистое свечение */
+    0 0 12px rgba(255, 255, 255, 0.6);
+}
+
+.custom-movie-ratings .movie-genre {
+  display: flex;
+  align-items: center;
+  width: auto;
+  padding: 0 17px;
+  height: 100%;
+  border: 1px solid #8D8D8D;
+  border-radius: 15px;
+  color: #CBCBCB;
+  font-size: 12px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.date-country-seasons-adult {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: auto;
+  padding: 0 17px;
+  gap: 7px;
+  height: 100%;
+  border: 1px solid #8D8D8D;
+  border-radius: 15px;
+  color: #CBCBCB;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.date-country-seasons-adult p{
+  color: #CBCBCB;
+  font-size: 12px;
+  font-weight: 500;
+}

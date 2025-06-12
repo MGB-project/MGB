@@ -1,0 +1,61 @@
+body {
+  overflow-x: hidden; /* Запрещаем скролл */
+  margin: 0;
+}
+
+
+.index-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  background: url("/static/imgs/bg_index.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.index-block .logo-mgb {
+  width: 280px;
+  height: 95px;
+}
+
+.index-block h1, h2 {
+  font-size: 100px;
+  color: white;
+  font-weight: 600;
+  margin-top: 35px;
+  text-shadow: 0px 30px 0px rgba(255, 255, 255, 0.09);
+  font-weight: 800;
+  font-family: 'Poppins', sans-serif;
+}
+
+.index-block h2 {
+  font-family: 'Geologica', sans-serif;
+}
+
+.index-block span {
+  color: #FF003C;
+}
+
+.link-to-tg {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  font-size: 24px;
+  line-height: 150%;
+  margin-top: 55px;
+  font-weight: 300;
+}
+
+.link-to-tg:hover {
+  text-decoration: underline;
+}
+
+.link-to-tg img {
+  width: 38px;
+  height: 38px;
+}

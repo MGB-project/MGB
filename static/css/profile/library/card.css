@@ -1,0 +1,123 @@
+.game-card,
+.movie-card,
+.book-card {
+  display: flex;
+  flex-direction: column;
+  width: 175px;
+  height: 230px;
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+  overflow: visible !important;
+}
+
+.game-bg,
+.movie-bg,
+.book-bg {
+  height: 230px;
+  width: 100%;
+  border-radius: 15px;
+  top: 0;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  cursor: pointer;
+  position: relative;
+}
+
+.game-card:hover .game-bg::before,
+.movie-card:hover .movie-bg::before,
+.book-card:hover .book-bg::before  {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border: 2px solid white;
+  pointer-events: none;
+  border-radius: 15px;
+}
+
+.rating {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: white !important;
+  background-color: gray;
+}
+
+
+.card-information{
+  display: none;
+}
+
+.game-card:hover .card-information,
+.movie-card:hover .card-information,
+.book-card:hover .card-information  {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 185px;
+  top: -6px;
+  width: 260px;
+  padding: 30px 20px;
+  height: 100%;
+  background-color: #2A2A2A;
+  border-radius: 10px;
+  z-index: 10000;
+  border: 2px solid #FFFFFF;
+  box-sizing: border-box;
+}
+
+.card-information h2 {
+  font-size: 26px;
+  font-weight: bold;
+  line-height: 125%;
+}
+
+.platforms {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  margin-top: 5px;
+}
+
+.platforms img {
+  width: 20px;
+  height: 20px;
+}
+
+.runtime span{
+  font-size: 16px;
+  color: white;
+}
+
+.genres-date-added {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 15px;
+}
+
+.genres-date-added h3, span {
+  font-size: 10px;
+  color: #D8DFE6;
+  margin: 0;
+  line-height: 150%;
+}
+
+.item-genres,
+.item-date-release,
+.item-date-added {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}

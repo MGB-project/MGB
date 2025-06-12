@@ -1,0 +1,738 @@
+{% extends 'template.html' %}
+
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/profile/profile.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/profile/overview/overview.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/profile/reviews/reviews.css' %}">
+  <link rel="stylesheet" href="{% static 'css/profile/reviews/reviews_list.css' %}">
+  <link rel="stylesheet" href="{% static 'css/profile/profile-tabs.css' %}">
+{% endblock %}
+
+{% block content %}
+  <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+  <div class="profile-container">
+    <div class="profile-header"
+        data-initial-banner-color="{{ profile.banner_color|default_if_none:'' }}"
+        {% if profile.banner_color %}style="background: {{ profile.banner_color }};"{% endif %}>
+
+      <div class="profile-block-container">
+        <div class="profile-left">
+            {% if profile.avatar %}
+                {# Добавляем data-avatar-url #}
+                <div class="profile-photo"
+                     style="background: url('{{ profile.avatar.url }}');"
+                     data-avatar-url="{{ profile.avatar.url }}">
+                </div>
+            {% else %}
+                <div class="profile-photo"></div> {# Пустой div, если аватара нет #}
+            {% endif %}
+
+            <div class="profile-info">
+                <h1>{{ profile.username }}</h1>
+                <div class="follows-date">
+                    <p>12 <span>Following</span></p>
+                    <p>126 <span>Followers</span></p>
+                    <div class="date-joined">
+                        <img src="{% static 'imgs/icons/calendar.svg' %}" alt="calendar icon">
+                        <p>Joined {{ profile.date_joined|date:"F d, Y" }}</p>
+                    </div>
+                </div>
+                <div class="profile-bio">{{ profile.bio }}</div>
+            </div>
+        </div>
+        <div class="profile-right">
+          <button class="profile-edit-button">•••</button>
+
+          <div class="socials-share">
+
+            <button class="btn-share-profile">
+              <img src="{% static 'imgs/icons/share-icon.svg' %}" alt="share profile">
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="profile-content">
+      <div class="profile-tabs">
+        {# Навигация по табам #}
+        <nav class="profile-tabs-nav">
+          {# Кнопка Overview #}
+          <button class="tab-button active-tab" data-tab-target="#tab-overview">Overview</button>
+
+          {# Кнопка Library #}
+          <button class="tab-button" data-tab-target="#tab-library">Library</button>
+
+          {# Кнопка Reviews #}
+          <button class="tab-button" data-tab-target="#tab-reviews">Reviews</button>
+
+          {# Кнопка Challenges #}
+          <button class="tab-button" data-tab-target="#tab-challenges">Challenges</button>
+        </nav>
+  
+        {# Контейнер для контента табов #}
+        <div class="profile-tabs-content">
+
+          {# Панель Overview - видима по умолчанию #}
+          <div class="tab-content active-content" id="tab-overview">
+            <div class="user-dashboard-box">
+              <div class="dashboard-box">
+                <div class="box-header">
+                  <h6 class="title-value">4 <span class="small-text">Friends</span></h6>
+                  <img src="{% static 'imgs/profile/overview-icons/friends.svg' %}">
+                </div>
+                <div class="box-content">1</div>
+              </div>
+
+              <div class="dashboard-box">
+                <div class="box-header">
+                  <h6 class="title-value">5 <span class="small-text">Badges</span></h6>
+                  <img src="{% static 'imgs/profile/overview-icons/badges.svg' %}">
+                </div>
+                <div class="box-content">2</div>
+              </div>
+
+              <div class="dashboard-box">
+                <div class="box-header">
+                  <span class="small-text">Socials</span>
+                  <img src="{% static 'imgs/profile/overview-icons/socials.svg' %}">
+                </div>
+                <div class="box-content">3</div>
+              </div>
+
+              <div class="dashboard-box box-history">
+                <div class="box-header">
+                  <span class="small-text">Recent activity</span>
+                  <a href="{% url 'users:profile_history' %}" class="btn btn-info">
+                    <img src="{% static 'imgs/profile/overview-icons/history.svg' %}">
+                  </a>
+                </div>
+                <div class="box-content recent-activity-content-wrapper">
+                  {% if latest_activity_item %}
+                    <a href="{{ latest_activity_item.detail_url }}" class="recent-activity-item">
+                      <div class="recent-activity-image">
+                        <img src="{{ latest_activity_item.image_url|default:'/static/imgs/default_placeholder.png' }}" alt="{{ latest_activity_item.title }}">
+                      </div>
+                      <div class="recent-activity-info">
+                        <h5 class="recent-activity-title">{{ latest_activity_item.title|truncatechars:30 }}</h5>
+                        <p class="recent-activity-verb">{{ latest_activity_item.activity_verb }}</p>
+                      </div>
+                      <span class="recent-activity-timestamp">{{ latest_activity_item.timestamp|timesince }} ago</span>
+                    </a>
+                  {% else %}
+                    <p class="no-recent-activity">No recent activity yet.</p>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+
+            <div class="fav-container">
+              <div class="fav-header">
+                <div class="fav-header-left">
+                  <nav class="fav-tabs">
+                    {# Кнопка "Сетка" - активна по умолчанию #}
+                    <button class="fav-tab-button favorite-active-tab" data-fav-view="grid">
+                      <img src="{% static 'imgs/profile/overview-icons/filter_grid.svg' %}">
+                    </button>
+                    {# Кнопка "Список" #}
+                    <button class="fav-tab-button" data-fav-view="list">
+                      <img src="{% static 'imgs/profile/overview-icons/filter_list.svg' %}">
+                    </button>
+                  </nav>
+                  {# Динамический счетчик избранного #}
+                  <h6 class="title-value">{{ total_favorite_count }} <span class="small-text">Favorite</span></h6>
+                </div>
+            
+                <div class="fav-header-right">
+                  <button class="btn-fav-filters">
+                    <img src="{% static 'imgs/profile/overview-icons/mgb_filters.svg' %}">
+                  </button>
+
+                  <div id="overview-fav-filters-popover" class="fav-filters-popover" style="display: none;">
+                    <div class="fav-filters-popover-content">
+                        <ul class="fav-filters-list">
+                            <li>
+                                <label>
+                                    <input type="checkbox" name="fav_filter_type_popover" value="all" data-filter-type="all" checked>
+                                    <span>All</span> {# Обернем текст в span для лучшей стилизации, если потребуется #}
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" name="fav_filter_type_popover" value="movie" data-filter-type="movie">
+                                    <span>Movies</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" name="fav_filter_type_popover" value="game" data-filter-type="game">
+                                    <span>Games</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" name="fav_filter_type_popover" value="book" data-filter-type="book">
+                                    <span>Books</span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                  </div>
+                  
+                  <a class="all-fav-link" href="#">View all</a> {# Ссылка "Посмотреть все" - пока заглушка #}
+                </div>
+              </div>
+            
+              {# Контейнер для вида "Сетка" - УПРАВЛЯЕТСЯ НОВОЙ ЛОГИКОЙ JS #}
+              <div class="fav-grid active-fav-view" id="overview-fav-grid-content">
+                  {# Этот контейнер будет заполняться JavaScript тремя "большими блоками" #}
+                  <div class="overview-fav-grid-actual">
+                      {# Сюда JavaScript добавит .big-block элементы #}
+                      {% if not latest_favorite_items_overview %}
+                          <p style="margin-top: 15px; text-align: center; width: 100%; color: #888;">No favorites added yet.</p>
+                      {% endif %}
+                  </div>
+
+                  {# Скрытый контейнер для сбора данных JavaScript'ом #}
+                  {% if latest_favorite_items_overview %}
+                      <div id="initial-favorite-data-source" style="display: none !important;">
+                          {% for fav_item in latest_favorite_items_overview %}
+                              <div class="initial-fav-data-item"
+                                  data-item-type="{{ fav_item.type }}"
+                                  data-item-id="{{ fav_item.id }}"
+                                  data-image-url="{{ fav_item.image_url|default:'/static/imgs/default_placeholder.png' }}"
+                                  data-detail-url="{{ fav_item.detail_url }}"
+                                  data-title="{{ fav_item.title }}">
+                              </div>
+                          {% endfor %}
+                      </div>
+                      {# Это сообщение больше не управляется напрямую старыми JS-фильтрами для этого блока #}
+                      {# <p class="no-filtered-favorites-message" style="display: none; margin-top: 15px; text-align: center;">No favorites match the current filter.</p> #}
+                  {% endif %}
+              </div>
+            
+              {# Контейнер для вида "Список" #}
+              <div class="fav-list" id="overview-fav-list-content">
+                {% if latest_favorite_items_overview %}
+                  <ul class="overview-favorites-ul">
+                    {% for fav_item in latest_favorite_items_overview %}
+                    <li class="overview-favorite-item" data-item-type="{{ fav_item.type }}">
+                      <a href="{{ fav_item.detail_url }}" class="overview-fav-item-link">
+                        <div class="overview-fav-item-image">
+                          <img src="{{ fav_item.image_url|default:'/static/imgs/default_placeholder.png' }}" alt="{{ fav_item.title }}">
+                        </div>
+                        <div class="overview-fav-item-info">
+                          <h4 class="overview-fav-item-title">
+                            {% if fav_item.title|length > 23 %}
+                              {{ fav_item.title|slice:":20" }}...
+                            {% else %}
+                              {{ fav_item.title }}
+                            {% endif %}
+                          </h4>
+                          
+                          {# Новая информация: жанры/авторы и год #}
+                          <div class="overview-fav-item-meta">
+                            {% if fav_item.info_line_1 %}
+                              <span>{{ fav_item.info_line_1 }}</span>
+                            {% endif %}
+                            {% if fav_item.info_line_1 and fav_item.info_line_2 %}
+                              <span>, </span>
+                            {% endif %}
+                            {% if fav_item.info_line_2 %}
+                              <span>{{ fav_item.info_line_2 }}</span>
+                            {% endif %}
+                          </div>
+                          
+                          {# Можно добавить дату добавления в избранное, если нужно, но на скриншоте ее нет #}
+                          {# <span class="overview-fav-item-date">Added on: {{ fav_item.added_at|date:"M d, Y" }}</span> #}
+                        </div>
+                        
+                        {# Блок рейтинга с динамическим фоном #}
+
+                        {% if fav_item.user_rating is not None %}
+                          {% with urating=fav_item.user_rating %}
+                            {% if urating >= 8 %}
+                              <div class="overview-fav-item-rating" style="background-color: #15B000;">
+                                {{ urating }}
+                              </div>
+                            {% elif urating >= 5 %}
+                              <div class="overview-fav-item-rating" style="background-color: #FFFF00;">
+                                {{ urating }}
+                              </div>
+                            {% elif urating > 1 %}
+                              {# Низкий рейтинг: Красный фон, белый текст #}
+                              <div class="overview-fav-item-rating" style="background-color: #FF4949;">
+                                {{ urating }}
+                              </div>
+                            {% else %}
+                              <div class="overview-fav-item-rating" style="background-color: #B7485C;">
+                                {{ urating }}
+                              </div>
+                            {% endif %}
+                          {% endwith %}
+                        {% else %}
+                          <div class="overview-fav-item-rating" style="background-color: #A0A0A0;">
+                            ?
+                          </div>
+                        {% endif %}
+                      </a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                  <p class="no-filtered-favorites-message" style="display: none; margin-top: 15px; text-align: center;">No favorites match the current filter.</p>
+                {% else %}
+                  <p style="margin-top: 15px; text-align: center;">No favorites added yet.</p>
+                {% endif %}
+              </div>
+
+            </div>
+
+            <div class="profile-section user-activity-section">
+              <div class="general-statistics-container">
+                <div class="section-header">
+                  <span class="header-accent-line"></span>
+                  <h2>General statistics</h2>
+                </div>
+                <ul class="statistics-list">
+                  <li>
+                    <span class="stat-label">Rates:</span> 
+                    <span class="stat-value">{{ stats_total_rates }}</span>
+                  </li>
+                  <li>
+                    <span class="stat-label">Reviews:</span> 
+                    <span class="stat-value">{{ total_reviews_count_stat }}</span>
+                  </li>
+                  <li>
+                    <span class="stat-label">Favorite:</span> 
+                    <span class="stat-value">{{ stats_total_favorites }}</span>
+                  </li>
+                  <li>
+                    <span class="stat-label">Movies:</span> 
+                    <span class="stat-value">{{ movie_count }}</span>
+                  </li>
+                  <li>
+                    <span class="stat-label">Games:</span> 
+                    <span class="stat-value">{{ game_count }}</span>
+                  </li>
+                  <li>
+                    <span class="stat-label">Books:</span> 
+                    <span class="stat-value">{{ book_count }}</span>
+                  </li>
+                </ul>
+              </div>
+            
+              <div class="activity-heatmap-container">
+                <div class="section-header activity-header">
+                  <div class="header-left">
+                    <span class="header-accent-line"></span>
+                    <h2>Activity</h2>
+                  </div>
+                  <div class="header-right">
+                    <form method="GET" action="{% url 'users:profile' %}#tab-overview" id="activity-year-form">
+                        {# Скрытые поля для сохранения других GET параметров, если они есть и важны #}
+                        {# Например, для фильтров отзывов, если они на той же странице и не должны сбрасываться #}
+                        {% if current_review_filter and current_review_filter != 'all' %}
+                        <input type="hidden" name="review_filter" value="{{ current_review_filter }}">
+                        {% endif %}
+                        {% if current_review_sort and current_review_sort != 'date_added' %}
+                        <input type="hidden" name="review_sort" value="{{ current_review_sort }}">
+                        {% endif %}
+                        {% if request.GET.review_search %}
+                        <input type="hidden" name="review_search" value="{{ request.GET.review_search }}">
+                        {% endif %}
+            
+                        <select name="activity_year" id="activity-year-select">
+                            {% for year_option in available_activity_years %}
+                            <option value="{{ year_option }}" {% if year_option == selected_activity_year %}selected{% endif %}>
+                                {{ year_option }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                    <a href="#" class="btn-history-link">History <img src="{% static 'imgs/icons/chevron-right.svg' %}" alt=">"></a>
+                  </div>
+                </div>
+                <div class="heatmap-calendar-wrapper">
+                  <div class="heatmap-months-row">
+                  </div>
+                  <div class="heatmap-body">
+                    <div class="heatmap-days-col">
+                      <span>M</span>
+                      <span>W</span>
+                      <span>F</span>
+                      <span>Su</span>
+                    </div>
+                    <div class="heatmap-grid" id="activity-heatmap-grid">
+                      {# Сюда JS будет генерировать ячейки дней #}
+                    </div>
+                  </div>
+                </div>
+                <div class="heatmap-footer">
+                  <span id="heatmap-total-notes"></span>
+                  <div class="heatmap-legend">
+                    <span>Less</span>
+                    <span class="heatmap-color-box level-0"></span>
+                    <span class="heatmap-color-box level-1"></span>
+                    <span class="heatmap-color-box level-2"></span>
+                    <span class="heatmap-color-box level-3"></span>
+                    <span class="heatmap-color-box level-4"></span>
+                    <span>More</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          {# Панель Library - скрыта по умолчанию #}
+          <div class="tab-content" id="tab-library">
+          <!-- ФИЛЬМЫ -->
+            <div class="movies-block">
+              <a href="{% url 'users:favorite_movies_list' %}">
+                <div class="library-content">
+                  <div class="library-text">
+                    <p><span>{{ movie_count }}</span> movies</p>
+                    <h2>Movies</h2>
+                  </div>
+                  <div class="library-photos">
+                    {% if latest_movies|length >= 3 %}
+                      {% for movie in latest_movies|slice:":3" %}
+                        {% if movie.poster_path %}
+                          <div class="img-wrapper {% if forloop.counter0 == 1 %}large{% endif %}">
+                            <img src="{{ movie.poster_path }}" alt="{{ movie.title }}">
+                          </div>
+                        {% endif %}
+                      {% endfor %}
+                    {% elif latest_movies|length == 2 %}
+                      <a href="{% url 'movies' %}" class="img-wrapper link-wrapper">
+                        <img class="add-item" src="{% static 'imgs/profile_icons/plusik.svg' %}" alt="add movie">
+                      </a>
+                      <div class="img-wrapper large">
+                        <img src="{{ latest_movies.0.poster_path }}" alt="{{ latest_movies.0.title }}">
+                      </div>
+                      <div class="img-wrapper">
+                        <img src="{{ latest_movies.1.poster_path }}" alt="{{ latest_movies.1.title }}">
+                      </div>
+                    
+                    {% elif latest_movies|length == 1 %}
+                      <a href="{% url 'movies' %}" class="img-wrapper link-wrapper">
+                        <img class="add-item" src="{% static 'imgs/profile_icons/plusik.svg' %}" alt="add movie">
+                      </a>
+                      <div class="img-wrapper">
+                        <img src="{{ latest_movies.0.poster_path }}" alt="{{ latest_movies.0.title }}">
+                      </div>
+                      <a href="{% url 'movies' %}" class="img-wrapper link-wrapper">
+                        <img class="add-item" src="{% static 'imgs/profile_icons/plusik.svg' %}" alt="add movie">
+                      </a>
+                    {% else %}
+                      <a href="{% url 'movies' %}" class="link-wrapper"></a>
+                      <div class="link-wrapper large">
+                        <img class="add-item" src="{% static 'imgs/profile_icons/plusik.svg' %}" alt="add book">
+                        <p>Add movie</p>
+                      </div>
+                      <a href="{% url 'movies' %}" class="link-wrapper"></a>
+                    {% endif %}
+                  </div>
+                </div>
+              </a>
+            </div>
+  
+            <!-- ИГРЫ -->
+            <div class="games-block">
+              <a href="{% url 'users:favorite_games_list' %}">
+                <div class="library-content">
+                  <div class="library-text">
+                    <p><span>{{ game_count }}</span> games</p>
+                    <h2>Games</h2>
+                  </div>
+                  <div class="library-photos">
+                    {% if latest_games|length >= 3 %}
+                      {% for game in latest_games|slice:":3" %}
+                        <div class="img-wrapper {% if forloop.counter0 == 1 %}large{% endif %}">
+                          <img src="{{ game.cover_url }}" alt="{{ game.title }}">
+                        </div>
+                      {% endfor %}
+                      {% elif latest_games|length == 2 %}
+                      <a href="#" class="img-wrapper link-wrapper">
+                        <img class="add-item" src="{% static 'imgs/profile_icons/plusik.svg' %}" alt="add movie">
+                      </a>
+                      <div class="img-wrapper large">
+                        <img src="{{ latest_games.0.cover_url }}" alt="{{ latest_games.0.title }}">
+                      </div>
+                      <div class="img-wrapper">
+                        <img src="{{ latest_games.1.cover_url }}" alt="{{ latest_games.1.title }}">
+                      </div>
+                      <a href="#" class="img-wrapper link-wrapper">
+                        <img class="add-item" src="{% static 'imgs/profile_icons/plusik.svg' %}" alt="add movie">
+                      </a>
+                    {% elif latest_games|length == 1 %}
+                      <a href="{% url 'games' %}" class="img-wrapper link-wrapper">
+                        <img class="add-item" src="{% static 'imgs/profile_icons/plusik.svg' %}" alt="add movie">
+                      </a>
+                      <div class="img-wrapper large">
+                        <img src="{{ latest_games.0.cover_url }}" alt="{{ latest_games.0.title }}">
+                      </div>
+                      <a href="{% url 'games' %}" class="img-wrapper link-wrapper">
+                        <img class="add-item" src="{% static 'imgs/profile_icons/plusik.svg' %}" alt="add movie">
+                      </a>
+                    {% else %}
+                      <a href="{% url 'games' %}" class="link-wrapper"></a>
+                      <div class="link-wrapper large">
+                        <img class="add-item" src="{% static 'imgs/profile_icons/plusik.svg' %}" alt="add book">
+                        <p>Add game</p>
+                      </div>
+                      <a href="{% url 'games' %}" class="link-wrapper"></a>
+                    {% endif %}
+                  </div>
+                </div>
+              </a>
+            </div>
+  
+            <!-- КНИГИ -->
+            <div class="books-block">
+              <a href="{% url 'users:favorite_books_list' %}">
+                <div class="library-content">
+                  <div class="library-text">
+                    <p><span>{{ book_count }}</span> books</p>
+                    <h2>Books</h2>
+                  </div>
+                  <div class="library-photos">
+                    {% if latest_books|length >= 3 %}
+                      {% for book in latest_books|slice:":3" %}
+                        <div class="img-wrapper {% if forloop.counter0 == 1 %}large{% endif %}">
+                          <img src="{{ book.thumbnail }}" alt="{{ book.title }}">
+                        </div>
+                      {% endfor %}
+                    {% elif latest_books|length == 2 %}
+                      <a href="{% url 'books' %}" class="img-wrapper link-wrapper">
+                        <img class="add-item" src="{% static 'imgs/profile_icons/plusik.svg' %}" alt="add movie">
+                      </a>
+                      <div class="img-wrapper large">
+                        <img src="{{ latest_books.0.thumbnail }}" alt="{{ latest_books.0.title }}">
+                      </div>
+                      <div class="img-wrapper">
+                        <img src="{{ latest_books.1.thumbnail }}" alt="{{ latest_books.1.title }}">
+                      </div>
+                      <a href="{% url 'books' %}" class="img-wrapper link-wrapper">
+                        <img class="add-item" src="{% static 'imgs/profile_icons/plusik.svg' %}" alt="add movie">
+                      </a>
+                    {% elif latest_books|length == 1 %}
+                      <a href="{% url 'books' %}" class="img-wrapper link-wrapper">
+                        <img class="add-item" src="{% static 'imgs/profile_icons/plusik.svg' %}" alt="add movie">
+                      </a>
+                      <div class="img-wrapper large">
+                        <img src="{{ latest_books.0.thumbnail }}" alt="{{ latest_books.0.title }}">
+                      </div>
+                      <a href="{% url 'books' %}" class="img-wrapper">
+                        <img class="add-item" src="{% static 'imgs/profile_icons/plusik.svg' %}" alt="add book">
+                      </a>
+                    {% else %}
+                      <a href="{% url 'books' %}" class="link-wrapper"></a>
+                      <div class="link-wrapper large">
+                        <img class="add-item" src="{% static 'imgs/profile_icons/plusik.svg' %}" alt="add book">
+                        <p>Add book</p>
+                      </div>
+                      <a href="{% url 'books' %}" class="link-wrapper"></a>
+                    {% endif %}
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+  
+          {# Панель Reviews - скрыта по умолчанию #}
+          <div class="tab-content" id="tab-reviews">
+            <div class="reviews-toolbar">
+                <div class="review-toolbar-left">
+                  <!-- Filter Dropdown -->
+                  <div class="review-filter-dropdown-wrapper custom-dropdown-wrapper">
+                      <button class="review-dropdown-toggle custom-dropdown-toggle" id="review-filter-toggle" aria-haspopup="true" aria-expanded="false" data-target="#review-filter-options-list">
+                          <span id="selected-review-filter">
+                              {% if current_review_filter == "movies" %}Movies
+                              {% elif current_review_filter == "games" %}Games
+                              {% elif current_review_filter == "books" %}Books
+                              {% else %}All{% endif %}
+                          </span>
+                          <span class="dropdown-arrow">▼</span>
+                      </button>
+                      <ul class="review-dropdown-options custom-dropdown-options" id="review-filter-options-list" role="listbox" style="display:none;">
+                          <li data-value="all" role="option" {% if current_review_filter == "all" or not current_review_filter %}class="active"{% endif %}>All</li>
+                          <li data-value="movies" role="option" {% if current_review_filter == "movies" %}class="active"{% endif %}>Movies</li>
+                          <li data-value="games" role="option" {% if current_review_filter == "games" %}class="active"{% endif %}>Games</li>
+                          <li data-value="books" role="option" {% if current_review_filter == "books" %}class="active"{% endif %}>Books</li>
+                      </ul>
+                  </div>
+
+                  
+                  <!-- Sort Dropdown -->
+                  <div class="review-dropdown-wrapper custom-dropdown-wrapper">
+                    <span class="sort-by-reviews">Sort by</span>
+                    <div class="dropdown-group">
+                        <button class="review-dropdown-toggle custom-dropdown-toggle" id="review-sort-toggle" aria-haspopup="true" aria-expanded="false" data-target="#review-sort-options-list">
+                            <span id="selected-review-sort">
+                                {% if current_review_sort == "title" %}Title
+                                {% elif current_review_sort == "rating" %}Rating
+                                {% else %}Date added{% endif %}
+                            </span>
+                            <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <ul class="review-dropdown-options custom-dropdown-options" id="review-sort-options-list" role="listbox" style="display:none;">
+                            <li data-value="date_added" role="option" {% if current_review_sort == "date_added" or not current_review_sort %}class="active"{% endif %}>Date added</li>
+                            <li data-value="title" role="option" {% if current_review_sort == "title" %}class="active"{% endif %}>Title</li>
+                        </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Search Input & Button (you'll style this) -->
+                <div class="review-search-container">
+                    <input type="search" id="review-search-input" class="review-search-field" placeholder="Search reviews..." value="{{ request.GET.review_search|default:'' }}">
+                    <button id="review-search-button" class="search-reviews">
+                      <img src="{% static 'imgs/icons/zalupa.svg' %}" alt="zalupa">
+                    </button>
+                </div>
+            </div>
+
+            <div id="reviews-list-container" class="reviews-list-area">
+              {% include 'partials/review_list_items.html' with reviews=user_reviews user=request.user %}
+              
+              {# === НАЧАЛО БЛОКА СТАТИСТИКИ === #}
+              <div class="review-statistic">
+                  <div class="title-hr">
+                    <hr>
+                    <h1>Reviews statistics</h1>
+                  </div>
+                  <ul class="review-statistic-list">
+                      <li>
+                          <span>Reviews:</span>
+                          <span class="value-statistic">{{ total_reviews_count_stat }}</span>
+                      </li>
+                      <li>
+                          <span>Last review:</span>
+                          <span class="value-statistic">
+                              {% if last_review_date_stat %}
+                                  {{ last_review_date_stat|date:"d.m.y" }}
+                              {% else %}
+                                  
+                              {% endif %}
+                          </span>
+                      </li>
+                      <li>
+                          <span>First review:</span>
+                          <span class="value-statistic">
+                              {% if first_review_date_stat %}
+                                  {{ first_review_date_stat|date:"d.m.y" }}
+                              {% else %}
+                                  
+                              {% endif %}
+                          </span>
+                      </li>
+                      <li>
+                          <span>Per month:</span>
+                          <span class="value-statistic">{{ reviews_per_month_stat }}</span>
+                      </li>
+                  </ul>
+              </div>
+              {# === КОНЕЦ БЛОКА СТАТИСТИКИ === #}
+            </div>
+          </div>
+
+          {# Панель Challenges - скрыта по умолчанию #}
+          <div class="tab-content" id="tab-challenges">
+            <h2>Challenges Content</h2>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- HTML для Модального Окна Настроек Профиля -->
+    <div id="profile-options-modal" class="profile-modal-overlay" style="display: none;">
+      <div class="profile-modal-content">
+        <button class="edit-profile-btn">
+          <img src="{% static 'imgs/profile_icons/pencil.svg' %}" alt="">
+          Редактировать профиль
+        </button>
+        <a href="{% url 'users:profile_settings' %}" class="profile-modal-button">
+          <img src="{% static 'imgs/profile_icons/user-setting.svg' %}" alt="Bg Books">
+          Настройки аккаунта
+        </a>
+      </div>
+    </div>
+
+    <!-- Модальное Окно Редактирования Деталей Профиля -->
+    <div id="edit-profile-details-modal" class="edit-profile-overlay" style="display: none;">
+      <div class="edit-profile-modal-content">
+          <div class="edit-profile-modal-header">
+              <div class="edit-profile-banner" style="background: #1E1E1E;"></div> {# Дефолтный фон для предпросмотра #}
+              <div class="edit-profile-avatar-section">
+                  <div class="edit-profile-avatar-container" title="Загрузить новое фото">
+                      <svg class="edit-profile-avatar-placeholder-icon" viewBox="0 0 24 24" fill="#666666" width="40px" height="40px">
+                          <path d="M20 4h-3.17L15 2H9L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 11c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm3-5H13V8h-2v2H9v2h2v2h2v-2h2V10z"/>
+                      </svg>
+                      <input type="file" id="avatarUpload" name="avatar" accept="image/*" style="display: none;">
+                  </div>
+              </div>
+              <div class="edit-profile-color-palette">
+                  <div class="color-swatch remove-color-swatch" title="Убрать цвет баннера">
+                      <svg class="remove-color-icon" viewBox="0 0 24 24" fill="white" width="16px" height="16px">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/>
+                      </svg>
+                  </div>
+                  <div class="color-swatch" style="background: linear-gradient(to bottom, #6E2525 10%, #B03B3B 50%, rgba(0, 0, 0, 0) 100%);" title="Красно-бордовый градиент"></div>
+                  <div class="color-swatch" style="background: linear-gradient(to bottom, #1B3A4B 10%, #315A72 50%, rgba(0, 0, 0, 0) 100%);" title="Красный"></div>
+                  <div class="color-swatch" style="background: linear-gradient(to bottom, #3C2F2F 10%, #6B5252 50%, rgba(0, 0, 0, 0) 100%);" title="Синий"></div>
+                  <div class="color-swatch" style="background: linear-gradient(to bottom, #2A3137 10%, #373F46 50%, rgba(0, 0, 0, 0) 100%);" title="Темно-сланцево-серый"></div>
+                  <div class="color-swatch" style="background: linear-gradient(to bottom, #162419 10%, #2D402F 50%, rgba(0, 0, 0, 0) 100%);" title="Темно-зеленый"></div>
+                  <div class="color-swatch" style="background: linear-gradient(to bottom, #2A3137 10%, #2A3137 50%, rgba(0, 0, 0, 0) 100%);" title="Темно-серый"></div>
+                  <div class="color-swatch" style="background: linear-gradient(to bottom, #9F97AF 10%, #4D4958 50%, rgba(0, 0, 0, 0) 100%, #2A3137 100%);" title="Лилово-серый 1"></div>
+                  <div class="color-swatch" style="background: linear-gradient(to bottom, #1B3A4B 10%, #315A72 50%, rgba(0, 0, 0, 0) 100%);" title="Лилово-серый 2"></div>
+                  <div class="color-swatch" style="background: linear-gradient(to bottom, #1B3A4B 10%, #315A72 50%, rgba(0, 0, 0, 0) 100%);" title="Лилово-серый 2"></div>
+              </div>
+          </div>
+  
+          <div class="edit-profile-modal-form">
+              <div class="form-group">
+                  <label for="usernameEdit">Имя пользователя</label>
+                  <input type="text" id="usernameEdit" name="username" value="{{ profile.username }}" maxlength="32">
+                  <span class="char-counter" id="usernameCharCount">0/32</span>
+              </div>
+              <div class="form-group">
+                  <label for="bioEdit">О себе</label>
+                  <textarea id="bioEdit" name="bio" maxlength="160">{{ profile.bio }}</textarea>
+                  <span class="char-counter" id="bioCharCount">0/160</span>
+              </div>
+          </div>
+  
+          <div class="edit-profile-modal-footer">
+              <button id="cancelEditProfileBtn" type="button" class="cancel-btn">Cancel</button>
+              <button id="saveEditProfileBtn" type="button" class="save-btn">Save</button>
+          </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block bottom_js %}
+  <script src="{% static 'scripts/mgb_tabs.js' %}"></script>
+  <script src="{% static 'scripts/profile/overview/overview.js' %}"></script>
+  <script src="{% static 'scripts/profile/overview/activity_heatmap.js' %}"></script>
+  <script src="{% static 'scripts/profile/reviews/reviews_toolbar.js' %}"></script>
+
+  <script id="heatmap-data-script" type="application/json">
+    {{ user_activity_heatmap_data|safe }}
+  </script>
+  
+  {# Передаем сохраненный цвет баннера и URL аватара в JS #}
+  <script>
+    window.PROFILE_USER_BANNER_COLOR = "{{ profile.banner_color|default_if_none:''|escapejs }}";
+    window.PROFILE_USER_AVATAR_URL = "{{ profile.avatar.url|default_if_none:''|escapejs }}";
+  </script>
+  <script src="{% static 'scripts/profile/profile.js' %}"></script> {# Подключаем profile.js здесь #}
+{% endblock %}

@@ -1,0 +1,186 @@
+{% extends 'template.html' %}
+
+{% load static %}
+
+{% block title %} 
+  {{ content_type_name }}
+{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/profile/profile.css' %}">
+  <link rel="stylesheet" href="{% static 'css/profile/profile_library_list.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/profile/library/card.css' %}">
+  <link rel="stylesheet" href="{% static 'css/profile/library/library.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/profile/library/content_grid.css' %}">
+  <link rel="stylesheet" href="{% static 'css/profile/library/content_list.css' %}">
+  <link rel="stylesheet" href="{% static 'css/profile/library/content_tierlist.css' %}">
+{% endblock %}
+
+{% block body_attributes %}data-initial-sort="{{ initial_sort }}"{% endblock %}
+
+{% block content %}
+  <div class="profile-container">
+    <div class="profile-header">
+
+      <div class="item-info-container">
+        <div class="item-info-left">
+
+          <div class="button-latest-items">
+            <a class="back-to-profile" href="{% url 'users:profile' %}">
+              <img src="{% static 'imgs/icons/arrow-left.svg' %}">
+              Back
+            </a>
+          
+            <div class="latest-items-showcase">
+              {% if sorted_items %}
+
+                  {% if sorted_items|length >= 4 %}
+                      <div class="showcase-grid-4">
+                          {% for item in sorted_items|slice:":4" %}
+                          <div class="showcase-grid-cell">
+                              {% include showcase_item_template with item=item %}
+                          </div>
+                          {% endfor %}
+                      </div>
+                  {% else %}
+                      {% with latest_item=sorted_items.0 %}
+                      <div class="showcase-grid-1">
+                          {% include showcase_item_template with item=latest_item %}
+                      </div>
+                      {% endwith %}
+                  {% endif %}
+                  
+              {% else %}
+                  <div class="no-items-placeholder"> {# Можно стилизовать как-то иначе #}
+                      <p>You haven't added any {{ content_type_name|lower }} yet.</p>
+                      {# <a href="#">Find {{ content_type_name|lower }}</a> #}
+                  </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="item-info">
+            <h1 class="item-title">{{ content_type_name }}</h1>
+
+            <div class="item-user-info">
+              {% if profile.avatar %}
+                <div class="profile-photo"
+                    style="background: url('{{ profile.avatar.url }}');"
+                    data-avatar-url="{{ profile.avatar.url }}">
+                </div>
+              {% else %}
+                <div class="profile-photo">???</div>
+              {% endif %}
+              
+              <p>{{ profile.username }}</p>
+
+              <p>•</p>
+
+              {% if stats %}
+                <div class="item-statistics">
+                  <p>{{ stats.total }} <span>{{ content_type_name }}</span></p>
+                  <p>{{ stats.favourite }} <span>Favourite</span></p>
+                  <p>{{ stats.status1_count }} <span>{{ stats.status1_label }}</span></p> {# Статус 1 (Played/Watched/Read) #}
+                  <p>{{ stats.status2_count }} <span>{{ stats.status2_label }}</span></p> {# Статус 2 (Playing/Watching/Reading) #}
+                  <p>{{ stats.status3_count }} <span>{{ stats.status3_label }}</span></p> {# Статус 3 (Dropped) #}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="item-info-right">
+          <button class="btn-share">
+            <img src="{% static 'imgs/icons/share-icon.svg' %}">
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="library-content">
+      <div class="library-buttons">
+        
+        <!-- Toolbar HTML Start -->
+        <div class="library-controls-toolbar">
+            <div class="view-toggle-buttons">
+                <button id="view-grid" class="view-toggle-btn active" title="Grid View">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                      <path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/>
+                    </svg>
+                </button>
+                <button id="view-list" class="view-toggle-btn" title="List View">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                      <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </button>
+                <button id="view-tierlist" class="view-toggle-btn {% if initial_view_id == 'view-tierlist' %}active{% endif %}" title="Tier List View">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                    <path d="M2 18h20v-2H2v2zm0-5h20v-2H2v2zm0-5h20V6H2v2z"/>
+                  </svg>
+                </button>
+            </div>
+
+            <div class="filter-sort-controls" {% if initial_view_id == 'view-detailed-list' %}style="display:none;"{% endif %}>
+              <div class="custom-dropdown-wrapper">
+                  <button class="custom-dropdown-toggle" aria-haspopup="true" aria-expanded="false" data-target="filter-options">
+                      <span id="selected-filter-status">
+                          {# Устанавливаем начальный текст для кнопки фильтра #}
+                          {% if initial_filter == "all" %}All
+                          {% elif initial_filter == "status1" %}{{ status_labels.status1 }}
+                          {% elif initial_filter == "status2" %}{{ status_labels.status2 }}
+                          {% elif initial_filter == "status3" %}{{ status_labels.status3 }}
+                          {% elif initial_filter == "wishlist" %}{{ status_labels.wishlist }} {# Если есть wishlist #}
+                          {% else %}All{% endif %}
+                      </span>
+                      <span class="dropdown-arrow">▼</span>
+                  </button>
+                  <ul class="custom-dropdown-options" id="filter-options" role="listbox">
+                      <li data-value="all" role="option" {% if initial_filter == "all" %}class="active"{% endif %}>All</li>
+                      <li data-value="status1" role="option" {% if initial_filter == "status1" %}class="active"{% endif %}>{{ status_labels.status1 }}</li>
+                      <li data-value="status2" role="option" {% if initial_filter == "status2" %}class="active"{% endif %}>{{ status_labels.status2 }}</li>
+                      <li data-value="status3" role="option" {% if initial_filter == "status3" %}class="active"{% endif %}>{{ status_labels.status3 }}</li>
+                      {# Если есть wishlist: #}
+                      <li data-value="wishlist" role="option" {% if initial_filter == "wishlist" %}class="active"{% endif %}>{{ status_labels.wishlist }}</li>
+                  </ul>
+              </div>
+          
+              <span class="sort-by-label">Sort by</span>
+          
+              <div class="custom-dropdown-wrapper">
+                  <button class="custom-dropdown-toggle" aria-haspopup="true" aria-expanded="false" data-target="sort-options">
+                      <span id="selected-sort-criteria">
+                          {# Устанавливаем начальный текст для кнопки сортировки #}
+                          {% if initial_sort == "date_added" %}Date added
+                          {% elif initial_sort == "rating" %}Rating
+                          {% elif initial_sort == "title" %}Title
+                          {% else %}Date added{% endif %}
+                      </span>
+                      <span class="dropdown-arrow">▼</span>
+                  </button>
+                  <ul class="custom-dropdown-options" id="sort-options" role="listbox">
+                      <li data-value="date_added" role="option" {% if initial_sort == "date_added" %}class="active"{% endif %}>Date added</li>
+                      <li data-value="rating" role="option" {% if initial_sort == "rating" %}class="active"{% endif %}>Rating</li>
+                      <li data-value="title" role="option" {% if initial_sort == "title" %}class="active"{% endif %}>Title</li>
+                  </ul>
+              </div>
+            </div>
+
+            <div class="search-bar-container">
+            </div>
+        </div>
+        <!-- Toolbar HTML End -->
+      </div>
+
+      <div class="library-content-area">
+        {% include initial_list_template_to_include with library_items=library_items item_template_name=item_template_name content_type_name=content_type_name user=user status_filter_key=status_filter_key grid_status_config=grid_status_config content_type_slug=content_type_slug %}
+      </div>
+    </div>
+
+  </div>
+
+  <script src="{% static 'scripts/favourite_list.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+{% endblock %}

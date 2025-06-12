@@ -1,0 +1,33 @@
+{% load custom_filters %}
+
+{% if library_items %}
+    <div class="grid-view-sections-container">
+        {% for status_conf in grid_status_config %}
+            {% if status_filter_key == 'all' or status_filter_key == status_conf.key %}
+                {% with section_items=library_items|filter_by_status:status_conf.annotation_field status_label=status_conf.label %}
+                    {% if section_items %}
+                        <div class="grid-section {{ status_conf.key }}-section">
+                            <div class="section-header">
+                                <span class="section-title-chip {{ status_conf.chip_class }}">{{ status_label }}</span>
+                                <div class="section-line"></div>
+                                <div class="section-controls">
+                                    <span class="section-item-count">{{ section_items|length }} {{ content_type_name|lower }}</span>
+                                    <button class="section-toggle-btn" aria-expanded="true" aria-controls="section-content-{{ status_conf.key }}">
+                                        ▼
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="items-grid-container"  id="section-content-{{ status_conf.key }}">
+                              {% for item in section_items %}
+                                  {% include item_template_name with item=item content_type_name=content_type_name user=user %}
+                              {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="no-items-message">No {{ content_type_name|lower }} added to your library yet.</p>
+{% endif %}

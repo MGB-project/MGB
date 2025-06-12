@@ -1,0 +1,49 @@
+.new-releases-container .swiper-slide,
+.best-movies-container .swiper-slide,
+.best-movies-swiper .swiper-slide{
+  display: flex;
+  flex-direction: column;
+  width: 230px;
+  min-height: 285px;
+  margin-top: 30px;
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+  overflow: visible !important;
+  z-index: 20 !important;
+}
+
+.new-releases-container .swiper-slide:hover .small-movie-bg,
+.best-movies-container .swiper-slide:hover .small-movie-bg,
+.best-movies-swiper .swiper-slide:hover .small-movie-bg{
+  box-shadow: 0px 0px 25px 10px #ff003c9b;
+}
+
+.new-releases-container .swiper-slide:hover,
+.best-movies-container .swiper-slide:hover,
+.best-movies-swiper .swiper-slide:hover  {
+  transform: translateY(-10px);
+}
+
+.new-releases-container .swiper-slide h2,
+.best-movies-container .swiper-slide h2 {
+  margin-top: 10px;
+  color: white;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.new-releases-container .swiper,
+.best-movies-container .swiper{
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  height: 440px;
+  padding: 10px;
+  gap: 30px;
+}
+
+.new-releases-container .swiper-slide:hover,
+.best-movies-container .swiper-slide:hover {
+  transform: translateY(-15px);
+}
+

@@ -1,0 +1,347 @@
+{% extends 'template.html' %}
+
+{% load static %}
+{% load game_tags %}
+
+{% block title %}
+  Games Detail
+{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/mgb_tabs.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/games/game-detail/game_detail.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/games/game-detail/overview.css' %}">
+  <link rel="stylesheet" href="{% static 'css/games/game-detail/similar-games.css' %}">
+  <link rel="stylesheet" href="{% static 'css/all-reviews.css' %}">
+  <link rel="stylesheet" href="{% static 'css/friends-reviews.css' %}">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+{% endblock %}
+
+
+
+{% block content %}
+
+{% if game.custom_photo %}
+  <div class="game-main-container" style="background: url('{{ game.custom_header_photo }}');">
+{% else %}
+  <div class="game-main-container" style="background: url('{{ game.cover_url }}');">
+{% endif %}
+  <div class="game-container">
+    <div class="game-info-block">
+
+      <div class="game-photos">
+        <div class="main-photo" 
+            {% if game.custom_header_photo %}
+                style="background: url('{{ game.custom_header_photo }}');"
+            {% elif game.cover_url %}
+                style="background: url('{{ game.cover_url }}');"
+            {% endif %}>
+            
+            {% if game.video_custom %}
+                <video autoplay muted loop>
+                    <source src="{{ game.video_custom.url }}" type="video/mp4">
+                </video>
+                <div class="main-btns">
+                  {% game_actions game=game size='large' show_learn_more=False show_rating=True %}
+                </div>
+
+            {% elif game.youtube_trailer %}
+                <iframe src="https://www.youtube.com/embed/{{ game.youtube_trailer }}?autoplay=1&mute=1" 
+                        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+                </iframe>
+                <div class="main-btns">
+                  {% game_actions game=game size='large' show_learn_more=False show_rating=True %}
+                </div>
+
+            {% elif not game.custom_header_photo and not game.cover_url %}
+              <h1>Произошла ошибка загрузки видео</h1>
+            
+
+            {% elif not game.youtube_trailer %}
+              <div class="main-btns">
+                {% game_actions game=game size='large' show_learn_more=False show_rating=True %}
+              </div>
+            {% endif %}
+        </div>
+
+        <div class="others-photo">
+          {% for screenshot in game.screenshots %}
+            <img src="{{ screenshot }}" alt="">
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="game-info">
+        {% if game.custom_header_photo %}
+          <div class="game-cover" style="background: url('{{ game.custom_header_photo }}');">
+            <div class="game-rating-detail" style="background-color: {{ game.rating_color }};">
+              <img src="{% static 'imgs/icons/rating-star.svg' %}" alt="">
+              <p>{{ game.total_rating }}</p>
+            </div>
+          </div>
+        {% else %}
+          <div class="game-cover" style="background: url('{{ game.cover_url }}');">
+            <div class="game-rating-detail" style="background-color: {{ game.rating_color }};">
+              <img src="{% static 'imgs/icons/rating-star.svg' %}" alt="">
+              <p>{{ game.total_rating }}</p>
+            </div>
+          </div>
+        {% endif %}
+        <div class="game-data">
+
+          <div class="game-title">
+            <h1>{{game.name}}</h1>
+          </div>
+
+          <div class="game-genres">
+            {% for genre in game.genres|slice:":3" %}
+              <span>{{ genre }}</span>
+            {% endfor %}
+          </div>
+
+          <div class="game-description">
+            <span>{{ game.mini_summary }}</span>
+          </div>
+
+          <div class="game-ratings-reviews">
+            <div class="info-mgb-ratings">
+              {% if game.mgb_average_rating is not None%}
+                <span>{{ game.mgb_average_rating }}</span>
+              {% else %}
+                <span>?</span>
+              {% endif %}
+              <h6>MGB</h6>
+            </div>
+            <hr>
+            <div class="info-ratings">
+              <span style="background-color: {{ game.rating_color }};">
+                <img src="">
+                {{ game.total_rating }}
+              </span>
+            </div>
+          </div>
+
+          <div class="game-characteristics">
+            <div class="characteristic">
+              <h2>Release date:</h2>
+              <p>{{ game.release_date }}</p>
+            </div>
+            <div class="characteristic">
+              <h2>Game mode:</h2>
+              {% if 'Multiplayer' in game.game_modes %}
+                <p>Multiplayer</p>
+              {% else %}
+                <p>Single player</p>
+              {% endif %}
+            </div>
+            <div class="characteristic">
+              <h2>Developer:</h2>
+              <p>{{ game.company }}</p>
+            </div>
+            <div class="characteristic">
+              <h2>Platforms:</h2>
+              <div class="platforms">
+                {% for icon in game.platform_icons %}
+                  <img src="/static/{{ icon }}" alt="Platform Icon">
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <button class="btn-share-game">
+            <img src="{% static 'imgs/icons/share-icon.svg' %}" alt="">
+            Поделиться
+          </button>
+
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="games-tabs">
+      <button class="active" onclick="showTab('addit-info')">Overview</button>
+      <button onclick="showTab('sim-games')">Similar Games</button>
+      <button onclick="showTab('all-rev')" id="btn-all-rev">Reviews</button>
+      <button onclick="showTab('friends-rev')">Friends</button>
+    </div>
+
+
+    <!-- OVERVIEW -->
+    <div id="addit-info" class="tab-content active">
+
+      <div class="game-overview">
+        <div class="game-overview-title">
+          <h1>Description</h1>
+        </div>
+
+        <div class="game-overview-description">
+          <p>{{ game.summary }}</p>
+        </div>
+      </div>
+
+      <div class="game-stata">
+        <div class="game-overview-stata">
+          <h1>Statistics</h1>
+        </div>
+        <div class="stats-content">
+          <dl>
+              <dt>Rates:</dt>
+              <dd>{{ game.total_rating_count }}</dd>
+
+              <dt>Reviews:</dt>
+              <dd>{{ comment_count }}</dd>
+  
+              <dt>Wishlist:</dt>
+              <dd>2132</dd>
+  
+              <dt>Played:</dt>
+              <dd>
+                <img src="{% static 'imgs/icons/green_btn_gamepad_main.svg' %}" alt=""> 
+                {{ game.played_by.count }}
+              </dd>
+  
+              <dt>Playing:</dt>
+              <dd>{{ game.playing_by.count }}</dd>
+
+              <dt>Dropped:</dt>
+              <dd>{{ game.dropped_by.count }}</dd>
+
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIMILAR GAMES -->
+    <div id="sim-games" class="tab-content">
+      {% if similar_games %}
+        <!-- ПРАВИЛЬНО -->
+        <div class="similar-games-slider-container"> <!-- <-- Новая обертка -->
+          <div class="swiper-container">
+            <div class="swiper sim-games-swiper">
+              <div class="swiper-wrapper">
+                {% for similar_game in similar_games %}
+                  <div class="swiper-slide">
+                    <a href="{% url 'game_detail' similar_game.id %}" class="game-link">
+                      <div class="small-game-bg" style="background-image: url({{ similar_game.cover_url }});">
+                        <span class="game-rating" style="background-color: {{ similar_game.rating_color }};">
+                          {{ similar_game.total_rating }}
+                        </span>
+                      </div>
+                      <div class="platfotms">
+                        {% for icon in similar_game.platform_icons %}
+                          <img src="/static/{{ icon }}" alt="Platform Icon">
+                        {% endfor %}
+                      </div>
+                      <h2>{{ similar_game.name }}</h2>
+                    </a>
+                    {% game_actions game=similar_game size='small' show_learn_more=False show_rating=True %}
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <!-- Кнопки теперь внутри обертки, на одном уровне со swiper-container -->
+          <div class="sim-games-swiper-button-prev"></div>
+          <div class="sim-games-swiper-button-next"></div>
+        </div>
+      {% else %}
+        <p>нет похожих</p>
+      {% endif %}
+    </div>
+
+    <!-- REVIEWS -->
+    <div id="all-rev" class="tab-content">
+      <div class="comments-section">
+        
+        <form id="comment-form">
+          {% csrf_token %}
+          {% if profile.avatar %}
+            <img src="{{ profile.avatar.url }}" class="profile-logo-header" alt="">
+          {% else %}
+            <img src="{% static 'imgs/icons/profile_btn.svg' %}" alt="profile default">
+          {% endif %}
+          <div class="add-comment-user">
+            <input type="hidden" id="comment-type" value="game">
+            <input type="hidden" id="object-id" value="{{ game.id }}">
+        
+            <div class="input-container">
+              <input class="field__input" type="text" id="comment-title" required>
+              <label class="field__label" for="comment-title">Title</label>
+            </div>
+
+            <textarea id="comment-text" placeholder="Text" required></textarea>
+        
+            <div class="btns-comment">
+              <button class="cancel-comment" type="button">Cancel</button>
+              <button class="publish-comment" type="submit">Publish</button>
+            </div>
+          </div>
+        </form>
+    
+        <h1>{{ comment_count }} Users reviews</h1>
+
+        <div id="commentsList">
+          {% for comment in game.comments.all %}
+            <div class="comment" id="comment-{{ comment.id }}">
+              <img src="{{ comment.user.avatar.url }}" alt="avatar">
+              <div class="comment-content">
+                <div class="comment-info">
+                  <div class="comment-meta">
+                    <div class="username-date">
+                      <h2>{{ comment.user.username }}</h2>
+                      <span class="comment-date">{{ comment.created_at }}</span>
+                    </div>
+                    <h3>{{ comment.title }}</h3>
+                  </div>
+                  <span class="user-rating">
+                    <img src="{% static 'imgs/icons/btn-star-small.svg' %}" alt="Star btn">
+                    10
+                  </span>
+                </div>
+                <span class="comment-text">{{ comment.content }}</span>
+                <div class="reactions-to-comment">
+                  <div class="likes">
+                    <button class="like-btn" data-id="{{ comment.id }}">
+                      <img src="{% if user in comment.likes.all %}{% static 'imgs/icons/red_like_comment.svg' %}{% else %}{% static 'imgs/icons/like_comment.svg' %}{% endif %}" alt="Like Button">
+                    </button>
+                    <span class="like-count">{{ comment.likes.count }}</span> <!-- Элемент для количества лайков -->
+                  </div>
+                  <button class="reply-comment">
+                    <img src="{% static 'imgs/icons/reply.svg' %}" alt="Reply btn">
+                    Reply
+                  </button>
+                </div>
+                <button class="show-replies">0 replies</button>
+                <div class="reply-form" style="display: none;">
+                  <input type="text" class="reply-title" placeholder="Title" required>
+                  <textarea class="reply-text" placeholder="Text" required></textarea>
+                  <button class="publish-reply">Publish</button>
+                </div>
+              </div>
+            </div>
+          {% empty %}
+            <p>Комментариев пока нет. Будьте первым!</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    
+    <!-- FREIND REVIEW -->
+    <div id="friends-rev" class="tab-content">
+      <h2>Challenges</h2>
+      <p>Контент вкладки Challenges</p>
+    </div>
+
+  </div>
+
+  <script src="{% static 'scripts/games/game_detail.js' %}"></script>
+  <script src="{% static 'scripts/item_actions.js' %}"></script>
+  <script src="{% static 'scripts/mgb_tabs.js' %}"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+{% endblock %}

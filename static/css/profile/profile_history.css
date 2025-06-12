@@ -1,0 +1,181 @@
+body {
+  background-color: black !important;
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 800px;
+  padding-left: max(24px, calc(50% - 740px));
+  padding-right: max(24px, calc(50% - 740px));
+}
+
+.back-to-profile {
+  display: flex;
+  align-items: flex-start;
+  color: #AFAFAF;
+  font-size: 16px;
+  font-weight: 600;
+  gap: 10px;
+}
+
+.history-info-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 135px;
+  font-family: 'Roboto', sans-serif;
+  height: 225px;
+  width: 100%;
+}
+
+.history-content {
+  padding-left: max(24px, calc(50% - 740px));
+  padding-right: max(24px, calc(50% - 740px));
+  background-color: hwb(0 6% 94% / 0.3);
+  position: relative;
+  top: -400px;
+  overflow-y: auto;
+  padding-top: 30px;
+}
+
+.history-title {
+  margin-top: 80px;
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1.5;
+  color: white;
+}
+
+.account-user {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.account-user h2 {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-right: 20px;
+}
+
+.account-user .profile-photo {
+  width: 28px;  /* Задай нужные размеры */
+  height: 28px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #333;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.profile-photo:empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+}
+
+.account-user h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+}
+
+.account-user span {
+  font-size: 16px;
+  font-weight: 300;
+  color: white;
+}
+
+/* HISTORY LINE */
+/* ---------------------------------------------------------------------- */
+.history-line {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+}
+
+.history-line span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: hwb(0 100% 0% / 0.1);
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+}
+
+.gradient-line {
+  flex-grow: 1;
+  height: 1px;
+  position: relative;
+  background: linear-gradient(to right, #FFFFFF 0%, #2A3137 100%)
+}
+
+
+/* ACTIVITY ITEM */
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  padding: 0;
+  margin-top: 30px;
+}
+
+.activity-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.left-items {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+}
+
+.activity-type-symbol {
+  color: #8F8F8F;
+  font-size: 16px;
+}
+
+.activity-main-col {
+  display: flex;
+  gap: 15px;
+}
+
+.activity-main-col a {
+  color: #B3B3FF;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.activity-verb {
+  font-size: 16px;
+  color: white;
+}
+
+.activity-timestamp {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.25;
+  color: #A6A6A6;
+}
+

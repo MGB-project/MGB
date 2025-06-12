@@ -1,0 +1,208 @@
+body {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  background: linear-gradient(to bottom, #201D1B 30%, #3F3730 100%);
+}
+
+.books-container {
+  display: flex;
+  flex-direction: column;
+  padding-left: max(24px, calc(50% - 740px));
+  padding-right: max(24px, calc(50% - 740px));
+  box-sizing: border-box;
+  position: relative;
+}
+
+.resently-trending-container,
+.top-rated-container,
+.new-books-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  margin-top: 40px;
+  font-family: 'Roboto', sans-serif;
+  box-sizing: border-box;
+}
+
+
+.book-rating {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: white !important;
+  background: linear-gradient(to top right, #B548B7 10%, #FF003C 100%);
+}
+
+.top-rated-title,
+.resently-trending-title,
+.new-books-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+}
+
+.title-right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.top-rated-title a,
+.resently-trending-title a,
+.new-books-title a  {
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  gap: 10px;
+  padding: 0 18px;
+  align-items: center;
+  max-width: 130px;
+  height: 34px;
+  font-size: 15px;
+  border-radius: 10px;
+  font-weight: 800;
+  text-decoration: none;
+  color: #fff;
+}
+
+.title-hr {
+  display: flex;
+  align-items: center;
+}
+
+.top-rated-title h1,
+.resently-trending-title h1,
+.new-books-title h1 {
+  font-size: 38px;
+  font-weight: 900;
+  padding-left: 30px;
+  font-family: 'Caveat', sans-serif;
+}
+
+.title-hr h1 {
+  color: #E6C29F;
+}
+
+.top-rated-title hr,
+.resently-trending-title hr,
+.new-books-title hr{
+  width: 5px;
+  height: 50px;
+  border-radius: 15px;
+  border: none;
+  transform: none;
+}
+
+.top-rated-title hr {
+  background-color: #E6C29F;
+}
+
+.resently-trending-title hr {
+  background-color: #E6A79F;
+}
+
+.new-books-title hr {
+  background-color: #A87847;
+}
+
+.top-rated-title a {
+  color: #E6C29F;
+  border: 1px solid #E6C29F;
+  background-color: rgba(230, 194, 159, 0.15);
+}
+
+.resently-trending-title a {
+  color: #E6A79F;
+  border: 1px solid #E6A79F;
+  background-color: rgba(230, 166, 158, 0.15);
+}
+
+.new-books-title a{
+  color: #A87847;
+  border: 1px solid #A87847;
+  background-color: hwb(30 28% 34% / 0.15);
+}
+
+
+/* КНОПКИ СВАЙПЕРА */
+/* --------------------------------------------------------------------------------------------------------------- */
+/* Полностью убираем дефолтные стрелки Swiper */
+
+/* Обёртка для кнопок */
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  gap: 30px;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  display: none !important; /* Полностью скрываем */
+  content: none !important;
+}
+
+/* Кнопки (стрелки) */
+.swiper-button-prev,
+.swiper-button-next {
+  color: white !important;
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative !important;
+  background-color: rgba(255, 255, 255, 0.3);
+  top: 0 !important;
+  margin: 0 !important;
+}
+
+/* Убираем дефолтные стрелки Swiper */
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  content: none; /* Полностью убираем встроенный контент */
+  background: none; /* Убираем фон */
+}
+
+/* Добавляем свои иконки */
+.swiper-button-prev {
+  background-image: url('/static/imgs/icons/swiper_arrowprev.svg'); 
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.swiper-button-next {
+  background-image: url('/static/imgs/icons/swiper_arrownext.svg'); 
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.books-btns {
+  opacity: 0;
+  z-index: 10000;
+}
+
+.top-rated-container .swiper-slide:hover .books-btns,
+.new-books-container .swiper-slide:hover .books-btns,
+.resently-trending-container .trending-book-default-card:hover .books-btns {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  z-index: 99000;
+}

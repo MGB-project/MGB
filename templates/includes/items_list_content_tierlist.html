@@ -1,0 +1,40 @@
+{% load static %}
+{% load custom_filters %}
+{% comment %} includes/items_list_content_tierlist.html {% endcomment %}
+
+<div class="tierlist-container" data-content-type="{{ content_type_slug }}">
+
+    <div class="tier-row unranked-tier" data-rating-value="none">
+        <div class="tier-label-container">
+            <span class="tier-label tier-label-unranked">?</span>
+        </div>
+        <div class="tier-items-container unranked-items-dropzone sortable-list">
+            {% for item in unrated_items %}
+                {% include tier_item_template_name with item=item content_type_slug=content_type_slug %}
+            {% endfor %}
+            {# Добавляем плейсхолдер, который будет показан/скрыт JS #}
+            <div class="tier-empty-placeholder" {% if unrated_items %}style="display: none;"{% else %}style="display: block;"{% endif %}>
+                Drag items here or assign a rating.
+            </div>
+        </div>
+    </div>
+    <div class="all-photos-text">All photos of {{ content_type_name|lower }}.</div>
+
+
+    {% for rating_value in tier_rating_values %}
+        {% with items_in_this_tier=rated_items_by_tier|get_item:rating_value %}
+            <div class="tier-row" data-rating-value="{{ rating_value }}">
+                <div class="tier-label-container tier-color-{{ rating_value }}">
+                    <span class="tier-label">{{ rating_value }}</span>
+                </div>
+                <div class="tier-items-container items-dropzone-{{ rating_value }} sortable-list">
+                    {% for item in items_in_this_tier %}
+                        {% include tier_item_template_name with item=item content_type_slug=content_type_slug %}
+                    {% endfor %}
+                    <div class="tier-empty-placeholder" {% if items_in_this_tier %}style="display: none;"{% else %}style="display: block;"{% endif %}></div>
+                </div>
+            </div>
+        {% endwith %}
+    {% endfor %}
+
+</div>

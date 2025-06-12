@@ -1,0 +1,285 @@
+{% load static %}
+
+{% load movie_tags %}
+{% load game_tags %}
+{% load book_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% block css %}{% endblock %}
+  <link rel="stylesheet" href="{% static 'css/template.css' %}">
+  <link rel="stylesheet" href="{% static 'css/header.css' %}">
+  <link rel="stylesheet" href="{% static 'css/btns_actions.css' %}">
+  <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+  
+</head>
+<body class="profile">
+
+  <div class="sidebar" id="mainSidebar">
+    <div class="sidebar-full">
+      <div class="sidebar-full-header">
+        <button class="sidebar-full-toggle" aria-label="Close sidebar menu">
+          <img src="{% static 'imgs/icons/tri-tochki.svg'%}" alt="Menu">
+        </button>
+        <a href="{% if user.is_authenticated %}{% url 'index' %}{% else %}{% url 'home' %}{% endif %}" class="sidebar-logo">
+          <img src="{% static 'imgs/MGB_logo.svg' %}" alt="MGB Logo">
+        </a>
+      </div>
+      <nav class="nav_sidebar_full">
+        <div class="nav-section">
+          <ul>
+            <li><a href="{% url 'movies' %}" class="{% if '/movies' in request.path %}active{% endif %}">
+              <img src="{% static 'imgs/header_icons/movies_icon.svg'%}" alt=""> Movies
+            </a></li>
+            <li><a href="{% url 'games' %}" class="{% if '/games' in request.path %}active{% endif %}">
+              <img src="{% static 'imgs/header_icons/games_icon.svg'%}" alt=""> Games
+            </a></li>
+            <li><a href="{% url 'books' %}" class="{% if '/books' in request.path %}active{% endif %}">
+              <img src="{% static 'imgs/header_icons/books_icon.svg'%}" alt=""> Books
+            </a></li>
+          </ul>
+        </div>
+
+        <div class="nav-section">
+          <ul>
+            <li><a href="#"><img src="{% static 'imgs/icons_sidebar/catalog.svg' %}" alt=""> Catalog</a></li>
+          </ul>
+        </div>
+
+        <div class="nav-section">
+          <ul>
+            <li><a href="{% url 'users:profile' %}#overview"><img src="{% static 'imgs/icons_sidebar/overview.svg' %}" alt=""> Overview</a></li>
+            <li><a href="{% url 'users:profile' %}#library"><img src="{% static 'imgs/icons_sidebar/library.svg' %}" alt=""> Library</a></li>
+            <li><a href="{% url 'users:profile' %}#reviews"><img src="{% static 'imgs/icons_sidebar/reviews.svg' %}" alt=""> Reviews</a></li>
+            <li><a href="{% url 'users:profile' %}#challenges"><img src="{% static 'imgs/icons_sidebar/challenges.svg' %}" alt=""> Challenges</a></li>
+          </ul>
+        </div>
+
+        <div class="nav-section">
+          <h3 class="nav-section-title">General</h3>
+          <ul>
+            <li><a href="#"><img src="{% static 'imgs/icons_sidebar/settings.svg' %}" alt=""> Settings</a></li>
+            <li><a href="#"><img src="{% static 'imgs/icons_sidebar/library.svg' %}" alt=""> Contact</a></li>
+            <li><a href="#"><img src="{% static 'imgs/icons_sidebar/reviews.svg' %}" alt=""> Terms & Privacy</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="sidebar-socials">
+        <a href="https://t.me/mgb_rates"><img src="{% static 'imgs/icons_sidebar/tg.svg' %}" alt="Telegram"></a>
+        <a href="#"><img src="{% static 'imgs/icons_sidebar/ds.svg' %}" alt="Discord"></a>
+        <a href="#"><img src="{% static 'imgs/icons_sidebar/x.svg' %}" alt="X"></a>
+        <a href="#"><img src="{% static 'imgs/icons_sidebar/inst.svg' %}" alt="Instagram"></a>
+      </div>
+    </div>
+  </div>
+
+  <header class="header">
+    <div class="header-bottom">
+      <button class="sidebar-toggle" aria-label="Toggle sidebar" aria-expanded="false">
+        <img src="{% static 'imgs/icons/tri-tochki.svg'%}" alt="">
+      </button>
+      <div class="sidebar-condensed">
+        <!-- ОБЕРТКА ДЛЯ УПРАВЛЕНИЯ ОТСТУПОМ СВЕРХУ -->
+        <div class="sidebar-condensed-content">
+          <nav class="nav_sidebar_condensed">
+            <ul>
+              <li><a href="{% url 'movies' %}" class="{% if '/movies' in request.path %}active{% endif %}" title="Movies">
+                <img src="{% static 'imgs/header_icons/movies_icon.svg'%}" alt="Movies">
+              </a></li>
+              <li><a href="{% url 'games' %}" class="{% if '/games' in request.path %}active{% endif %}" title="Games">
+                <img src="{% static 'imgs/header_icons/games_icon.svg'%}" alt="Games">
+              </a></li>
+              <li><a href="{% url 'books' %}" class="{% if '/books' in request.path %}active{% endif %}" title="Books">
+                <img src="{% static 'imgs/header_icons/books_icon.svg'%}" alt="Books">
+              </a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="header-top">
+      <div class="header-left">
+        <div class="logo_header">
+          <a href="{% if user.is_authenticated %}{% url 'index' %}{% else %}{% url 'home' %}{% endif %}">
+            <img src="{% static 'imgs/MGB_logo.svg' %}" alt="main logo">
+          </a>
+        </div>
+      </div>
+
+      <div class="search-container">
+        <div class="search_zalupa">
+          <input type="text" id="searchInput" placeholder="Movies, Games, Books...">
+          <img src="{% static 'imgs/icons/zalupa.svg' %}" alt="zalupa">
+        </div>
+        
+        <div class="search-results-container">
+          <!-- Кнопки для фильтрации -->
+          <div class="search-buttons">
+            <button class="search-button active" data-category="all">All</button>
+            <button class="search-button" data-category="movies">
+              <img src="/static/imgs/seacrh_icons/search_movies.svg" 
+                  class="category-icon"
+                  data-default-icon="/static/imgs/seacrh_icons/search_movies.svg" 
+                  data-active-icon="/static/imgs/seacrh_icons/search_movies_active.svg">
+              Movies
+            </button>
+            <button class="search-button" data-category="games">
+              <img src="/static/imgs/seacrh_icons/search_games.svg"
+                  class="category-icon"
+                  data-default-icon="/static/imgs/seacrh_icons/search_games.svg" 
+                  data-active-icon="/static/imgs/seacrh_icons/search_games_active.svg">
+              Games
+            </button>
+            <button class="search-button" data-category="books">
+              <img src="/static/imgs/seacrh_icons/search_books.svg"
+                  class="category-icon"
+                  data-default-icon="/static/imgs/seacrh_icons/search_books.svg" 
+                  data-active-icon="/static/imgs/seacrh_icons/search_books_active.svg">
+              Books
+            </button>
+          </div>       
+          <div class="search-results-block">
+              
+            
+            <!-- Результаты поиска -->
+            <div class="search-results"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="sign_header">
+          {% if user.is_authenticated %}
+            
+            <a href="{% url 'users:profile' %}">
+              {% if profile.avatar %}
+                <img src="{{ profile.avatar.url }}" class="profile-logo-header" alt="">
+              {% else %}
+                <img src="{% static 'imgs/icons/profile_btn.svg' %}" alt="profile default">
+              {% endif %}
+            </a>
+          {% else %}
+            <a href="{% url 'users:login' %}">
+              <img src="{% static 'imgs/icons/profile_btn.svg' %}" alt="profile default">
+            </a>
+          {% endif %}
+
+
+          {% if user.is_authenticated %}
+            <div class="profile-block">
+              <div class="profile-info-block">
+                {% if request.user.is_authenticated %}
+                    {% if request.user.avatar %}
+                      <img src="{{ request.user.avatar.url }}" class="profile-logo-header-block" alt="User Avatar">
+                    {% else %}
+                      <img src="{% static 'imgs/icons/profile_btn.svg' %}" class="profile-logo-header-block" alt="Default Avatar">
+                    {% endif %}
+                    <div class="user-data">
+                      <h1>{{ request.user.username }}</h1>
+                      <p>{{ request.user.email }}</p> {# Используем request.user.email напрямую #}
+                    </div>
+                {% endif %}
+              </div>
+
+              <div class="view-profile-link">
+                <a href="{% url 'users:profile' %}">View profile</a>
+              </div>
+
+              <hr>
+
+              <div class="profile-tools">
+                <div class="profile-tool">
+                  <img src="{% static 'imgs/header-icons/language.svg' %}" alt="profile default">
+                  <a href="{% url 'users:profile' %}">Language:</a>
+                </div>
+
+                <div class="profile-tool">
+                  <img src="{% static 'imgs/header-icons/settings.svg' %}" alt="profile default">
+                  <a href="{% url 'users:profile_settings' %}">Settings</a>
+                </div>
+
+                <div class="profile-tool">
+                  <img src="{% static 'imgs/header-icons/contact.svg' %}" alt="profile default">
+                  <a href="#">Contact</a>
+                </div>
+                
+              </div>
+
+              <hr>
+              
+              <div class="profile-logout">
+                <div class="profile-tool">
+                  <img src="{% static 'imgs/header-icons/add_acc.svg' %}" alt="profile default">
+                  <a href="#">Add account</a>
+                </div>
+
+                <form class="btn-logout" action="{% url 'users:logout' %}" method="post">
+                  {% csrf_token %}
+                  <button  type="submit">
+                    <img src="{% static 'imgs/header-icons/logout.svg' %}" alt="profile default">
+                    Log out
+                  </button>
+                </form>
+
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    {% block content %}
+    {% endblock %}
+  </main>
+  
+  <div id="modal-overlay-rating" class="modal-overlay">
+    <div class="modal-window">
+      <span class="close-modal">&times;</span>
+      <img id="modal-image" src="" alt="Game Image">
+      
+      <div class="rating-modal">
+        <h1>RATE THIS</h1>
+        <h2 id="modal-title"></h2>
+
+        <div class="modal-rating-container">
+          <div class="rating-options">
+            <button class="btn-trash">
+              <img class="star-rating" src="{% static 'imgs/icons/trash_btn.svg' %}" alt="">
+            </button>
+            <img id="modal-rating-star-indicator"
+                 src="{% static 'imgs/icons/gray_star.svg' %}" 
+                 alt="Current rating status"
+                 data-icon-gray="{% static 'imgs/icons/gray_star.svg' %}"
+                 data-icon-yellow="{% static 'imgs/icons/yellow_star.svg' %}">
+            
+              {% for i in "123456789" %}
+                  <button class="rating-btn">{{ i }}</button>
+              {% endfor %}
+              <button class="rating-btn">10</button>
+          </div>
+        </div>
+        <button class="btn-rate-modal">Rate</button>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  <script src="{% static 'scripts/template/template.js' %}?v=3"></script>
+  <script src="{% static 'scripts/template/search_handler.js' %}?v=3"></script>
+  <script src="{% static 'scripts/template/sidebar.js' %}"></script> 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="{% static 'scripts/item_actions.js' %}"></script>
+
+  <script src="{% static 'scripts/profile.js' %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+  {% block bottom_js %}
+  {% endblock %}
+</body>
+</html>

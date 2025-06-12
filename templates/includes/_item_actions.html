@@ -1,0 +1,117 @@
+{% comment %} templates/includes/_item_actions.html {% endcomment %}
+{% load static %}
+
+{# --- Используем УНИВЕРСАЛЬНЫЕ классы и data-атрибуты --- #}
+<div class="item-actions-container {% if size == 'small' %}item-actions-container--small{% endif %}"
+    data-content-type="{{ content_type }}"
+    data-item-id="{{ item_id }}"
+    data-item-pk="{{ item_pk }}"
+    data-initial-rating="{{ user_rating|default_if_none:'' }}"
+    data-favorite-url="{{ urls.favorite|default:'#' }}"
+    data-item-title="{{ item_title|default:'' }}"
+    data-item-image-url="{{ item_image_url|default:'' }}">
+
+    {# Кнопка Рейтинга #}
+    {% if show_rating and is_authenticated %}
+        {% if size == 'large' %}
+            <button class="btn-star" data-action="toggle-rating" aria-label="Rate this {{ content_type }}">
+                <img src="{{ icons.star_small|default:icons.star }}" alt="Rate" class="icon-star">
+                <img src="{{ icons.close }}" alt="Close rating" class="icon-close hidden">
+            </button>
+        {% elif size == 'small' %}
+            <button class="btn-star btn-star-small"
+                    data-action="open-rating-modal"
+                    aria-label="Rate this {{ content_type }}"
+                    data-icon-star-gray="{{ icons.star_gray_small|default:'/static/imgs/icons/star_btn.svg' }}"
+                    data-icon-star-yellow="{{ icons.star_yellow_small|default:'/static/imgs/icons/yellow_star_small.svg' }}">
+                {# Иконка будет меняться через JS, начальное состояние зависит от user_rating #}
+                <img src="{% if user_rating %}{{ icons.star_yellow_small|default:'/static/imgs/icons/yellow_star_small.svg' }}{% else %}{{ icons.star_gray_small|default:'/static/imgs/icons/gray_star_small.svg' }}{% endif %}" alt="Rate" class="icon-star-small">
+            </button>
+        {% endif %}
+    {% endif %}
+
+    {# Кнопка Избранное/Wishlist #}
+    {% if is_authenticated %}
+    {# Тег <a> остается, так как он может быть полезен для SEO или если JS отключен (хотя тут он ведет на AJAX endpoint) #}
+    <a href="{{ urls.favorite|default:'#' }}" class="btn-favourite-link" title="{% if is_favorite %}Remove from Wishlist{% else %}Add to Wishlist{% endif %}">
+        <button class="btn-favourite {% if size == 'large' %}btn-fav-detail{% else %}btn-fav-small{% endif %}"
+                data-action="toggle-favorite" {# Это важно, JS ищет этот data-action #}
+                data-icon-default="{{ icons.fav_default }}"
+                data-icon-active="{{ icons.fav_active }}"
+                data-icon-small-default="{{ icons.fav_small_default|default:icons.fav_default }}"
+                data-icon-small-active="{{ icons.fav_small_active|default:icons.fav_active }}">
+            <img src="{% if is_favorite %}{{ icons.fav_active }}{% else %}{{ icons.fav_default }}{% endif %}"
+                 alt="{% if is_favorite %}In Wishlist{% else %}Add to Wishlist{% endif %}"
+                 class="fav-icon">
+            {% if size == 'large' %}<span>Favorite</span>{% endif %}
+        </button>
+    </a>
+    {% endif %}
+
+    {# --- УНИВЕРСАЛЬНЫЙ БЛОК СТАТУСА ... (остальной HTML без изменений) ... --- #}
+    {% if available_statuses and is_authenticated %}
+    <div class="item-status-container"> 
+        <button class="btn-item-status" 
+                data-action="toggle-status-menu"
+                data-default-icon="{{ default_status_icon }}"
+                data-default-text="{{ default_status_text }}">
+            <img class="item-status-icon" 
+                 src="{{ current_status_icon|default:default_status_icon }}"
+                 alt="{{ current_status_display_name|default:default_status_text }}">
+            {% if size == 'large' %}
+                <span class="item-status-text">{{ current_status_display_name|default:default_status_text }}</span> 
+                <img class="arrow-item-status" src="{{ icons.arrow_down|default:'' }}" alt="Toggle status menu"> 
+            {% endif %}
+        </button>
+        <div class="item-status-options"> 
+            {% for status in available_statuses %}
+            <button class="option-btn status-option-{{ status.slug }} {% if status.is_selected %}selected{% endif %}"
+                    data-action="set-status"
+                    data-status="{{ status.slug }}"
+                    data-url="{{ status.url|default:'#' }}"
+                    data-icon="{{ status.icon|default:'' }}"
+                    data-text="{{ status.display }}">
+                <div class="icon-title-choose">
+                    <img class="option-icon" src="{{ status.icon|default:'' }}" alt=""> {{ status.display }}
+                </div>
+                <img class="complete-check" src="{{ icons.complete_check|default:'' }}" alt="Selected" {% if not status.is_selected %}style="display: none;"{% endif %}>
+            </button>
+            {% endfor %}
+            <button class="option-btn reset-status"
+                    data-action="reset-status"
+                    data-default-icon="{{ default_status_icon }}"
+                    data-default-text="{{ default_status_text }}">
+                 <div class="icon-title-choose">
+                     <span>Clear Status</span>
+                 </div>
+            </button>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if size == 'large' and show_learn_more %}
+        <a href="{{ urls.learn_more|default:'#' }}">
+            <button class="btn-learn">Learn more</button>
+        </a>
+    {% endif %}
+
+    {% if size == 'large' and show_rating and is_authenticated %}
+    <div class="rating-container">
+        <div class="rating-options">
+            <button class="btn-trash" data-action="reset-rating" aria-label="Reset rating">
+                <img class="trash-icon" src="{{ icons.trash|default:'' }}" alt="">
+            </button>
+            <img class="rating-star-indicator" src="{{ icons.star_gray|default:'' }}" alt="Current rating"
+                 data-icon-gray="{{ icons.star_gray|default:'' }}"
+                 data-icon-yellow="{{ icons.star_yellow|default:'' }}">
+            {% for i in rating_range %}
+                <button class="rating-btn" data-action="set-rating" data-rating="{{ i }}">{{ i }}</button>
+            {% endfor %}
+        </div>
+    </div>
+    {% elif size == 'small' and show_rating and is_authenticated %}
+    <div class="rating-container-small">
+        
+    </div>
+    {% endif %}
+</div>

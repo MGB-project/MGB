@@ -1,0 +1,163 @@
+.recently-block {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+
+.small-game-bg {
+  height: 270px;
+  width: 100%;
+  border-radius: 15px;
+  top: 0;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  cursor: pointer;
+  position: relative;
+}
+
+.trending-game-default-card,
+.top-rated-container .swiper-slide {
+  display: flex;
+  flex-direction: column;
+  width: 230px;
+  min-height: 285px;
+  margin-top: 30px;
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+  overflow: visible !important;
+  z-index: 20 !important; /* Еще выше */
+}
+
+
+.trending-game-default-card:hover .small-game-bg,
+.top-rated-container .swiper-slide:hover .small-game-bg {
+  box-shadow: 0px 0px 25px 10px #ff003c9b;
+}
+
+.trending-game-default-card:hover,
+.top-rated-container .swiper-slide:hover{
+  transform: translateY(-10px);
+}
+
+.trending-game-default-card h2, 
+.top-rated-container .swiper-slide h2 {
+  margin-top: 10px;
+  color: white;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.trending-game-default-card:hover .card-btns-block,
+.top-rated-container .swiper-slide:hover .card-btns-block,
+.card-btns-block:hover {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.top-rated-container .swiper{
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  height: 440px;
+  padding: 10px;
+  gap: 30px;
+}
+
+.trending-game-default-card:hover,
+.top-rated-container .swiper-slide:hover {
+  transform: translateY(-15px);
+}
+
+.card-btns-block.active .game-status-options {
+  display: block;
+}
+
+/* Контейнер кнопки и скрытого блока */
+.game-status-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* Скрытый блок с выбором кнопок */
+.game-status-options {
+  position: absolute;
+  top: 100%;
+  left: 80px;
+  width: 120px;
+  background: rgba(15, 15, 15, 0.9); /* Чуть затемнил */
+  border-radius: 10px;
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px 0;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
+  z-index: 9999; /* Выше всех */
+}
+
+/* Чтобы меню было поверх всего */
+.game-status-container {
+  position: relative; /* Меню будет абсолютным внутри этого блока */
+  z-index: 10000;
+}
+
+/* Показываем блок при открытии */
+.game-status-container.active .game-status-options {
+  display: flex;
+}
+
+/* Стили кнопок внутри выпадающего списка */
+.game-status-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Галочка справа */
+  gap: 8px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 8px 25px;
+  width: 100%;
+  text-align: left;
+  border-radius: 5px;
+  transition: background 0.2s;
+}
+
+.game-status-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Контейнер иконки и текста */
+.icon-title-choose {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+/* Галочка (по умолчанию скрыта) */
+.complete-check {
+  display: none;
+  width: 16px;
+  height: 16px;
+}
+
+/* Показываем галочку у выбранного элемента */
+.game-status-btn.selected .complete-check {
+  display: block;
+}
+
+/* Стили иконок */
+.option-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.game-status-options .playing {
+  color: #7E7E7E;
+}
+
+.game-status-options .dropped {
+  color: #FF4949;
+}

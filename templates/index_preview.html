@@ -1,0 +1,143 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home preview</title>
+  <link rel="stylesheet" href="{% static 'css/index_preview.css' %}">
+  <link rel="stylesheet" href="{% static 'css/header-footer.css' %}">
+</head>
+<body class="preview">
+  <header class="header">
+    <div class="header-left">
+      <div class="logo_header">
+        <a href="/">
+          <img src="{% static 'imgs/MGB_logo.svg' %}" alt="main logo">
+        </a>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div class="language_header">
+        <img src="{% static 'imgs/icons/language_icon.svg' %}" alt="language icon">
+        <button id="dropdownButtonLanguage" class="dropdown-btn">
+          En
+          <img src="{% static 'imgs/icons/arrow_down.svg' %}" alt="zalupa">
+        </button>
+
+        <div id="dropdownLanguage" class="dropdown-language">
+          <a href="#">Русский</a>
+          <a href="#">Polski</a>
+          <a href="#">English</a>
+        </div>
+      </div>
+      <div class="sign_header">
+        {% if not user.is_authenticated %}
+          <a href="{% url 'users:login' %}">
+            <img src="{% static 'imgs/icons/profile_btn.svg' %}" alt="profile default">
+          </a>
+        {% else %}
+          <a href="{% url 'users:profile' %}">
+            <img src="{% static 'imgs/icons/profile_btn.svg' %}" alt="profile default">
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+  
+
+  <div class="preview-block"></div>
+  
+
+  <div class="preview-content">
+    <h1>One Platform for all your<br>Movies, Games &<br>Books</h1>
+    <p>Track. Rate. Discover. Your Personal Library</p>
+    {% if not user.is_authenticated %}
+      <a href="{% url 'users:register' %}" class="btn-get-started">
+        Get started!
+        <img src="{% static 'imgs/icons/red-arrow-right.svg' %}" alt="profile default">
+      </a>
+    {% else %}
+      <a href="{% url 'users:profile' %}" class="btn-get-started">
+        Get started!
+        <img src="{% static 'imgs/icons/red-arrow-right.svg' %}" alt="profile default">
+      </a>
+    {% endif %}
+  </div>
+  
+  <div class="preview-container"> <!-- ДОДЕЛАТЬ box-shadow -->
+    <div class="mgb-info-block">
+      <h3>What is <span style="font-weight:800;">M<span style="color: #FF003C;font-weight:800">G</span>B</span>?</h1>
+      <p>MGB - is a platform for tracking, rating, and reviewing movies, games, and books. Keep a personal list of everything you've watched, played, and read, share your opinions, and explore ratings from the community. Connect with friends, compare reviews, and discover new favorites 
+        — all in one place.</p>
+    </div>
+
+    <!-- КНОПКИ ГЛАВНОЙ -->
+    <div class="mgb-functions">
+
+      <!-- Кнопка TRACKINGS & LISTS -->
+      <button class="tracking-lists" data-plus-icon="{% static 'imgs/icons/main_plus.svg' %}" data-minus-icon="{% static 'imgs/icons/main_minus.svg' %}">
+        <div class="icon-value">
+          <img src="{% static 'imgs/icons/main_trackngs.svg' %}" >
+          Tracking & Lists
+        </div>
+        <img src="{% static 'imgs/icons/main_plus.svg' %}" class="plus-icon">
+      </button>
+
+      <div class="tracking-lists-content">
+        <p>MGB - is a platform for tracking, rating, and reviewing movies, games, and books. Keep a personal list of everything you've watched, played, and read, share your opinions, and explore ratings from the community. Connect with friends, compare reviews, and discover new favorites — all in one place.</p>
+      </div>
+
+
+      <!-- Кнопка RATINGS  & REVIEWS -->
+      <button class="ratings-reviews" data-plus-icon="{% static 'imgs/icons/main_plus.svg' %}" data-minus-icon="{% static 'imgs/icons/main_minus.svg' %}">
+        <div class="icon-value">
+          <img src="{% static 'imgs/icons/main_ratings.svg' %}" >
+          Ratings & Reviews
+        </div>
+        <img src="{% static 'imgs/icons/main_plus.svg' %}" class="plus-icon">
+      </button>
+
+      <div class="ratings-reviews-content">
+        <p>MGB - is a platform for tracking, rating, and reviewing movies, games, and books. Keep a personal list of everything you've watched, played, and read, share your opinions, and explore ratings from the community. Connect with friends, compare reviews, and discover new favorites — all in one place.</p>
+      </div>
+
+
+      <!-- Кнопка FRIENDS & FEATURES -->
+      <button class="friends-social-features" data-plus-icon="{% static 'imgs/icons/main_plus.svg' %}" data-minus-icon="{% static 'imgs/icons/main_minus.svg' %}">
+        <div class="icon-value">
+          <img src="{% static 'imgs/icons/main_friends.svg' %}" >
+          Friends & Social Features
+        </div>
+        <img src="{% static 'imgs/icons/main_plus.svg' %}" class="plus-icon" >
+      </button>
+
+      <div class="friends-social-features-content">
+        <p>MGB - is a platform for tracking, rating, and reviewing movies, games, and books. Keep a personal list of everything you've watched, played, and read, share your opinions, and explore ratings from the community. Connect with friends, compare reviews, and discover new favorites — all in one place.</p>
+      </div>
+
+
+      <!-- Кнопка DISCOVERY & RECOMMENDATIONS -->
+      <button class="discovery-recs" data-plus-icon="{% static 'imgs/icons/main_plus.svg' %}" data-minus-icon="{% static 'imgs/icons/main_minus.svg' %}">
+        <div class="icon-value">
+          <img src="{% static 'imgs/icons/main_discovery.svg' %}" >
+          Discovery & Recommendations
+        </div>
+        <img src="{% static 'imgs/icons/main_plus.svg' %}" class="plus-icon" >
+      </button>
+
+      <div class="discovery-recs-content">
+        <p>MGB - is a platform for tracking, rating, and reviewing movies, games, and books. Keep a personal list of everything you've watched, played, and read, share your opinions, and explore ratings from the community. Connect with friends, compare reviews, and discover new favorites — all in one place.</p>
+      </div>
+
+    </div>
+
+  </div>
+  
+
+  <script src="{% static 'scripts/index_preview.js' %}"></script>
+</body>
+</html>

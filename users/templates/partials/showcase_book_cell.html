@@ -1,0 +1,7 @@
+{% load static %}
+
+{% if item.thumbnail %}
+    <img src="{{ item.thumbnail }}" alt="{{ item.title }}">
+{% else %}
+    <img src="{% static 'images/placeholder_book.png' %}" alt="No thumbnail">
+{% endif %}

@@ -1,0 +1,119 @@
+.tierlist-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.tier-row {
+  display: flex;
+  align-items: stretch;
+  min-height: 80px;
+  background-color: #1B1B1B;
+}
+
+.tier-label-container {
+  width: 100px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 500;
+  color: black;
+  border-bottom: 1px solid #2f3136;
+}
+
+/* Цвета для тиров - как на скриншоте */
+.tier-color-10, .tier-color-9, .tier-color-8 { background-color: #28a745; } /* Зеленый (S, A, B tier) */
+.tier-color-7, .tier-color-6, .tier-color-5 { background-color: #ffc107; } /* Желтый (C, D tier) */
+.tier-color-4, .tier-color-3, .tier-color-2, .tier-color-1 { background-color: #dc3545; } /* Красный (F tier) */
+
+.tier-label-unranked {
+  font-size: 26px;
+  color: black;
+}
+
+.unranked-tier .tier-label-container {
+  border-right: none;
+}
+
+.tier-items-container {
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  min-height: 100px;
+}
+
+.unranked-tier {
+  background-color: #989898;
+}
+
+.unranked-tier .tier-items-container {
+  background-color: #1B1B1B;
+  min-height: 200px;
+}
+
+.all-photos-text {
+  text-align: center;
+  color: #8e9297;
+  font-size: 14px;
+  padding: 10px 0;
+  background-color: #2a2d30;
+  margin-bottom: 30px;
+}
+
+
+.tier-item-card {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  cursor: grab;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.tier-item-card:active {
+  cursor: grabbing;
+  border-color: #7289da;
+  opacity: 0.7;
+}
+
+.tier-item-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tier-item-title {
+  font-size: 10px;
+  color: #dcddde;
+  text-align: center;
+  padding: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  background-color: rgba(0,0,0,0.3);
+}
+
+.tier-empty-placeholder {
+  width: 100%;
+  text-align: center;
+  color: #72767d;
+  font-size: 13px;
+  align-self: center;
+  padding: 20px 0;
+}
+
+/* Стили для SortableJS (если будешь использовать) */
+.sortable-ghost {
+  opacity: 0.4;
+  background-color: #4f545c !important;
+}
+.sortable-chosen {
+  /* Стили для выбранного элемента (не обязательно) */
+}
+.sortable-drag {
+  /* Стили для перетаскиваемого элемента (не обязательно) */
+}

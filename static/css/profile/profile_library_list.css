@@ -1,0 +1,384 @@
+body {
+  background-color: black !important;
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 800px;
+  padding-left: max(24px, calc(50% - 740px));
+  padding-right: max(24px, calc(50% - 740px));
+}
+
+.back-to-profile {
+  display: flex;
+  align-items: flex-start;
+  color: #AFAFAF;
+  font-size: 16px;
+  font-weight: 600;
+  gap: 10px;
+}
+
+.latest-items-showcase {
+  width: 180px;
+  height: 180px;
+  overflow: hidden;
+  background-color: #f0f0f0; /* Фон для случая без элементов */
+  aspect-ratio: 1 / 1; /* Делаем витрину квадратной */
+  box-shadow: 0px 0px 10px 5px rgba(0,0,0, 0.2);
+}
+
+.showcase-grid-4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  width: 100%;
+  height: 100%;
+}
+.showcase-grid-cell {
+  position: relative;
+  overflow: hidden;
+}
+.showcase-grid-1 {
+  width: 100%;
+  height: 100%;
+}
+.latest-items-showcase img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+.latest-items-showcase a:hover img {
+  transform: scale(1.03);
+  filter: brightness(1.1);
+}
+.no-items-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* Занять высоту showcase */
+  text-align: center;
+  color: #666;
+}
+.no-items-placeholder p { margin-bottom: 10px; }
+
+.all-items-header {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+
+/* ИНФО ЛЮБИМЫХ ПРЕДМЕТОВ */
+/* ---------------------------------------------------------------------------------------------------------- */
+.item-info-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 135px;
+  font-family: 'Roboto', sans-serif;
+  height: 225px;
+  width: 100%;
+}
+
+.item-info-left {
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+}
+
+.button-latest-items {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.item-title {
+  font-size: 64px;
+  line-height: 150%;
+  font-weight: 800;
+}
+
+.item-info-container .item-info {
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+}
+
+.item-info-container .item-user-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.item-info-container .profile-photo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url(/static/imgs/icons/profile_block.svg);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-size: cover !important; 
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+.item-info-container .item-user-info p {
+  font-size: 16px;
+  color: white;
+  font-weight: 700;
+}
+
+.item-statistics {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.item-statistics span {
+  font-weight: 300;
+}
+
+.item-info-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.btn-share {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background-color: #FF003C;
+  border: none;
+  cursor: pointer;
+}
+
+/* LIBRARY BUTTONS */
+/* -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+.library-content {
+  padding-left: max(24px, calc(50% - 740px));
+  padding-right: max(24px, calc(50% - 740px));
+  background-color: hwb(0 6% 94% / 0.3);
+  position: relative;
+  top: -400px;
+  padding-top: 30px;
+}
+
+.library-buttons {
+  background-color: #2A3137;
+  border-radius: 10px;
+  height: 50px;
+  box-shadow: 0 5px 4px rgba(0, 0, 0, 0.25);
+}
+
+.library-controls-toolbar {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  font-family: Arial, sans-serif;
+  color: #E0E0E0; /* Light text color */
+}
+
+.view-toggle-buttons {
+  display: flex;
+  gap: 5px;
+  background-color: #26292E;
+  border-radius: 6px;
+  margin-right: 20px;
+  height: 30px;
+}
+
+.view-toggle-btn {
+  background-color: transparent;
+  border: none;
+  color: #A0A0A0; /* Default icon color */
+  border-radius: 4px;
+  width: 30px; height: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.view-toggle-btn:hover {
+  background-color: #4C5A66; /* Hover background */
+  color: #FFFFFF;
+}
+
+.view-toggle-btn.active {
+  background-color: #4A4E56; /* Active button background */
+  color: #FFFFFF; /* Active icon color */
+}
+
+.view-toggle-btn svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+.view-toggle-btn#view-detailed-list svg { /* Specific size for detailed list icon if needed */
+  width: 24px; 
+  height: 24px;
+}
+
+
+.filter-sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 30px;
+}
+
+.custom-dropdown-wrapper {
+  position: relative;
+}
+
+.custom-dropdown-toggle {
+  background-color: #4A4E56; /* Dropdown button background */
+  color: #E0E0E0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  height: 30px;
+  width: auto;
+  padding: 0 10px;
+  max-width: 120px; /* Adjust as needed */
+  justify-content: space-between;
+}
+
+.custom-dropdown-toggle:hover {
+  background-color: #5A5E66;
+}
+
+.custom-dropdown-toggle span:first-child {
+  margin-right: 8px;
+}
+
+.dropdown-arrow {
+  font-size: 0.8em;
+  transform: translateY(1px);
+}
+
+.custom-dropdown-options {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  background-color: #3E424A; /* Dropdown options background */
+  border-radius: 6px;
+  list-style: none;
+  padding: 5px 0;
+  margin: 0;
+  z-index: 10;
+  min-width: 100%;
+  display: none; /* Hidden by default */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 999;
+}
+
+.custom-dropdown-options.show {
+  display: block;
+}
+
+.custom-dropdown-options li {
+  padding: 8px 15px;
+  cursor: pointer;
+  color: #D0D0D0;
+  white-space: nowrap;
+}
+
+.custom-dropdown-options li:hover {
+  background-color: #4A4E56;
+  color: #FFFFFF;
+}
+
+.custom-dropdown-options li.active {
+  background-color: #5A5E66;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+/* Specific active style from image for "Date added" */
+#sort-options li[data-value="date_added"].active,
+#filter-options li[data-value="all"].active {
+  font-weight: bold;
+}
+
+
+.sort-by-label {
+  margin: 0 8px 0 15px; /* Spacing around "Sort by" */
+  color: #A0A0A0;
+  font-size: 0.9em;
+}
+
+.search-bar-container {
+  margin-left: auto; /* Pushes search bar to the right */
+  display: flex;
+  align-items: center;
+  background-color: #26292E; /* Background for search input area */
+  border-radius: 6px;
+  padding: 4px 4px 4px 10px;
+}
+
+.search-input {
+  background-color: transparent;
+  border: none;
+  color: #E0E0E0;
+  outline: none;
+  padding: 6px 0px;
+  width: 180px; /* Adjust as needed */
+}
+
+.search-input::placeholder {
+  color: #888;
+}
+
+.search-btn {
+  background-color: transparent; /* Button itself is transparent */
+  border: none;
+  color: #A0A0A0;
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-btn:hover {
+  color: #FFFFFF;
+}
+
+.search-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor; /* For stroke based icons */
+  fill: currentColor; /* For fill based icons */
+}
+
+.content-view {
+  display: none;
+}
+
+.content-view.active {
+  display: flex;
+}
+
+.library-content-area {
+  margin-top: 40px;
+}

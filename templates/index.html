@@ -1,0 +1,24 @@
+{% extends 'template.html' %}
+
+{% load static %}
+
+{% block title %}
+  Home
+{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="index-block">
+    <div class="info-block">
+      <h1>M<span>G</span>B</h1>
+      <h2>Beta test is launched!</h2>
+      <a class="link-to-tg" href="https://t.me/mgb_rates">
+        <img src="{% static 'imgs/icons/logo_telegram.svg' %}">
+        t.me/mgb_rates
+      </a>
+    </div>
+  </div>
+{% endblock %}

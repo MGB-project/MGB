@@ -1,0 +1,213 @@
+/* --- Стили для табов профиля --- */
+
+.profile-tabs {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.profile-tabs-nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Промежуток между кнопками */
+  margin-bottom: 20px; /* Отступ до контента */
+  font-family: 'Roboto', sans-serif;
+}
+
+.tab-button {
+  height: 40px;
+  cursor: pointer;
+  padding: 0 35px;
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 19px;
+  font-weight: 700;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.tab-button:hover {
+  color: #fff; /* Цвет при наведении */
+}
+
+/* Стиль АКТИВНОЙ кнопки-таба */
+.tab-button.active-tab {
+  background-color: #FF003C;
+  border-radius: 30px;
+  /* Или любой другой цвет */
+}
+
+/* Стили для панелей контента */
+.tab-content {
+  display: none; /* Скрываем все панели по умолчанию */
+  /* Добавь стили для контента внутри панелей */
+  padding: 10px 0;
+}
+
+/* Стиль для АКТИВНОЙ (видимой) панели контента */
+.tab-content.active-content {
+  display: block; /* Показываем активную панель */
+}
+
+/* Дополнительные стили по желанию */
+.tab-content h2 {
+    margin-bottom: 15px;
+}
+.tab-content ul {
+    list-style: disc;
+}
+
+/* LIBRARY */
+/* __________________________________________________________________________________________________________ */
+.active-content#tab-library {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px;
+}
+
+
+.movies-block, .games-block, .books-block {
+  width: 430px;
+  height: 380px;
+  border-radius: 30px;
+  cursor: pointer;
+  position: relative;
+}
+
+.movies-block img, 
+.games-block img, 
+.books-block img {
+  width: 100%;
+  height: 100%;
+}
+
+.movies-block {
+  background: url('/static/imgs/profile_icons/Bg-Movies.png');
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.games-block {
+  background: url('/static/imgs/profile_icons/Bg-Games.png');
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.books-block {
+  background: url('/static/imgs/profile_icons/Bg-Books.png');
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.library-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 25px 50px 50px 50px;
+  
+  box-sizing: border-box;
+}
+
+.library-content .library-text {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.library-content .library-text h2 {
+  color: white;
+  font-size: 42px;
+  font-weight: 600;
+  line-height: 125%;
+}
+
+.library-content .library-text p {
+  font-size: 14px;
+  font-weight: 300;
+  color: #E8E8E8;
+}
+
+.library-content .library-text span {
+  font-weight: 800;
+}
+
+.library-photos {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  width: 100%;
+  height: 190px;
+}
+
+.img-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  width: 88px;
+  height: 110px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.img-wrapper.large {
+  width: 150px;
+  height: 190px;
+  background-color: #282828;
+}
+
+.img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.img-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* тёмный налёт */
+}
+
+.img-wrapper.large::after {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.link-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #282828;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.link-wrapper.large {
+  width: 150px;
+  height: 190px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.link-wrapper:not(.large) {
+  width: 88px;
+  height: 110px;
+}
+
+.link-wrapper:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.add-item {
+  width: 20px !important;
+  height: 20px !important;
+}

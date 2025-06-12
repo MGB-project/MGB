@@ -1,0 +1,55 @@
+
+
+.trending-movie-big-card {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  height: 375px;
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+  z-index: 10;
+  overflow: visible !important;
+}
+
+.big-tranding-movie-bg {
+  height: 270px;
+  width: 100%;
+  border-radius: 15px;
+  top: 0;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  cursor: pointer;
+  position: relative;
+}
+
+.trending-movie-big-card:hover .big-tranding-movie-bg {
+  box-shadow: 0px 0px 25px 10px #ff003c9b;
+}
+
+.trending-movie-big-card:hover {
+  transform: translateY(-10px);
+}
+
+.trending-movie-big-card .movie-rating{
+  top: 15px;
+  left: 15px;
+}
+
+.trending-movie-big-card h2{
+  margin-top: 7px;
+  color: white;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.trending-movie-big-card:hover .card-btns-block,
+.card-btns-block:hover {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.trending-movie-big-card:hover {
+  transform: translateY(-15px);
+}

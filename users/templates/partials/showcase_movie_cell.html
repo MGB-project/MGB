@@ -1,0 +1,7 @@
+{% load static %}
+
+{% if item.poster_path %}
+  <img src="{{ item.poster_path }}" alt="{{ item.title }}"> {# Используем размер побольше (w500) #}
+{% else %}
+  <img src="{% static 'images/placeholder_movie.png' %}" alt="No poster">
+{% endif %}

@@ -1,0 +1,127 @@
+
+
+.reviews-block {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* REVIEW CARD */
+/* ------------------------------------------------------------ */
+
+.review-card {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+  height: auto;
+  padding: 30px;
+  background-color: rgba(247, 130, 130, 0.03);
+  border-radius: 20px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+}
+
+.review-card-left img {
+  width: 144px;
+  height: 185px;
+}
+
+.review-card-main {
+  width: 100%;
+}
+
+/* REVIEW CARD HEADER */
+/* ------------------------------------------------------------ */
+.review-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review-item-title,
+.review-user-title{
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0;
+  color: white;
+}
+
+.review-line {
+  flex-grow: 1;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  margin: 15px 0px;
+}
+
+/* REVIEW USER TITLE */
+/* ------------------------------------------------------------ */
+
+.review-user-title-block {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: white !important;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.review-timestamp {
+  color: #6C6C6C;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+/* REVIEW USER */
+/* ------------------------------------------------------------ */
+.review-text-content p{
+  font-size: 18px;
+  font-weight: 300;
+  color: #F6F6F6;
+}
+
+.read-less-review-link {
+  display: block;
+  margin-top: 8px;
+}
+
+
+/* REVIEWS LIKES */
+/* --------------------------------------------------------------------- */
+.likes {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 5px;
+  color: white;
+  margin-top: 10px;
+}
+
+.like-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(165, 165, 165, 0.15);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.like-btn img {
+  width: 100% !important;
+  height: 100% !important;
+}
+

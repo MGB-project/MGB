@@ -1,0 +1,18 @@
+{% extends 'template.html' %}
+
+
+{% block content %}
+  <h1>Movies in the {{ genre.name }} genre</h1>
+
+  <div class="movie-list">
+      {% for movie in movies %}
+          <div class="movie-item">
+              <h3>{{ movie.title }}</h3>
+              <p>{{ movie.description }}</p>
+              <a href="{% url 'movie_detail' movie.id %}">View details</a>
+          </div>
+      {% empty %}
+          <p>No movies found for this genre.</p>
+      {% endfor %}
+  </div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% load custom_filters %}
+{% load static %}
+
+{% if library_items %}
+    <div class="list-view-container">
+        {% for status_conf in grid_status_config %}
+            {% if status_filter_key == 'all' or status_filter_key == status_conf.key %}
+                {# Фильтруем элементы из library_items для текущего статуса #}
+                {% with section_items=library_items|filter_by_status:status_conf.annotation_field %}
+                    {% if section_items %}
+                        <div class="list-section {{ status_conf.key }}-section">
+                            <div class="section-header">
+                              <span class="section-title-chip {{ status_conf.chip_class }}">{{ status_conf.label }}</span>
+                                <div class="section-line"></div>
+                                <div class="section-controls">
+                                    <span class="section-item-count">{{ section_items|length }} {{ content_type_name|lower }}</span>
+                                    <button class="section-toggle-btn" aria-expanded="true" aria-controls="section-content-{{ status_conf.key }}">
+                                      ▼
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="section-content" id="section-content-{{ status_conf.key }}">
+                                <table class="items-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-number">#</th>
+                                            {# Добавляем data-sort-by для JS и класс sortable-header #}
+                                            <th class="col-title sortable-header" data-sort-value="title">
+                                              Название <span class="sort-arrow"></span>
+                                            </th>
+                                            {% if content_type_name == 'Games' %}
+                                              <th class="col-platforms">Платформы</th>
+                                            {% elif content_type_name == 'Movies' %}
+                                              <th class="col-platforms">Режиссер</th>
+                                            {% elif content_type_name == 'Books' %}
+                                              <th class="col-platforms">Страницы</th>
+                                            {% endif %}
+                                            <th class="col-date-added sortable-header" data-sort-value="date_added">
+                                              Дата добавления <span class="sort-arrow"></span>
+                                            </th>
+                                            <th class="col-rating sortable-header" data-sort-value="rating">
+                                              Оценка <span class="sort-arrow"></span>
+                                            </th>
+                                            <th class="col-actions"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in section_items %}
+                                            {% include 'partials/_list_item_row_generic.html' with item=item forloop_counter=forloop.counter content_type_slug=content_type_slug %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="no-items-message">
+        {% if status_filter_key and status_filter_key != 'all' and status_labels %}
+            No {{ content_type_name|lower }} found for "{{ status_labels|get_item:status_filter_key }}" status.
+        {% else %}
+            No {{ content_type_name|lower }} added to your library yet.
+        {% endif %}
+    </p>
+{% endif %}

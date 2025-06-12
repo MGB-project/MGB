@@ -1,0 +1,251 @@
+.recently-block {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+
+.small-movie-bg {
+  height: 320px;
+  width: 100%;
+  border-radius: 10px;
+  top: 0;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  cursor: pointer;
+  position: relative;
+}
+
+.trending-movie-default-card{
+  display: flex;
+  flex-direction: column;
+  width: 230px;
+  min-height: 375px;
+  margin-top: 30px;
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+  overflow: visible !important;
+  z-index: 20 !important;
+  
+}
+
+.trending-movie-default-card:hover .small-movie-bg {
+  box-shadow: 0px 0px 25px 10px #ff003c9b;
+}
+
+.trending-movie-default-card:hover {
+  transform: translateY(-10px);
+}
+
+
+.trending-movie-default-card h2, h2 {
+  margin-top: 10px;
+  color: white;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.trending-movie-default-card:hover .card-btns-block {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.trending-movie-default-card:hover {
+  transform: translateY(-15px);
+}
+
+.card-btns-block.active .movie-status-options {
+  display: block;
+}
+
+/* Контейнер кнопки и скрытого блока */
+.movie-status-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* Скрытый блок с выбором кнопок */
+.movie-status-options {
+  position: absolute;
+  top: 100%;
+  left: 80px;
+  width: 120px;
+  background: rgba(15, 15, 15, 0.9); /* Чуть затемнил */
+  border-radius: 10px;
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px 0;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
+  z-index: 9999; /* Выше всех */
+}
+
+/* Чтобы меню было поверх всего */
+.movie-status-container {
+  position: relative; /* Меню будет абсолютным внутри этого блока */
+  z-index: 10000;
+}
+
+/* Показываем блок при открытии */
+.movie-status-container.active .movie-status-options {
+  display: flex;
+}
+
+/* Стили кнопок внутри выпадающего списка */
+.movie-status-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Галочка справа */
+  gap: 8px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 8px 25px;
+  width: 100%;
+  text-align: left;
+  border-radius: 5px;
+  transition: background 0.2s;
+}
+
+.movie-status-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Контейнер иконки и текста */
+.icon-title-choose {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+/* Галочка (по умолчанию скрыта) */
+.complete-check {
+  display: none;
+  width: 16px;
+  height: 16px;
+}
+
+/* Показываем галочку у выбранного элемента */
+.movie-status-btn.selected .complete-check {
+  display: block;
+}
+
+/* Стили иконок */
+.option-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.movie-status-options .playing {
+  color: #7E7E7E;
+}
+
+.movie-status-options .dropped {
+  color: #FF4949;
+}
+
+
+
+/* МОДАЛКА ДЛЯ МАЛЕНЬКИХ КНОПОК */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-window {
+  background: rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+  padding: 100px 145px 0px 145px;
+  border-radius: 10px;
+  height: 280px;
+  width: auto;
+  text-align: center;
+  position: relative; /* Не обязательно, но лучше */
+  font-family: 'Roboto', sans-serif;
+}
+
+#modal-image {
+  position: absolute;
+  top: -40%;
+  left: 50%;
+  transform: translateX(-50%); /* Центрирование по горизонтали */
+  width: 180px;
+  height: 210px;
+  border-radius: 10px;
+}
+
+
+.rating-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rating-modal h1{
+  font-size: 14px;
+  font-weight: 600;
+  color: #FCAF17;
+  margin: 0;
+}
+
+#modal-title {
+  margin-top: 5px;
+  font-size: 17px;
+  font-weight: 700;
+  text-align: center;
+  color: white;
+}
+
+.modal-rating-container {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background-color: hsla(0, 0%, 6%, 0.5);
+  height: 44px;
+  width: 410px;
+  border-radius: 30px;
+}
+
+.btn-rate-modal {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ABABAB;
+  background-color: #474747;
+  border-radius: 20px;
+  width: 200px;
+  height: 40px;
+  border: none;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.close-modal {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 20px;
+  right: 20px;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: white;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}

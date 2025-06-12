@@ -1,0 +1,164 @@
+.recently-block {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+
+.small-book-bg {
+  height: 250px;
+  width: 100%;
+  border-radius: 0 10px 10px 0;
+  top: 0;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center !important;
+  cursor: pointer;
+  position: relative;
+}
+
+.swiper-container,
+.swiper,
+.swiper-wrapper {
+    overflow: visible !important; /* КРАЙНЕ ВАЖНО */
+    box-sizing: border-box;
+}
+
+.trending-book-default-card, 
+.top-rated-swiper .swiper-slide,
+.new-books-swiper .swiper-slide{
+  display: flex;
+  flex-direction: column;
+  width: 160px;
+  height: auto;
+  margin-top: 30px;
+  position: relative !important;
+  transition: transform 0.3s ease-in-out;
+  z-index: 20 !important;
+  justify-content: flex-start;
+  overflow: visible !important;
+}
+
+.trending-book-default-card:hover .small-book-bg::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border: 2px solid white;
+  pointer-events: none;
+  border-radius: 0 10px 10px 0;
+}
+
+.trending-book-default-card h2,
+.new-books-swiper .swiper-slide h2 {
+  margin-top: 10px;
+  color: white;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.trending-book-default-card:hover .card-btns-block {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.trending-book-default-card:hover {
+  transform: translateY(-15px);
+}
+
+.card-btns-block.active .book-status-options {
+  display: block;
+  z-index: 9999; 
+}
+
+/* Контейнер кнопки и скрытого блока */
+.book-status-container {
+  position: relative;
+  display: inline-block;
+  z-index: 10000; 
+}
+
+/* Скрытый блок с выбором кнопок */
+.book-status-options {
+  position: absolute;
+  top: 100%;
+  left: 80px;
+  width: 120px;
+  background: rgba(15, 15, 15, 0.9); /* Чуть затемнил */
+  border-radius: 10px;
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px 0;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
+  z-index: 9999; /* Выше всех */
+}
+
+/* Чтобы меню было поверх всего */
+.book-status-container {
+  position: relative; /* Меню будет абсолютным внутри этого блока */
+  z-index: 10000;
+}
+
+
+/* Показываем блок при открытии */
+.book-status-container.active .book-status-options {
+  display: flex;
+}
+
+/* Стили кнопок внутри выпадающего списка */
+.book-status-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Галочка справа */
+  gap: 8px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 8px 25px;
+  width: 100%;
+  text-align: left;
+  border-radius: 5px;
+  transition: background 0.2s;
+}
+
+.book-status-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Контейнер иконки и текста */
+.icon-title-choose {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+/* Галочка (по умолчанию скрыта) */
+.complete-check {
+  display: none;
+  width: 16px;
+  height: 16px;
+}
+
+/* Показываем галочку у выбранного элемента */
+.book-status-btn.selected .complete-check {
+  display: block;
+}
+
+/* Стили иконок */
+.option-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.book-status-options .playing {
+  color: #7E7E7E;
+}
+
+.book-status-options .dropped {
+  color: #FF4949;
+}

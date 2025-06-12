@@ -1,0 +1,153 @@
+.reviews-list-area {
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.reviews-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  width: 100%;
+  flex-direction: row;
+  background-color: rgba(255, 255, 255, 0.03);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.review-toolbar-left {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.review-filter-dropdown-wrapper,
+.review-dropdown-wrapper {
+  position: relative;
+}
+
+.review-dropdown-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  width: 82px;
+  height: 30px;
+  background-color: #AC3939;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  position: relative;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#review-sort-toggle {
+  width: 126px;
+}
+
+.review-dropdown-options {
+  background-color: rgba(33, 33, 33, 0.8);
+  position: absolute;
+  top: 35px;
+  left: 0;
+  width: 100%; /* теперь будет равна ширине кнопки, т.к. у .dropdown-group width = fit-content */
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 10;
+  font-size: 14px;
+  border: 1px solid #6E2525;
+}
+
+
+
+.review-dropdown-options li {
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  height: 30px;
+  cursor: pointer;
+  color: #6C6C6C;
+}
+
+.review-dropdown-options li.active {
+  background-color: #AC3939;
+  color: white;
+}
+
+/* SORT BY */
+/* --------------------------------------------------------------------------------- */
+.review-dropdown-wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  color: white;
+  gap: 10px;
+}
+
+.dropdown-group {
+  position: relative;
+  width: fit-content;
+}
+
+.review-statistic {
+  width: 300px;
+  height: 235px;
+  border-radius: 20px;
+  background-color: hsla(0, 0%, 100%, 0.03);
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.title-hr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 30px;
+}
+
+.title-hr h1 {
+  font-size: 20px;
+  font-weight: 700;
+  padding-left: 20px; 
+  color: #E4E4E4;
+}
+
+.title-hr hr {
+  width: 5px;
+  height: 30px;
+  border-radius: 15px;
+  border: none;
+  transform: none;
+  background-color: #FCDA17;
+}
+
+.review-statistic-list {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  box-sizing: border-box;
+}
+
+.review-statistic-list li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  font-weight: 600;
+  color: #E4E4E4;
+  line-height: 1.25;
+}
+
+.value-statistic {
+  color: #919191;
+}

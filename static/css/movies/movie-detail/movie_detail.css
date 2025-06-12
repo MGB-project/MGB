@@ -1,0 +1,455 @@
+body, html {
+  background-color: #020810 !important;
+  max-height: 100%;
+}
+
+.main-backdrop {
+  position: relative;
+  width: 100%;
+  height: 900px;
+}
+
+.line-object {
+  margin-top: 15px;
+}
+
+.line-object hr {
+  background-color: rgba(86, 86, 86, 0.5);
+  width: 100%;
+  height: 1px;
+  border: none;
+  transform: none;
+}
+
+.main-backdrop img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.main-backdrop::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at center, rgba(0, 0, 0, 0) 0%, rgba(2, 8, 16, 0) 40%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0) 30%, rgba(2, 8, 16, 1) 96%);
+  pointer-events: none;
+}
+
+.movie-info-block {
+  display: flex;
+  flex-direction: column;
+  padding-left: max(24px, calc(50% - 740px));
+  padding-right: max(24px, calc(50% - 740px));
+  box-sizing: border-box;
+  width: 100%;
+  position: relative;
+  bottom: 250px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.movie-info-block .custom-movie-ratings {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  height: 26px;
+}
+
+.movie-info-block .custom-movie-rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  width: 36px;
+  height: 20px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.date-country-seasons-adult {
+  display: flex;
+  flex-direction: row;
+  gap: 7px;
+}
+
+.movie-detail-genres {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 26px;
+}
+
+.movie-detail-genres .movie-genre {
+  display: flex;
+  align-items: center;
+  width: auto;
+  padding: 0 17px;
+  height: 100%;
+  border: 1px solid #8D8D8D;
+  border-radius: 15px;
+  color: #CBCBCB;
+  font-size: 12px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.date-country-seasons-adult {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: auto;
+  padding: 0 17px;
+  height: 100%;
+  border: 1px solid #8D8D8D;
+  border-radius: 15px;
+  color: #CBCBCB;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+
+.title-btns {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.games-tabs {
+  margin-top: 25px !important;
+}
+
+.tab-content {
+  margin-top: 35px !important;
+}
+
+.movie-title {
+  font-size: 42px;
+  color: white;
+  font-weight: 900;
+  font-family: 'Roboto', sans-serif;
+}
+
+
+.overview-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.overview-left {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  max-width: 1200px;
+}
+
+.poster-video {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.poster-video img {
+  width: 230px;
+  height: 320px;
+}
+
+.movie-description {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.storyline-block,
+.details-block {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.storyline,
+.details,
+.statistics {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.storyline h2,
+.details h2
+.statistics h2 {
+  font-size: 22px;
+  font-weight: 600;
+  
+}
+
+.storyline hr,
+.details hr,
+.statistics hr {
+  width: 3px;
+  height: 32px;
+  border-radius: 15px;
+  border: none;
+  transform: none;
+}
+
+.storyline hr,
+.details hr {
+  background-color: #FF003C;
+}
+
+.statistics hr {
+  background-color: #FCDA17;
+}
+
+.detail-info {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+.detail-values {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 800px;
+  flex-grow: 1;
+}
+
+.detail-values h3 {
+  display: block;
+  margin: 0;
+  font-size: 16px;
+  color: white;
+  font-weight: 600;
+  height: 23px;
+  min-width: 200px;
+}
+
+.detail-genres,
+.detail-director,
+.detail-screenwriter,
+.detail-producer,
+.detail-actors,
+.detail-date,
+.detail-country,
+.detail-time,
+.seasons,
+.episodes {
+  color: #A8A8A8;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.genres,
+.director,
+.screenwriter,
+.producer,
+.actors {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.detail-genres span,
+.detail-director span,
+.detail-screenwriter span,
+.detail-producer span,
+.detail-actors span,
+.detail-date span,
+.detail-country span,
+.detail-time span,
+.seasons span,
+.episodes span{
+  font-size: 16px;
+  margin: 0;
+}
+
+.statistic-rates span,
+.statistic-watched span,
+.statistic-watching span,
+.statistic-dropped span,
+.statistic-reviews span {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 16px;
+  color: white;
+  margin: 0;
+}
+
+.statistics-block {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+}
+
+.statistic-watched,
+.statistic-rates,
+.statistic-reviews,
+.statistic-watching,
+.statistic-dropped {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+.statistic-values h3 {
+  display: block;
+  margin: 0;
+  font-size: 16px;
+  color: white;
+  font-weight: 600;
+  height: 23px;
+}
+
+.statistic-watched img {
+  width: 18px;
+  height: 18px;
+}
+
+.statistic-values {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 15px;
+  text-align: right;
+}
+
+.watched {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+/* TABS */
+
+.movie-rating {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: white !important;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.sim-movies-swiper {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  height: 440px;
+  padding: 10px !important;
+  gap: 30px;
+}
+
+.swiper-slide {
+  display: flex;
+  flex-direction: column;
+  width: 230px;
+  min-height: 285px;
+  margin-top: 30px;
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+  overflow: visible !important;
+  z-index: 20 !important;
+}  
+
+.small-movie-bg {
+  height: 320px;
+  width: 100%;
+  border-radius: 10px;
+  top: 0;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  cursor: pointer;
+  position: relative;
+}
+
+.swiper-slide:hover .small-movie-bg::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border: 2px solid white;
+  pointer-events: none;
+  border-radius: 10px;
+}
+
+.sim-movies-swiper h2 {
+  margin-top: 10px;
+  color: white;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  display: none !important; /* Полностью скрываем */
+  content: none !important;
+}
+
+/* Кнопки (стрелки) */
+.swiper-button-prev,
+.swiper-button-next {
+  color: white !important;
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Убираем дефолтные стрелки Swiper */
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  content: none; /* Полностью убираем встроенный контент */
+  background: none; /* Убираем фон */
+}
+
+/* Добавляем свои иконки */
+.swiper-button-prev {
+  background-image: url('/static/imgs/icons/swiper_arrowprev.svg'); 
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  left: 75px !important;
+}
+
+.swiper-button-next {
+  background-image: url('/static/imgs/icons/swiper_arrownext.svg'); 
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  right: 75px !important;
+}

@@ -1,0 +1,78 @@
+{% load static %}
+{% load movie_tags %}
+{% load time_filters %}
+
+
+<div class="movie-card">
+  <a href="{% url 'movie_detail' item.id %}" class="movie-link">
+      {% if item.custom_header_photo %}
+        <div class="movie-bg" style="background: url({{ item.custom_header_photo }});">
+      {% else %}
+        <div class="movie-bg" style="background: url({{ item.poster_path }});">
+      {% endif %}
+
+      {% if item.user_rating is not None %}
+        {% with urating=item.user_rating %}
+            {% if urating >= 8 %}
+                <span class="rating" style="background-color: #15B000;">
+                {{ item.user_rating }}
+                </span>
+            {% elif urating >= 5 %}
+                <span class="rating" style="background-color: #FFFF00;">
+                {{ item.user_rating }}
+                </span>
+            {% elif urating > 1 %}
+                {# Низкий рейтинг: Красный фон, белый текст #}
+                <span class="rating" style="background-color: #FF4949;">
+                {{ item.user_rating }}
+                </span>
+            {% else %}
+                <span class="rating" style="background-color: #B7485C;">
+                {{ item.user_rating }}
+                </span>
+            {% endif %}
+        {% endwith %}
+      {% else %}
+        <span class="rating">?</span>
+      {% endif %}
+    </div>
+  </a>
+
+  <div class="card-information">
+    <h2>{% if item.title|length > 25 %}
+      {{ item.title|slice:":23" }}...
+    {% else %}
+      {{ item.title }}
+    {% endif %}</h2>
+    <div class="runtime">
+      {% if item.runtime %}
+        <span>{{ item.runtime|runtime_to_hours_minutes }}</span>
+      {% endif %}
+    </div>
+    <div class="genres-date-added">
+      <div class="item-genres">
+        <h3>Жанры:</h3>
+        <span class="genre">
+          {% for genre in item.genres.all|slice:":3" %}{{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}
+        </span>
+      </div>
+      <div class="item-date-release">
+        <h3>Дата выпуска:</h3>
+        <span class="date-release">
+          {% if item.release_date %}
+            {{ item.release_date|date:"d M. Y" }}
+          {% else %}
+            <p>No</p>
+          {% endif %}
+        </span>
+      </div>
+      <div class="item-date-added">
+        <h3>Дата добавления</h3>
+        <span class="date-release">
+          {{ item.latest_interaction_date|date:"d M. Y" }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+

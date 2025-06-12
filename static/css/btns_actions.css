@@ -1,0 +1,457 @@
+/* --- Общие стили для контейнера --- */
+/* Заменяем .btns-game на .item-actions-container */
+.item-actions-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  position: relative; /* Для позиционирования дочерних абсолютных элементов */
+}
+
+.achievement-particle { /* Стили для анимации */
+  display: block;
+  position: fixed;
+  pointer-events: none;
+  z-index: 2100;
+}
+
+/* --- Базовые стили кнопок --- */
+/* Применяем к новому контейнеру */
+.item-actions-container button,
+.modal-rating-container button,
+.item-actions-container .btn-favourite-link {
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  line-height: 125%;
+}
+
+.item-actions-container .btn-favourite-link {
+  text-decoration: none;
+}
+
+
+/* --- Стили для БОЛЬШИХ кнопок --- */
+/* Используем модификатор .item-actions-container--large (если он добавляется) */
+/* Если нет, то просто применяем к .item-actions-container */
+
+.item-actions-container .btn-star { /* Стили для кнопки звезды рейтинга */
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  background-color: rgb(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.item-actions-container .btn-star img {
+  transition: opacity 0.2s ease-in-out;
+  width: 24px;
+  height: 24px;
+}
+.item-actions-container .btn-star .icon-close {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Стили для кнопок Избранное и Статуса (большой размер) */
+.item-actions-container .btn-favourite,
+.item-actions-container .btn-item-status {
+  height: 40px;
+  border-radius: 30px;
+  background-color: rgb(255, 255, 255, 0.15);
+  padding: 0 20px;
+  gap: 15px;
+  font-size: 17px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.item-actions-container .btn-item-status {
+  padding: 0 17px;
+  gap: 8px;
+}
+
+/* Специфичный стиль для большой кнопки избранного */
+.item-actions-container .btn-favourite.btn-fav-detail {
+  gap: 15px;
+}
+
+/* Размеры иконок для больших кнопок */
+.item-actions-container .item-status-icon { width: 24px; height: 24px; } /* Заменили .played-icon */
+.item-actions-container .fav-icon { width: 20px; height: 20px; }
+.item-actions-container .arrow-item-status { /* Заменили .arrow-gamepad */
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+    margin-left: 8px;
+}
+
+.item-actions-container .arrow-item-status {
+  margin: 0;
+}
+
+/* Стиль для кнопки Learn More (остается без изменений) */
+.item-actions-container .btn-learn {
+  width: 160px;
+  height: 40px;
+  background-color: #C63535;
+  color: white;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 500;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 14px;
+  margin-left: 5px;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* --- Стили для МАЛЕНЬКИХ кнопок --- */
+/* Используем модификатор .item-actions-container--small */
+.item-actions-container--small {
+    gap: 5px;
+}
+
+/* Стили для всех маленьких кнопок */
+.item-actions-container--small .btn-star,
+.item-actions-container--small .btn-favourite,
+.item-actions-container--small .btn-item-status {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(15, 15, 15, 0.5);
+    padding: 0;
+    justify-content: center;
+}
+
+.btn-favourite img {
+  width: 18px;
+  height: 18px;
+}
+
+/* Размеры иконок для маленьких кнопок */
+.item-actions-container--small .item-status-icon,
+.item-actions-container--small .btn-star img {
+    width: 18px;
+    height: 18px;
+}
+
+.item-actions-container--small .fav-icon {
+  width: 14px; height: 14px;
+}
+.item-actions-container--small .btn-star .icon-close {
+     display: none; /* Скрываем крестик у маленькой звезды */
+}
+
+/* Скрываем текст и стрелку в маленьких кнопках статуса */
+.item-actions-container--small .item-status-text, /* Заменили .played-text */
+.item-actions-container--small .arrow-item-status { /* Заменили .arrow-gamepad */
+    display: none;
+}
+
+
+/* --- Общие стили для Выпадающего списка статусов --- */
+/* Заменяем .played-container на .item-status-container */
+.item-status-container {
+  position: relative;
+}
+
+.swiper,
+.swiper-wrapper {
+  z-index: 0 !important;
+  position: relative;
+}
+
+/* Заменяем .played-options на .item-status-options */
+.item-status-options {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  width: 150px;
+  background: #0B0D10;
+  border-radius: 10px;
+  display: none;
+  flex-direction: column;
+  z-index: 999999 !important;
+  border: 1px solid white;
+}
+
+.item-status-container.active {
+  z-index: 10006 !important;
+}
+
+.item-status-container.active .btn-item-status {
+  border: 1px solid white;
+}
+
+/* Показываем блок при активном контейнере */
+.item-status-container.active .item-status-options {
+  display: block;
+}
+
+/* Поворот стрелки (только для больших кнопок) */
+/* Используем универсальные классы */
+.item-actions-container:not(.item-actions-container--small) .item-status-container.active .arrow-item-status {
+  transform: rotate(90deg);
+}
+
+/* Стили для кнопок внутри выпадашки (остаются без изменений) */
+.option-btn {
+  display: flex;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: #FFFFFF;
+  font-size: 17px;
+  padding: 9px 16px !important;
+  cursor: pointer;
+  width: 100%;
+  height: 40px;
+  text-align: left;
+  border-radius: 10px;
+}
+
+.option-btn .icon-title-choose {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.option-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+.option-icon { width: 22px; height: 22px; }
+.complete-check { width: 14px; height: 14px;}
+
+/* Специфичные цвета для статусов (можно оставить или сделать универсальнее) */
+/* Добавь классы status-option-watched, status-option-reading и т.д., если нужны особые стили */
+.option-btn.status-option-playing .icon-title-choose, /* Пример для игр */
+.option-btn.status-option-watching .icon-title-choose { /* Пример для фильмов */
+    color: #a0a0a0;
+}
+.option-btn.status-option-dropped .icon-title-choose { color: #FF4949; }
+.option-btn.reset-status .icon-title-choose { color: #aaa; }
+
+
+/* --- Стили для Рейтинга --- */
+/* Применяем к универсальному контейнеру */
+.item-actions-container .rating-container {
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-20px) scale(0.95); /* Оставляем для анимации */
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s 0.3s;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 30px;
+  height: 40px;
+  padding: 0 15px;
+  z-index: -1;
+  position: absolute;
+  left: 64px;
+  top: 0;
+}
+
+/* Правило для .visible остается без изменений */
+.item-actions-container .rating-container.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0) scale(1); /* Сбрасываем transform для видимого состояния */
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s 0s;
+  z-index: 1; /* Становится поверх других элементов при открытии */
+}
+
+/* Анимация скрытия/показа других кнопок при активации рейтинга */
+/* Используем универсальные классы контейнера и статуса */
+.item-actions-container.rating-active .btn-favourite,
+.item-actions-container.rating-active .item-status-container,
+.item-actions-container.rating-active .btn-learn {
+    opacity: 0;
+    transform: scale(0.9);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.item-actions-container:not(.rating-active) .btn-favourite,
+.item-actions-container:not(.rating-active) .item-status-container,
+.item-actions-container:not(.rating-active) .btn-learn {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+    transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+}
+
+/* Стили опций рейтинга (остаются без изменений) */
+.rating-options {
+  display: flex;
+  align-items: center;
+}
+.rating-btn,
+.btn-trash {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6C6C6C;
+  font-size: 16px;
+  font-weight: 700;
+  width: 30px;
+  height: 30px;
+  line-height: 1;
+  background: none;
+  border: none;
+}
+
+.rating-btn:hover{
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.btn-trash img { width: 24px; height: 24px; margin-right: 30px;}
+.rating-star-indicator { width: 20px; height: 20px; }
+
+/* --- Утилиты --- */
+.hidden { display: none !important; }
+.icon-star.hidden,
+.icon-close.hidden { opacity: 0; pointer-events: none; }
+.rating-btn.active-rating { /* Цвет устанавливается JS */ }
+
+
+/* МАЛЕНЬКИЕ КНОПКИ */
+.item-actions-container--small .btn-star-small,
+.item-actions-container--small .btn-fav-small,
+.item-actions-container--small .btn-item-status{
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px !important;
+  height: 22px !important;
+  box-shadow: 1px 1px 3px 0 #00050C;
+  border-radius: 5px !important;
+}
+
+.item-actions-container--small img {
+  width: 18px;
+  height: 18px;
+}
+
+/* МОДАЛКА ДЛЯ МАЛЕНЬКИХ КНОПОК */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.modal-window {
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+  padding: 80px 145px 0px 145px;
+  border-radius: 10px;
+  height: 300px;
+  width: auto;
+  text-align: center;
+  position: relative; /* Не обязательно, но лучше */
+  font-family: 'Roboto', sans-serif;
+  box-sizing: border-box;
+}
+
+#modal-image {
+  position: absolute;
+  top: -60%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 230px;
+  border-radius: 10px;
+  object-fit: cover;
+
+}
+
+.rating-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rating-modal h1{
+  font-size: 14px;
+  font-weight: 600;
+  color: #FCAF17;
+  margin: 0;
+}
+
+#modal-title {
+  margin-top: 5px;
+  font-size: 17px;
+  font-weight: 700;
+  text-align: center;
+  color: white;
+}
+
+.modal-rating-container {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background-color: hsla(0, 0%, 6%, 0.5);
+  height: 40px;
+  width: 410px;
+  border-radius: 30px;
+  box-sizing: border-box;
+}
+
+.btn-rate-modal {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ABABAB;
+  background-color: #474747;
+  border-radius: 20px;
+  width: 200px;
+  height: 40px;
+  border: none;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.btn-rate-modal.active {
+  background-color: #FF003C;
+  color: white;
+}
+
+.close-modal {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 20px;
+  right: 20px;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: white;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}

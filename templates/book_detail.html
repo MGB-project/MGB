@@ -1,0 +1,214 @@
+{% extends 'template.html' %}
+
+{% load static %}
+
+{% block title %}
+  Games Detail
+{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/books/book-detail/book_detail.css' %}">
+  <link rel="stylesheet" href="{% static 'css/mgb_tabs.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/books/book-detail/overview.css' %}">
+  <link rel="stylesheet" href="{% static 'css/all-reviews.css' %}">
+  <link rel="stylesheet" href="{% static 'css/friends-reviews.css' %}">
+  <link rel="stylesheet" href="{% static 'css/books/book-detail/similar-books.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/books/small-block.css' %}">
+{% endblock %}
+
+
+
+{% block content %}
+  <div class="book-detail-info">
+    <div class="book-main-block">
+
+      <div class="book-poster">
+        {% if book.custom_photo %}
+          <img src="{{ book.custom_photo }}" alt="">
+        {% elif book.thumbnail %}
+          <img src="{{ book.thumbnail }}" alt="">
+        {% endif %}
+        <button class="btn-share">
+          <img class="share-icon" src="{% static 'imgs/icons/share-icon.svg' %}" alt="">
+          Поделиться
+        </button>
+      </div>
+
+      <div class="book-info">
+        <h1>{{ book.title }}</h1>
+
+        <div class="book-mini-info">
+          <span class="book-rating" style="background-color: {{ book.rating_color }};">{{ book.average_rating }}</span>
+          <span class="book-author">{{ book.authors|join:" | " }}</span>
+          <div class="mini-info">
+            <p class="book-date">{{ book.published_date }}</p>
+            <p class="book-pages">123 pages</p>
+          </div>
+        </div>
+
+        <p class="book-description">{{ book.description }}</p>
+
+      </div>
+      <div class="book-characteristics">
+        <div class="details-block" id="detailsBlock">
+          <div class="details-header">
+              <span class="details-title">Details</span>
+              <button class="toggle-button" aria-expanded="true" aria-controls="detailsContent" id="toggleDetailsBtn">
+                <img src="{% static 'imgs/books_icons/detail_icon.svg' %}" alt="">
+              </button>
+          </div>
+          <div class="details-content" id="detailsContent">
+              <dl>
+                  <dt>Дата релиза:</dt>
+                  <dd>{{ book.published_date }}</dd>
+      
+                  <dt>Страниц:</dt>
+                  <dd>2132</dd>
+      
+                  <dt>Жанры:</dt>
+                  <dd>{{ book.categories|join:", " }}</dd>
+      
+                  <dt>Язык:</dt>
+                  <dd>{{ book.language }}</dd>
+              </dl>
+          </div>
+        </div>
+
+        <div class="stats-block collapsed" id="statsBlock">
+          <div class="stats-header">
+              <span class="stats-title">Statistics</span>
+              <button class="toggle-button" aria-expanded="false" aria-controls="statsContent" id="toggleStatsBtn">
+                <img src="{% static 'imgs/books_icons/stats_icon.svg' %}" alt="">
+              </button>
+          </div>
+          <div class="stats-content" id="statsContent">
+              <dl>
+                  <dt>Дата релиза:</dt>
+                  <dd>{{ book.published_date }}</dd>
+      
+                  <dt>Страниц:</dt>
+                  <dd>2132</dd>
+      
+                  <dt>Жанры:</dt>
+                  <dd>{{ book.categories|join:", " }}</dd>
+      
+                  <dt>Язык:</dt>
+                  <dd>{{ book.language }}</dd>
+              </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="games-tabs">
+      <button>Overview</button>
+      <button class="active" onclick="showTab('sim-games')">Similar Books</button>
+      <button onclick="showTab('all-rev')" id="btn-all-rev">Reviews</button>
+      <button onclick="showTab('friends-rev')">Friends</button>
+      
+    </div>
+
+
+    <!-- OVERVIEW -->
+    <div id="addit-info" class="tab-content active">
+      <h2>Challenges</h2>
+      <p>Контент вкладки Challenges</p>
+    </div>
+
+    <!-- SIMILAR GAMES -->
+    <div id="sim-games" class="tab-content">
+      <h2>Challenges</h2>
+      <p>Контент вкладки Challenges</p>
+    </div>
+
+    <!-- REVIEWS -->
+    <div id="all-rev" class="tab-content">
+      <div class="comments-section">
+        
+        <form id="comment-form">
+          {% csrf_token %}
+          {% if profile.avatar %}
+            <img src="{{ profile.avatar.url }}" class="profile-logo-header" alt="">
+          {% else %}
+            <img src="{% static 'imgs/icons/profile_btn.svg' %}" alt="profile default">
+          {% endif %}
+          <div class="add-comment-user">
+            <input type="hidden" id="comment-type" value="game">
+            <input type="hidden" id="object-id" value="{{ game.id }}">
+        
+            <div class="input-container">
+              <input class="field__input" type="text" id="comment-title" required>
+              <label class="field__label" for="comment-title">Title</label>
+            </div>
+
+            <textarea id="comment-text" placeholder="Text" required></textarea>
+        
+            <div class="btns-comment">
+              <button class="cancel-comment" type="button">Cancel</button>
+              <button class="publish-comment" type="submit">Publish</button>
+            </div>
+          </div>
+        </form>
+    
+        <h1>{{ comment_count }} Users reviews</h1>
+
+        <div id="commentsList">
+          {% for comment in book.comments.all %}
+            <div class="comment" id="comment-{{ comment.id }}">
+              <img src="{{ comment.user.avatar.url }}" alt="avatar">
+              <div class="comment-content">
+                <div class="comment-info">
+                  <div class="comment-meta">
+                    <div class="username-date">
+                      <h2>{{ comment.user.username }}</h2>
+                      <span class="comment-date">{{ comment.created_at }}</span>
+                    </div>
+                    <h3>{{ comment.title }}</h3>
+                  </div>
+                  <span class="user-rating">
+                    <img src="{% static 'imgs/icons/btn-star-small.svg' %}" alt="Star btn">
+                    10
+                  </span>
+                </div>
+                <span class="comment-text">{{ comment.content }}</span>
+                <div class="reactions-to-comment">
+                  <div class="likes">
+                    <button class="like-btn" data-id="{{ comment.id }}">
+                      <img src="{% if user in comment.likes.all %}{% static 'imgs/icons/red_like_comment.svg' %}{% else %}{% static 'imgs/icons/like_comment.svg' %}{% endif %}" alt="Like Button">
+                    </button>
+                    <span class="like-count">{{ comment.likes.count }}</span> <!-- Элемент для количества лайков -->
+                  </div>
+                  <button class="reply-comment">
+                    <img src="{% static 'imgs/icons/reply.svg' %}" alt="Reply btn">
+                    Reply
+                  </button>
+                </div>
+                <button class="show-replies">0 replies</button>
+                <div class="reply-form" style="display: none;">
+                  <input type="text" class="reply-title" placeholder="Title" required>
+                  <textarea class="reply-text" placeholder="Text" required></textarea>
+                  <button class="publish-reply">Publish</button>
+                </div>
+              </div>
+            </div>
+          {% empty %}
+            <p>Комментариев пока нет. Будьте первым!</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    
+    <!-- FREIND REVIEW -->
+    <div id="friends-rev" class="tab-content">
+      <h2>Challenges</h2>
+      <p>Контент вкладки Challenges</p>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="{% static 'scripts/books/book_detail.js' %}"></script>
+  <script src="{% static 'scripts/mgb_tabs.js' %}"></script>
+{% endblock %}

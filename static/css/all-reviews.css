@@ -1,0 +1,272 @@
+
+.comments-section {
+  display: flex;
+  flex-direction: column;
+}
+
+#comment-form {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 1000px;
+}
+
+.add-comment-user {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+  height: 290px;
+  padding: 30px 20px;
+  background-color: rgba(22, 22, 22, 0.5);
+  border-radius: 20px;
+  position: relative;
+}
+
+.input-container {
+  position: relative;
+}
+
+.field__input {
+  border: none;
+  border-bottom: 2px solid #ccc;
+  outline: none;
+  color: #888;
+  font-size: 15px;
+  transition: border-color 0.3s;
+  padding: 10px 0;
+  background: transparent;
+}
+
+.add-comment-user textarea {
+  color: #888;
+  font-size: 18px;
+}
+
+/* Стили для поднимающегося placeholder */
+.field__input:focus ~ .field__label,
+.field__input:valid ~ .field__label {
+  transform: translateY(-25px);
+  font-size: 14px;
+  color: #888;
+  pointer-events: none;
+}
+
+/* Стили для метки (.field__label) */
+.field__label {
+  position: absolute;
+  font-family: 'Roboto', sans-serif;
+  top: 10px;
+  left: 20px;
+  font-size: 18px;
+  color: #888;
+  transition: transform 0.3s, font-size 0.3s, color 0.3s;
+}
+
+/* Стили для активного поля ввода */
+.field__input:focus {
+  border-color: #555;
+}
+
+.add-comment-user #comment-title,
+.add-comment-user #comment-text {
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  width: 200px;
+  height: 40px;
+  background-color: #232323;
+  border: none;
+  border-radius: 10px;
+  padding-left: 20px;
+  padding-top: 10px;
+  color: white !important;
+  resize: none;
+  box-sizing: border-box;  /* Включить box-sizing, чтобы padding влиял на общую ширину */
+}
+
+.add-comment-user #comment-text  {
+  width: 100%;
+  height: 120px;
+}
+
+.btns-comment {
+  display: flex;
+  flex-direction: row;
+  right: 20px;
+  bottom: 20px;
+  position: absolute;
+  gap: 10px;
+}
+
+.publish-comment, .cancel-comment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 40px;
+  background-color: #FF003C;
+  color: white;
+  font-size: 16px;
+  font-weight: 800;
+  font-family: 'Open Sans', sans-serif;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.cancel-comment {
+  background: none;
+}
+
+.comments-section h1 {
+  font-size: 20px;
+  margin-top: 30px;
+}
+
+#comment-form img , #commentsList img{
+  width: 56px;height: 56px;
+  border-radius: 50%;
+}
+
+
+#commentsList {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+#commentsList .comment {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 1000px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.comment-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  height: auto;
+}
+
+.comment-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.comment-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.username-date {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.username-date h2 {
+  font-size: 16px;
+  color: white;
+  font-weight: 500;
+}
+
+.username-date .comment-date{
+  font-size: 16px;
+  color: #6C6C6C;
+  font-weight: 300;
+}
+
+.comment-meta h3 {
+  color: white;
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.user-rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 82px;
+  height: 32px;
+  background-color: #13A500;
+  font-size: 22px;
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.user-rating img{
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.comment-text {
+  font-size: 18px;
+  color: white;
+}
+
+.reactions-to-comment {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.likes {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 5px;
+  color: white;
+}
+
+.like-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(165, 165, 165, 0.15);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.like-btn img {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.reply-comment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90px;
+  height: 28px;
+  font-size: 15px;
+  color: white;
+  background-color: rgba(165, 165, 165, 0.15);
+  border: none;
+  border-radius: 15px;
+  gap: 5px;
+}
+
+.reply-comment img{
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.show-replies {
+  color: #FF003C;
+  background: none;
+  border: none;
+  width: 100px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}

@@ -1,0 +1,87 @@
+{% load static %}
+{% load game_tags %}
+{% load static %}
+{% load i18n %}
+{% load platform_tags %}
+
+<div class="game-card">
+  <a href="{% url 'game_detail' item.id %}" class="game-link">
+      {% if item.custom_header_photo %}
+        <div class="game-bg" style="background: url({{ item.custom_header_photo }});">
+      {% else %}
+        <div class="game-bg" style="background: url({{ item.cover_url }});">
+      {% endif %}
+
+      {% if item.user_rating is not None %}
+        {% with urating=item.user_rating %}
+            {% if urating >= 8 %}
+                <span class="rating" style="background-color: #15B000;">
+                {{ item.user_rating }}
+                </span>
+            {% elif urating >= 5 %}
+                <span class="rating" style="background-color: #FFFF00;">
+                {{ item.user_rating }}
+                </span>
+            {% elif urating > 1 %}
+                {# Низкий рейтинг: Красный фон, белый текст #}
+                <span class="rating" style="background-color: #FF4949;">
+                {{ item.user_rating }}
+                </span>
+            {% else %}
+                <span class="rating" style="background-color: #B7485C;">
+                {{ item.user_rating }}
+                </span>
+            {% endif %}
+        {% endwith %}
+      {% else %}
+        <span class="rating">?</span>
+      {% endif %}
+    </div>
+  </a>
+
+  <div class="card-information">
+    <h2>{% if item.name|length > 23 %}
+      {{ item.name|slice:":20" }}...
+    {% else %}
+      {{ item.name }}
+    {% endif %}</h2>
+    <div class="platforms">
+      {% for platform in item.platforms|parse_json|slice:":3" %}
+          {% get_platform_icon_for platform.name as icon_path %}
+          {% if icon_path %}
+              <span class="platform-icon" title="{{ platform.name }}">
+                  <img src="{% static icon_path %}" alt="{{ platform.name }}">
+              </span>
+          {% endif %}
+        {% empty %}
+            {# Этот блок сработает, если item.platforms|parse_json вернет пустой список #}
+            {# Можно убрать отладочные сообщения #}
+      {% endfor %}
+    </div>
+    <div class="genres-date-added">
+      <div class="item-genres">
+        <h3>Жанры:</h3>
+        <span class="genre">
+          {% for genre in item.genres|slice:":3" %}{{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}
+        </span>
+      </div>
+      <div class="item-date-release">
+        <h3>Дата выпуска:</h3>
+        <span class="date-release">
+          {% if item.release_date %}
+            {{ item.release_date|date:"d M. Y" }}
+          {% else %}
+            <p>No</p>
+          {% endif %}
+        </span>
+      </div>
+      <div class="item-date-added">
+        <h3>Дата добавления</h3>
+        <span class="date-release">
+          {{ item.latest_interaction_date|date:"d M. Y" }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+

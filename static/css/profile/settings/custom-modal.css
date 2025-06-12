@@ -1,0 +1,215 @@
+/* static/css/profile/settings/custom-modal.css */
+
+.custom-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(16, 16, 16, 0.8); /* Чуть темнее фон как у тебя */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.custom-modal-overlay.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0s linear 0s;
+}
+
+.custom-modal {
+  padding: 30px 40px; /* Увеличим немного отступы */
+  width: 90%; /* Для адаптивности */
+  max-width: 420px; /* Примерная ширина как на скриншоте */
+  /* height: auto; Убрали фиксированную высоту, чтобы контент определял ее */
+  background-color: #1E1E1E; /* Темный фон как на скрине */
+  border-radius: 20px; /* Скругление побольше */
+  transform: translateY(-30px) scale(0.95);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0; /* Добавим opacity для плавного появления самого окна */
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  text-align: left; /* Текст по левому краю по умолчанию */
+}
+
+.custom-modal-overlay.is-visible .custom-modal {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.custom-modal-header {
+  display: flex;
+  justify-content: space-between; /* Распределяем элементы */
+  align-items: center;
+  margin-bottom: 30px; /* Отступ от хедера до тела */
+  min-height: 24px; /* Чтобы хедер не схлопывался, если кнопки нет */
+}
+
+.modal-back-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0; /* Убираем лишние отступы */
+  display: flex; /* Для выравнивания SVG */
+  align-items: center;
+  justify-content: center;
+}
+.modal-back-btn svg { /* Стили для SVG внутри кнопки */
+    width: 24px;
+    height: 24px;
+}
+.modal-back-btn.is-hidden {
+  visibility: hidden; /* Скрываем, но оставляем место, если нужно для выравнивания */
+}
+
+.modal-logo {
+  display: block; /* Убедимся, что это блочный элемент */
+  height: 25px; /* Примерная высота лого */
+  /* margin: 0 auto; /* Если кнопка назад всегда скрыта или ее нет */
+}
+
+.modal-header-spacer {
+  width: 24px; /* Такой же ширины как кнопка назад для симметрии */
+}
+/* Если кнопка назад видима, лого по центру, если нет - спейсер скрыт */
+.modal-back-btn.is-hidden + .modal-logo + .modal-header-spacer {
+    display: none;
+}
+.modal-back-btn:not(.is-hidden) + .modal-logo {
+    /* Можно добавить margin-left: auto; margin-right: auto; если спейсер не нужен */
+}
+
+
+.custom-modal-body {
+  /* Стили для тела, если нужны */
+}
+
+.modal-step-title {
+  color: #FFFFFF;
+  font-size: 24px; /* Размер как на скрине */
+  font-weight: 700; /* Полужирный */
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.modal-step-subtitle {
+  color: #A0A0A0; /* Серый цвет */
+  font-size: 14px;
+  margin-bottom: 30px; /* Отступ до формы */
+  line-height: 1.5;
+  text-align: left;
+}
+.modal-step-subtitle strong { /* для выделенного email */
+    color: #FFFFFF;
+    font-weight: 500;
+}
+
+.form-group-modal {
+  margin-bottom: 20px; /* Отступ между инпутом и кнопкой/ссылкой */
+}
+
+.form-control-modal {
+  width: 100%;
+  background-color: #333333;
+  border: 1px solid #4A4A4A;
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 16px;
+  color: #FFFFFF;
+  box-sizing: border-box;
+}
+.form-control-modal::placeholder {
+  color: #858585;
+}
+.form-control-modal:focus {
+  border-color: #528FFD; /* Пример цвета фокуса */
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(82, 143, 253, 0.3);
+}
+
+.btn-modal-primary {
+  width: 100%;
+  background-color: #4A4A4A; /* Цвет кнопки */
+  color: #FFFFFF;
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.btn-modal-primary:hover {
+  background-color: #5a5a5a;
+}
+.btn-modal-primary:disabled {
+  background-color: #3a3a3a;
+  color: #777777;
+  cursor: not-allowed;
+}
+.btn-modal-primary .spinner-border-sm { /* Стили для спиннера Bootstrap, если используется */
+    width: 1em;
+    height: 1em;
+    border-width: .2em;
+}
+
+.modal-link {
+  display: block; /* Чтобы занимала всю ширину, если нужно */
+  text-align: left; /* Текст по левому краю */
+  font-size: 14px;
+  color: #E53E3E; /* Красный цвет как на скрине */
+  text-decoration: none;
+  margin-top: -10px; /* Приблизить к инпуту */
+  margin-bottom: 25px; /* Отступ до кнопки "Done" */
+}
+.modal-link:hover {
+  text-decoration: underline;
+}
+
+.modal-alert-container {
+  margin-bottom: 15px;
+  /* Стили для контейнера алертов, если нужны */
+}
+/* Кастомные алерты (если не используешь Bootstrap) */
+.custom-alert {
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.custom-alert-danger {
+  background-color: rgba(229, 62, 62, 0.1); /* Красный фон для ошибки */
+  color: #E53E3E; /* Красный текст */
+  border: 1px solid rgba(229, 62, 62, 0.3);
+}
+.custom-alert-success {
+  background-color: rgba(74, 222, 128, 0.1); /* Зеленый фон */
+  color: #4ADE80; /* Зеленый текст */
+  border: 1px solid rgba(74, 222, 128, 0.3);
+}
+.custom-alert-close {
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+  color: inherit; /* Наследует цвет текста алерта */
+  margin-left: 10px;
+}
+
+
+.is-hidden {
+  display: none !important;
+}
+
+body.modal-open-custom {
+  overflow: hidden;
+}

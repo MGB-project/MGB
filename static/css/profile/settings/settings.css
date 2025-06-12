@@ -1,0 +1,149 @@
+body {
+  background-color: #101010 !important;
+  font-family: 'Roboto', sans-serif;
+}
+
+.settings-content {
+  position: relative;
+  margin-top: 300px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: flex-start;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active-content {
+  display: block;
+}
+
+.settings-tabs {
+  position: absolute;
+  right: 100%;
+  margin-right: 80px; 
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 280px;
+  height: 244px;
+  background-color: rgba(255, 255, 255, 0.03);
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.settings-tabs h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #F5F5F5;
+}
+
+.settings-tabs-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-tabs-nav .tab-button {
+  display: flex;
+  gap: 15px;
+  padding: 14px 20px;
+  font-size: 18px;
+  color: #F5F5F5;
+  background: none;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+}
+
+.settings-tabs-nav .tab-button:hover{
+  background-color: #222222;
+}
+
+.tab-button.active-tab  {
+  background-color: #222222;
+}
+
+.settings-tabs-nav img {
+  width: 30px;
+  height: 30px;
+}
+
+/* КОНТЕНТ ТАБОВ */
+/* ----------------------------------------------------------------------------------- */
+.settings-tabs-content {
+  width: 580px;
+}
+
+.settings-tabs-content.active-content#tab-settings {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-tabs-content h1 {
+  font-size: 24px;
+  font-weight: 900;
+  color: #F5F5F5;
+}
+
+.change-mail {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  height: 60px;
+  margin-top: 20px;
+}
+
+.custom-input-wrapper {
+  position: relative;
+  width: 500px;
+}
+
+.custom-input-wrapper input{
+  height: 100%;
+  width: 100%;
+  background: none;
+  border: 1px solid #5A5A5A;
+  border-radius: 5px;
+  padding: 0 ;
+}
+
+.custom-input-wrapper input::placeholder{
+  color: #F5F5F5;
+  font-size: 18px;
+  padding-left: 20px;
+  transform: translateY(8px);
+}
+
+.custom-input-wrapper label {
+  cursor: pointer;
+  display: block;
+  position: absolute;
+  left: 20px;
+  top: 8px;
+  color: #5A5A5A;
+  font-size: 10px;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+
+
+.change-mail button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.change-mail button:hover {
+  background-color: rgba(255, 255, 255, 0.3)
+}

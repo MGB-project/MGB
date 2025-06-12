@@ -1,0 +1,69 @@
+/* TABS CONTENT */
+/* ___________________________________________________________________________________ */
+
+.games-tabs {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex-direction: row;
+  margin-top: 50px;
+  height: 56px;
+  padding: 0 10px;
+  background-color: hwb(0 100% 0% / 0.02);
+  border-radius: 30px;
+  box-sizing: border-box;
+}
+
+.games-tabs button {
+  position: relative;
+  display: flex;
+  padding: 0 35px;
+  align-items: center;
+  background: none;
+  color: #6C6C6C;
+  font-size: 16px;
+  height: 40px;
+  border: none;
+  max-width: 175px;
+  width: auto;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8), 0px 0px 5px rgba(255, 255, 255, 0.2);
+}
+
+.games-tabs button:not(:last-child) {
+  margin-right: 10px;
+}
+
+.games-tabs button.active {
+  color: white;
+  background-color: #433B36;
+  border-radius: 46px;
+}
+
+#btn-all-rev {
+  display: flex;
+  flex-direction: row;
+}
+
+.games-tabs #btn-all-rev.active p {
+  color: white; /* Цвет текста внутри p при активном состоянии кнопки */
+}
+
+.tab-content {
+  display: none;
+  margin-top: 40px;
+}
+
+.tab-content.active {
+  display: block;
+  margin-top: 30px;
+}
+
+.tab-content h1 {
+  display: none;
+}
+
+.tab-content.active h1 {
+  display: block;
+}

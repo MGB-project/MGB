@@ -1,0 +1,306 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+body, html {
+  margin: 0;
+  background: #020E1C;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+*, a:focus {
+  outline: none !important;
+}
+
+a {
+  cursor: pointer;
+  color: #FF003C;
+  text-decoration: underline ;
+}
+
+h1, p, a, li, ul, h3, h2{
+  margin: 0;
+  list-style: none;
+}
+
+/* Исправляем цвет текста в автозаполненных полях */
+input:-webkit-autofill {
+  background: transparent !important;
+  -webkit-box-shadow: 0 0 0 1000px #020E1C inset !important; /* Цвет фона (замени на нужный) */
+  color: white !important;
+  caret-color: white !important; /* Цвет курсора */
+}
+
+/* REG CONTAINER */
+.reg-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  padding-left: max(24px, calc(50% - 600px));
+  padding-right: max(24px, calc(50% - 600px));
+}
+
+.sign_content {
+  width: 400px;
+  height: 500px;
+}
+
+.sign_content h1, .sign_content h2 {
+  font-weight: 700;
+  color: white;
+  font-family: "Roboto", sans-serif;
+}
+
+.sign_content h1 {
+  font-size: 42px;
+}
+
+.sign_content h2 {
+  font-size: 22px;
+}
+
+
+.lines-or {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.lines-or hr{
+  width: 180px;
+  border: none;
+  border-bottom: 1px solid #575757;
+}
+
+
+.registration p{
+  color: #5C5C5C;
+  font-size: 15px;
+  font-family: "Roboto", sans-serif;
+}
+
+.registration {
+  display: flex;
+  flex-direction: column;
+  margin-top: 35px;
+  gap: 15px;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  margin-top: 80px;
+  gap: 25px;
+}
+
+/* КНОПКИ */
+.sign_content button {
+  width: 100%;
+  height: 60px;
+  border-radius: 40px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+}
+
+.reg {
+  background-color: #FF003C;
+  color: white;
+  border: none;
+}
+
+.log {
+  background: none;
+  color: #FF003C;
+  border: 1px solid #FF003C;
+}
+
+/* ФОРМА */
+#reg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  background-color: rgba(50, 50, 50, 0.5); /* Плавное затемнение */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+#reg.--show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Форма внутри модалки */
+.reg-modal {
+  display: block;
+  width: 600px;
+  background: #020E1C;
+  border-radius: 15px;
+  padding: 40px 50px;
+  box-sizing: border-box;
+  
+  transform: translateY(-50px); /* Начальная позиция (чуть выше) */
+  opacity: 0;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* Анимация для крестика */
+#reg .close-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+
+  position: absolute;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+#reg.--show .reg-modal {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.modal-photo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.reg-modal h1, .log-modal h1 {
+  margin-top: 40px;
+  font-size: 36px;
+  font-weight: 700;
+  font-family: "Roboto", sans-serif;
+}
+
+.form_content {
+  margin-top: 25px;
+  
+}
+
+.form_content input {
+  height: 60px;
+  width: 100%;
+  background: none;
+  border: 1px solid #5A5A5A;
+  border-radius: 5px;
+  padding: 0px;
+  text-indent: 20px;
+  margin: 0;
+  color: white;
+}
+
+.form-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form_content p {
+  margin-top: 20px;
+  color: #5C5C5C;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.captcha {
+  width: 300px;
+  height: 75px;
+  background-color: gray;
+  padding: 0 100px;
+  margin-top: 30px;
+}
+
+.btn-reg-next, .btn-log-next {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  margin-top: 50px;
+}
+
+.btn-log-next {
+  margin-top: 30px;
+}
+
+
+.btn-reg-next button , .btn-log-next button{
+  width: 400px;
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 30px;
+}
+
+.btn-log-next {
+  color: white;
+  background-color: #FF003C;
+  border: none;
+}
+
+.btn-log-next a {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.remember-me {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.remember-me input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.remember-me label {
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  color: white;
+  user-select: none;
+
+}
+
+.login-links {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.login a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 60px;
+  border-radius: 40px;
+  color: #FF003C;
+  text-decoration: none;
+  border: 1px solid #FF003C;
+  background: none;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;font-family: 'Poppins', sans-serif;
+}

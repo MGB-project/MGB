@@ -1,0 +1,88 @@
+#addit-info.active {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+
+.game-overview {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-overview-title, .game-overview-stata {
+  padding: 12px 0px;
+  position: relative;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Оранжевая полоска слева */
+.game-overview-title::before,
+.game-overview-stata::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 10px; /* Отступ сверху */
+  bottom: 10px; /* Отступ снизу */
+  width: 5px; /* Ширина полоски */
+  background-color: #003778; /* Оранжевый цвет */
+  border-radius: 3px; /* Скругление справа */
+}
+
+.game-overview-stata::before {
+  background-color: #FCDA17;
+}
+
+.game-overview-title h1,
+.game-overview-stata h1 {
+  font-size: 26px;
+  color: white;
+  font-weight: 600;
+  padding-left: 20px; /* Отступ от левого края (после полоски) */
+}
+
+.game-overview-description {
+  max-width: 100%;
+  width: auto;
+  margin-left: 20px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.stats-content {
+  width: 200px;
+}
+
+.game-overview-description p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+  color: #CBCBCB;
+  margin: 0;
+}
+
+/* Стили для списка деталей */
+.stats-content dl {
+  margin: 0;
+  padding: 15px 0; /* Вертикальные отступы внутри контента */
+  display: grid;
+  grid-template-columns: auto 1fr; /* Два столбца: метка и значение */
+  gap: 15px 30px;
+  font-size: 16px;
+}
+
+.stats-content dt {
+  font-weight: bold;
+  color: white;
+  grid-column: 1;
+}
+
+.stats-content dd {
+  margin: 0;
+  grid-column: 2;
+  color: white;
+  text-align: right;
+  display: flex;
+  gap: 5px;
+  align-items: center; /* ← Важно: выравнивает содержимое по вертикали */
+  justify-content: flex-end; /* ← Выравнивание по правому краю */
+}

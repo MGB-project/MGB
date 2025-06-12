@@ -1,0 +1,275 @@
+body {
+  overflow-x: hidden;
+  box-sizing: border-box;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+  background: linear-gradient(to bottom, #201D1B 30%,#3F3730 100%);
+}
+
+.book-detail-info {
+  display: flex;
+  flex-direction: column;
+  padding-left: max(24px, calc(50% - 740px));
+  padding-right: max(24px, calc(50% - 740px));
+  box-sizing: border-box;
+  padding-top: 250px;  
+  min-height: 100vh;
+}
+
+header {
+  background: none !important;
+}
+
+.book-main-block {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  width: 100%;
+  height: 450px;
+  background: #2F2B24;
+  font-family: 'Roboto', sans-serif;
+}
+
+.book-poster {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 230px;
+  padding: 30px 0px 30px 30px;
+}
+
+.book-poster img {
+  width: 230px;
+  height: 344px;
+}
+
+.book-poster .btn-share {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  background-color: #BD824B;
+  width: 100%;
+  height: 36px;
+  color: white;
+  font-weight: 600;
+  line-height: 125%;
+  font-size: 14px;
+  gap: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.book-poster .share-icon {
+  width: 28px;height: 28px;
+}
+
+.book-info {
+  display: flex;
+  flex-direction: column;
+  padding: 30px 0;
+}
+
+.book-info h1 {
+  font-family: 'Caveat', sans-serif;
+  line-height: 100%;
+  font-size: 46px;
+  font-weight: 700;
+  color: #F6ECE1;
+  margin-bottom: 15px;
+}
+
+.book-mini-info {
+  display: flex;
+  flex-direction: row;
+  height: 23px;
+}
+
+.book-mini-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.book-rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  color: white !important;
+  margin-right: 15px;
+}
+
+.book-author {
+  width: auto;
+  height: 23px;
+  color: #BD824B;
+  border: 1px solid #BD824B;
+  border-radius: 15px;
+  font-size: 14px;
+  padding: 0px 17px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+}
+
+.book-main-block .mini-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  width: auto;
+  height: 23px;
+  border: 1px solid #BD824B;
+  border-radius: 15px;
+  padding: 0px 17px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+}
+
+.book-main-block .mini-info p {
+  color: #BD824B;
+  font-size: 12px;
+}
+
+.book-description {
+  max-width: 810px;
+  width: auto;
+  color: #F6ECE1;
+  font-size: 18px;
+}
+
+.book-characteristics {
+  background-color: #474032;
+  width: 350px;
+  padding: 30px;
+}
+
+.details-block,
+.stats-block {
+   /* Фон как на картинке */
+  color: #e0e0e0; /* Цвет текста */
+  border-radius: 8px;
+  max-width: 350px; /* Ограничим ширину для примера */
+  overflow: hidden; /* Важно для скрытия контента */
+  
+}
+
+.details-header,
+.stats-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 2px;
+  cursor: pointer; /* Делаем всю шапку кликабельной (опционально) */
+  position: relative; /* Для оранжевой полоски */
+}
+
+/* Оранжевая полоска слева */
+.details-header::before,
+.stats-header::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 10px; /* Отступ сверху */
+  bottom: 10px; /* Отступ снизу */
+  width: 5px; /* Ширина полоски */
+  background-color: #d48c2a; /* Оранжевый цвет */
+  border-radius: 3px; /* Скругление справа */
+}
+
+.stats-header::before {
+  background-color: #FCDA17; /* Оранжевый цвет */
+}
+
+
+.details-title,
+.stats-title {
+  font-size: 1.4em;
+  font-weight: bold;
+  padding-left: 20px; /* Отступ от левого края (после полоски) */
+}
+
+.toggle-button {
+  background-color: #4a433a; /* Фон кнопки */
+  border: none;
+  color: #d48c2a;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease; /* Плавный поворот стрелки */
+}
+
+.stats-block .toggle-button {
+  color: #FCDA17;
+}
+
+/* Убираем стандартный вид кнопки при фокусе */
+.toggle-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(212, 140, 42, 0.5); /* Добавим свое выделение */
+}
+
+.details-content,
+.stats-content {
+  padding: 0px 0px 0px 25px; /* Начальные паддинги (верх/низ 0) */
+  max-height: 500px; /* Достаточно большая высота для контента */
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  transition: max-height 0.4s ease-out, padding 0.4s ease-out; /* Анимация высоты и паддингов */
+}
+
+/* Стили для скрытого состояния */
+.details-block.collapsed .details-content,
+.stats-block.collapsed .stats-content {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  /* Можно добавить transition и для visibility/opacity, но max-height проще */
+}
+
+.details-block.collapsed .toggle-button,
+.stats-block.collapsed .toggle-button {
+  transform: rotate(-90deg); /* Поворачиваем стрелку вверх */
+}
+
+/* Стили для списка деталей */
+.details-content dl,
+.stats-content dl {
+  margin: 0;
+  padding: 15px 0; /* Вертикальные отступы внутри контента */
+  display: grid;
+  grid-template-columns: auto 1fr; /* Два столбца: метка и значение */
+  gap: 10px 30px; /* Промежутки между строками и столбцами */
+}
+
+.details-content dt,
+.stats-content dt {
+  font-weight: bold;
+  color: #bdbdbd; /* Чуть темнее цвет для метки */
+  grid-column: 1;
+}
+
+.details-content dd,
+.stats-content dd {
+  margin: 0;
+  grid-column: 2;
+  text-align: right; /* Выравнивание по правому краю, как на картинке */
+}

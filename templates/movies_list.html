@@ -1,0 +1,401 @@
+{% extends 'template.html' %}
+
+{% load static %}
+{% load movie_tags %}
+
+{% block title %}
+  Movies
+{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/movies/movies.css' %}">
+  <link rel="stylesheet" href="{% static 'css/movies/main-block.css' %}">
+  <link rel="stylesheet" href="{% static 'css/movies/small-block.css' %}">
+  <link rel="stylesheet" href="{% static 'css/movies/big-block.css' %}">
+  <link rel="stylesheet" href="{% static 'css/movies/upcoming-block.css' %}">
+  <link rel="stylesheet" href="{% static 'css/movies/new-releases-block.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+{% endblock %}
+
+{% block content %}
+  <div class="swiper-container">
+
+    <div class="swiper main-swiper">
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+
+      <div class="swiper-wrapper">
+        {% if main_movies %}
+          {% for movie in main_movies %}
+            {% if movie.custom_header_photo %}
+            <div class="swiper-slide" style="background: url('{{ movie.custom_header_photo }}');">
+            {% else %}
+            <div class="swiper-slide" style="background: url('{{ movie.full_backdrop_path }}');">
+            {% endif %}
+              <a href="{% url 'movie_detail' movie.id %}" class="movie-link">
+                <div class="video-bg">
+                  {% if movie.video_custom %}
+                    <video autoplay muted loop playsinline>
+                      <source src="{{ movie.video_custom.url }}" type="video/mp4">
+                    </video>
+                  {% elif movie.youtube_trailer %}
+                    <iframe src="https://www.youtube.com/embed/{{ movie.youtube_trailer }}?autoplay=1&mute=1" 
+                      frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+                    </iframe>
+                  {% endif %}
+                </div>
+              </a>
+              <div class="movie-info">
+                <h2 class="title-movie">{{ movie.title }}</h2>
+                <div class="mini-info">
+                  
+                  <div class="custom-movie-ratings">
+                    {% if movie.vote_average and movie.vote_average > 0 %}
+                        <span class="custom-movie-rating" style="background-color: {{ movie.rating_color|default:'gray' }};">
+                            {{ movie.vote_average|floatformat:1 }}
+                        </span>
+                    {% else %}
+                        <span class="custom-movie-rating" style="background-color: gray;">
+                            ?
+                        </span>
+                    {% endif %}
+              
+                    {% for genre in movie.genres.all|slice:":3" %}
+                      <span class="movie-genre">{{ genre }}</span>
+                    {% endfor %}
+              
+                    <div class="date-country-seasons-adult">
+                      {% if movie.release_date %}
+                        <span class="date-block">{{ movie.release_date|date:"Y" }}</span>
+                      {% endif %}
+                      <p>•</p>
+                      {% if movie.country %}
+                        <span class="country-block">{{ movie.country }}</span>
+                      {% endif %}
+                      <p>•</p>
+                      {% if movie.runtime %}
+                        <span class="seasons-block">{{ movie.formatted_runtime }}</span>
+                      {% endif %}
+                      {% if movie.adult == True %}
+                        <p>•</p>
+                        <span class="adult-block">18+</span>
+                      {% endif %}
+              
+                    </div>
+                  </div>
+                  <div class="custom-movie-description">
+                    <p class="main-movie-description">{{ movie.overview }}</p>
+                  </div>
+                </div>
+                <div class="main-btns">
+                  {% movie_actions movie=movie size='large' show_learn_more=True show_rating=True %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
+
+  <div class="movies-container">
+
+    <!-- RESENTLY-TRENDING-CONTAINER -->
+    <div class="resently-trending-container">
+      <div class="resently-trending-title">
+        <div class="title-hr">
+          <hr>
+          <h1>Recently Trending</h1>
+        </div>
+      </div>
+      <div class="recently-block">
+        {% if recently_trending_small_movies %}
+          {% for movie in recently_trending_small_movies %}
+            <div class="trending-movie-default-card">
+              <a href="{% url 'movie_detail' movie.id %}" class="movie-link">
+                  {% if movie.custom_header_photo %}
+                    <div class="small-movie-bg" style="background-image: url({{ movie.custom_header_photo }});">
+                  {% else %}
+                    <div class="small-movie-bg" style="background: url({{ movie.full_poster_path }});">
+                  {% endif %} 
+                  <span class="movie-rating" style="background-color: {{ movie.rating_color }};">{{ movie.vote_average|floatformat:1 }}</span>
+                </div>
+                <h2>{{ movie.title }}</h2>
+              </a>
+              <div class="movie-btns">
+                {% movie_actions movie=movie size='small' show_learn_more=False show_rating=True %}
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div class="recently-block">
+        {% if recently_trending_big_movies %}
+          {% for movie in recently_trending_big_movies %}
+            <div class="trending-movie-big-card">
+              <a href="{% url 'movie_detail' movie.id %}" class="movie-link">
+                  {% if movie.custom_header_photo %}
+                    <div class="big-tranding-movie-bg" style="background: url({{ movie.custom_header_photo }});">
+                  {% else %}
+                    <div class="big-tranding-movie-bg" style="background: url({{ movie.full_backdrop_path }});">
+                  {% endif %} 
+                    <span class="movie-rating" style="background-color: {{ movie.rating_color }}">{{ movie.vote_average|floatformat:1 }}</span>
+                </div>
+                <div class="big-info">
+                  <h2>{{ movie.original_title }}</h2>
+                </div>
+              </a>
+              <div class="movie-btns">
+                {% movie_actions movie=movie size='small' show_learn_more=False show_rating=True %}
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="upcoming-movies-container">
+      <div class="upcoming-movies-title">
+        <div class="title-hr">
+          <hr>
+          <h1>Soon</h1>
+        </div>
+      </div>
+      
+      <div class="swiper upcoming-movies-swiper">
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+  
+        <div class="swiper-wrapper">
+          {% if upcoming_movies %}
+            {% for movie in upcoming_movies %}
+              {% if movie.overview and movie.title %}
+                {% if movie.custom_header_photo %}
+                  <div class="swiper-slide" style="background: url('{{ movie.custom_header_photo }}');">
+                {% else %}
+                  <div class="swiper-slide" style="background: url('{{ movie.full_backdrop_path }}');">
+                {% endif %}
+                  <a href="{% url 'movie_detail' movie.id %}" class="movie-link">
+                    <div class="video-bg">
+                      {% if movie.video_custom %}
+                        <video autoplay muted loop playsinline>
+                          <source src="{{ movie.video_custom.url }}" type="video/mp4">
+                        </video>
+                      {% elif movie.youtube_trailer %}
+                        <iframe src="https://www.youtube.com/embed/{{ movie.youtube_trailer }}?autoplay=1&mute=1" 
+                          frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+                        </iframe>
+                      {% endif %}
+                    </div>
+                  </a>
+                    {% if movie.custom_photo %}
+                      <img class="main-photo" src="{{ movie.custom_photo }}" alt="">
+                    {% endif %}
+                    <div class="movie-info">
+                      <div class="mini-info">
+                        <h2>{{ movie.title }}</h2>
+                        <div class="custom-movie-ratings">
+                          {% if movie.vote_average and movie.vote_average > 0 %}
+                              <span class="custom-movie-rating" style="background-color: {{ movie.rating_color|default:'gray' }};">
+                                  {{ movie.vote_average|floatformat:1 }}
+                              </span>
+                          {% else %}
+                              <span class="custom-movie-rating" style="background-color: gray;">
+                                  ?
+                              </span>
+                          {% endif %}
+
+                          {% for genre in genres|slice:":3" %}
+                            <span class="movie-genre">{{ genre }}</span>
+                          {% endfor %}
+
+                          <div class="date-country-seasons-adult">
+                            {% if movie.release_date %}
+                              <span class="date-block">{{ movie.release_date|date:"Y" }}</span>
+                            {% endif %}
+
+                            {% if movie.country %}
+                              <span class="country-block">{{ movie.country }}</span>
+                            {% endif %}
+
+                            {% if movie.runtime %}
+                              <span class="seasons-block">{{ movie.formatted_runtime }}</span>
+                            {% endif %}
+
+                            {% if movie.adult == True %}
+                              <span class="adult-block">18+</span>
+                            {% endif %}
+
+                          </div>
+                        </div>
+                        <div class="custom-movie-description">
+                          <p class="main-movie-description">{{ movie.overview }}</p>
+                        </div>
+                      </div>
+                      <div class="main-btns">
+                        {% movie_actions movie=movie size='large' show_learn_more=True show_rating=True %}
+                      </div>
+                    </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+
+    </div>
+
+      <!-- TOP-RATED-CONTAINER -->
+    <div class="new-releases-container">
+      <div class="new-releases-title">
+        <div class="title-hr">
+          <hr>
+          <h1>New Releases</h1>
+        </div>
+      </div>
+
+      <div class="swiper-container">
+        <div class="swiper new-releases-swiper">
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-wrapper">
+            {% if new_movies %}
+              {% for movie in new_movies %}
+                <div class="swiper-slide">
+                  <a href="{% url 'movie_detail' movie.id %}" class="movie-link">
+                    {% if movie.custom_header_photo %}
+                      <div class="small-movie-bg" style="background: url({{ movie.custom_header_photo }});">
+                    {% else %}
+                      <div class="small-movie-bg" style="background: url({{ movie.full_poster_path }});">
+                    {% endif %} 
+
+                    {% if movie.vote_average and movie.vote_average > 0 %}
+                      <span class="movie-rating" style="background-color: {{ movie.rating_color|default:'gray' }};">
+                          {{ movie.vote_average|floatformat:1 }}
+                      </span>
+                    {% else %}
+                      <span class="movie-rating" style="background-color: gray;">
+                          ?
+                      </span>
+                    {% endif %}
+                    </div>
+                    <h2>{{ movie.title }}</h2>
+                  </a>
+                  <div class="movie-btns">
+                    {% movie_actions movie=movie size='small' show_learn_more=False show_rating=True %}
+                  </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="best-movies-container">
+      <div class="best-movies-title">
+        <div class="title-hr">
+          <hr>
+          <h1>Best Movies</h1>
+        </div>
+        <a class="view-more" href="#">
+          View more
+          <img src="{% static 'imgs/movies_icons/best_movies_arrow.svg' %}" >
+        </a>
+      </div>
+      
+      <div class="swiper-container">
+        <div class="swiper best-movies-swiper">
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-wrapper">
+            {% if best_movies %}
+              {% for movie in best_movies %}
+                <div class="swiper-slide">
+                  <a href="{% url 'movie_detail' movie.id %}" class="movie-link">
+                    {% if movie.custom_header_photo %}
+                      <div class="small-movie-bg" style="background: url({{ movie.custom_header_photo }});">
+                    {% else %}
+                      <div class="small-movie-bg" style="background: url({{ movie.full_poster_path }});">
+                    {% endif %} 
+                    {% if movie.vote_average and movie.vote_average > 0 %}
+                        <span class="movie-rating" style="background-color: {{ movie.rating_color|default:'gray' }};">
+                            {{ movie.vote_average|floatformat:1 }}
+                        </span>
+                    {% else %}
+                        <span class="movie-rating" style="background-color: gray;">
+                            ?
+                        </span>
+                    {% endif %}
+                  </div>
+                  <h2>{{ movie.title }}</h2>
+                </a>
+                <div class="movie-btns">
+                  {% movie_actions movie=movie size='small' show_learn_more=False show_rating=True %}
+                </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="best-shows-container">
+      <div class="best-shows-title">
+        <div class="title-hr">
+          <hr>
+          <h1>Best TV shows</h1>
+        </div>
+        <a class="view-more" href="#">
+          View more
+          <img src="{% static 'imgs/movies_icons/tv_shows_arrow.svg' %}" >
+        </a>
+      </div>
+
+      <div class="swiper-container">
+        <div class="swiper best-movies-swiper">
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-wrapper">
+            {% if anime_series_list %}
+              {% for movie in anime_series_list %}
+                <div class="swiper-slide">
+                  <a href="{% url 'movie_detail' movie.id %}" class="movie-link">
+                    {% if movie.custom_header_photo %}
+                      <div class="small-movie-bg" style="background: url({{ movie.custom_header_photo }});">
+                    {% else %}
+                      <div class="small-movie-bg" style="background: url({{ movie.full_poster_path }});">
+                    {% endif %} 
+                    {% if movie.vote_average and movie.vote_average > 0 %}
+                        <span class="movie-rating" style="background-color: {{ movie.rating_color|default:'gray' }};">
+                            {{ movie.vote_average|floatformat:1 }}
+                        </span>
+                    {% else %}
+                        <span class="movie-rating" style="background-color: gray;">
+                            ?
+                        </span>
+                    {% endif %}
+                  </div>
+                  <h2>{{ movie.title }}</h2>
+                </a>
+                <div class="movie-btns">
+                  {% movie_actions movie=movie size='small' show_learn_more=False show_rating=True %}
+                </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="{% static 'scripts/movies/movies.js' %}"></script>
+{% endblock %}

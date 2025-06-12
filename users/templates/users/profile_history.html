@@ -1,0 +1,80 @@
+
+{% extends 'template.html' %}
+
+{% load static %}
+
+{% load humanize %}
+
+{% block title %}
+  {{ page_title }}
+{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/profile/profile.css' %}">
+  <link rel="stylesheet" href="{% static 'css/profile/profile_history.css' %}">
+{% endblock %}
+
+{% block content %}
+  <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+  <div class="profile-container">
+    <div class="profile-header">
+
+      <div class="history-info-container">
+        <a class="back-to-profile" href="{% url 'users:profile' %}">
+          <img src="{% static 'imgs/icons/arrow-left.svg' %}">
+          Back
+        </a>
+
+        <h1 class="history-title">History</h1>
+        
+        <div class="account-user">
+            <div class="item-user-info">
+                {% if profile_user.avatar and profile_user.avatar.url %}
+                    <div class="profile-photo"
+                         style="background-image: url('{{ profile_user.avatar.url }}');"
+                         data-avatar-url="{{ profile_user.avatar.url }}"> {# <--- ДОБАВЛЕНО ЗДЕСЬ #}
+                    </div>
+                {% else %}
+                    <div class="profile-photo" data-avatar-url="">???</div> {# Пустой, чтобы initialAvatarUrl был '' #}
+                {% endif %}
+            </div>
+            <h2>{{ profile_user.username }}</h2>
+            <p><span>{{ total_activities_count }} </span>contributions</p>
+        </div>
+        
+
+      </div>
+    </div>
+
+    <div class="history-content">
+        <div class="history-line">
+          <span>All</span>
+          <div class="gradient-line"></div>
+        </div>
+
+        <ul class="activity-list">
+            {% for activity in activities_page.object_list %}
+              <li class="activity-item very-simple-activity-item">
+                <div class="left-items">
+                    <div class="activity-icon-col">
+                        <span class="activity-type-symbol">#</span> 
+                    </div>
+            
+                    <div class="activity-main-col">
+                      <a href="{{ activity.detail_url|default:'#' }}" class="activity-content-title">{{ activity.title|truncatechars:35 }}</a>
+                      <span class="activity-verb">{{ activity.verb }}</span>
+                    </div>
+                </div>
+        
+                <div class="activity-timestamp-col">
+                  <span class="activity-timestamp" title="{{ activity.timestamp|date:"N j, Y, P" }}">
+                    {{ activity.timestamp|naturaltime }}
+                  </span>
+                </div>
+              </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+  </div>
+{% endblock %}

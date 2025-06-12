@@ -1,0 +1,60 @@
+{% extends 'sign_page.html' %}
+
+{% load static %}
+
+{% block sign_content %}
+  <div class="sign_content">
+    <h1>Join Today</h1>
+
+    <div class="registration">
+      <button>Sign up with Google</button>
+      <div class="lines-or">
+        <hr>
+        <p style="color: white;"> or </p>
+        <hr>
+      </div>
+      <button id="open-reg" class="reg">Create account</button>
+      <p>By signing up, you agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy.</a></p>
+    </div>
+
+    <div class="login">
+      <h2>Already have an account?</h2>
+      <a href="{% url 'users:login' %}">Sign In</a>
+    </div>
+
+    <div id="reg">
+      <div class="reg-modal">
+        <button class="close-modal">
+          <img src="{% static 'imgs/icons/krestik.svg' %}" alt="Close">
+        </button>
+
+        <div class="modal-photo">
+          <img src="{% static 'imgs/MGB_logo.svg' %}" alt="language icon">
+        </div>
+        
+        <h1>Create your account</h1>
+        <form class="form_content" action="{% url 'users:register' %}" method="post">
+          <div class="form-inputs">
+            {% csrf_token %}
+            {{ form.username }}
+            {{ form.email }}
+
+            {{ form.password1 }}
+            {{ form.password2 }}
+          </div>
+
+          {% if form.errors %}
+            <label>{{form.errors}}</label>
+          {% endif %}
+          
+          <p>By signing up, you agree to <a style="color: #FF003C;">MGB Terms</a> and <a style="color: #FF003C;">Policies</a></p>
+          <!-- {{ form.captcha }} -->
+          <button class="btn-reg-next" type="submit">Next</button>
+        </form> 
+      </div>
+    </div>
+  
+  </div>
+
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endblock %}

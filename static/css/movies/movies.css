@@ -1,0 +1,217 @@
+body {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  background: linear-gradient(#020810 0%, #00010A 100%);
+}
+
+.movies-container {
+  display: flex;
+  flex-direction: column;
+  padding-left: max(24px, calc(50% - 740px));
+  padding-right: max(24px, calc(50% - 740px));
+  box-sizing: border-box;
+}
+
+.resently-trending-container,
+.new-releases-container,
+.best-movies-container,
+.best-shows-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  margin-top: 60px;
+  font-family: 'Roboto', sans-serif;
+  scroll-snap-type: x mandatory;
+  -webkit-scroll-snap-type: x mandatory;
+}
+
+.new-releases-container {
+  margin-top: 60px;
+}
+
+.upcoming-movies-container {
+  font-family: 'Roboto', sans-serif;
+  width: 100%;
+  height: auto;
+}
+
+.resently-trending-title,
+.new-releases-title,
+.upcoming-movies-title,
+.best-movies-title,
+.best-shows-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+}
+
+.resently-trending-title a,
+.new-releases-title a,
+.upcoming-movies-title a,body {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.best-movies-title a,
+.best-shows-title a {
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  gap: 10px;
+  padding: 0 18px;
+  align-items: center;
+  max-width: 130px;
+  height: 34px;
+  font-size: 15px;
+  border-radius: 10px;
+  font-weight: 800;
+  text-decoration: none;
+  color: #fff;
+}
+
+.title-hr {
+  display: flex;
+  align-items: center;
+}
+
+.resently-trending-title h1,
+.new-releases-title h1,
+.upcoming-movies-title h1,
+.best-movies-title h1,
+.best-shows-title h1 {
+  font-size: 46px;
+  font-weight: 900;
+  padding-left: 30px; 
+}
+
+.resently-trending-title hr, 
+.new-releases-title hr, 
+.upcoming-movies-title hr,
+.best-movies-title hr,
+.best-shows-title hr {
+  width: 5px;
+  height: 50px;
+  border-radius: 15px;
+  border: none;
+  transform: none;
+}
+
+.resently-trending-title hr {
+  background-color: #FF003C;
+}
+
+.new-releases-title hr {
+  background-color: #FCDA17;
+}
+
+.upcoming-movies-title hr {
+  background-color: #1988F3;
+}
+
+.best-movies-title hr {
+  background-color: #003778;
+}
+
+.best-movies-title a {
+  color: #003778;
+  border: 1px solid #003778;
+  background-color: rgba(0, 54, 120, 0.15);
+}
+
+.best-shows-title hr {
+  background-color: #00ACBF;
+}
+
+.best-shows-title a {
+  color: #00ACBF;
+  border: 1px solid #00ACBF;
+  background-color: rgba(0, 172, 191, 0.15);
+}
+
+.movie-rating {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: white !important;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.resently-trending-title h1,
+.new-releases-title h1,
+.upcoming-movies-title h1,
+.best-movies-title h1,
+.best-shows-title h1 {
+  font-size: 46px;
+  font-weight: 900;
+  padding-left: 30px; 
+}
+
+.resently-trending-title hr, 
+.new-releases-title hr, 
+.upcoming-movies-title hr,
+.best-movies-title hr,
+.best-shows-title hr {
+  width: 5px;
+  height: 50px;
+  border-radius: 15px;
+  border: none;
+  transform: none;
+}
+
+.resently-trending-title hr {
+  background-color: #FF003C;
+}
+
+.new-releases-title hr {
+  background-color: #15B000;
+}
+
+.upcoming-movies-title hr {
+  background-color: #1988F3;
+}
+
+.best-movies-title hr {
+  background-color: #003778;
+}
+
+.best-movies-title a {
+  color: #003778;
+  border: 1px solid #003778;
+  background-color: rgba(0, 54, 120, 0.15);
+}
+
+.best-shows-title hr {
+  background-color: #00ACBF;
+}
+
+.best-shows-title a {
+  color: #00ACBF;
+  border: 1px solid #00ACBF;
+  background-color: rgba(0, 172, 191, 0.15);
+}
+
+
+.movie-btns {
+  opacity: 0;
+}
+
+.new-releases-container .swiper-slide:hover .movie-btns,
+.best-movies-container .swiper-slide:hover .movie-btns,
+.resently-trending-container .trending-movie-default-card:hover .movie-btns,
+.resently-trending-container .trending-movie-big-card:hover .movie-btns {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}

@@ -1,0 +1,116 @@
+{# templates/partials/_list_item_row_generic.html #}
+{% load static %}
+{% load i18n %}
+{% load platform_tags %}
+
+<tr class="list-item-row">
+    <td class="item-number">{{ forloop_counter }}</td>
+    <td class="item-title-cell">
+        {% if content_type_slug == 'movies' %}
+            {% if item.poster_path %}
+                <img src="{{ item.poster_path }}" alt="{{ item.title }} cover" class="item-cover-small">
+            {% else %}
+                <div class="item-cover-small item-cover-placeholder">?</div>
+            {% endif %}
+        {% elif content_type_slug == 'games' %}
+            {% if item.cover_url %}
+                <img src="{{ item.cover_url }}" alt="{{ item.title }} cover" class="item-cover-small">
+            {% else %}
+                <div class="item-cover-small item-cover-placeholder">?</div>
+            {% endif %}
+        {% elif content_type_slug == 'books' %}
+            {% if item.thumbnail %}
+                <img src="{{ item.thumbnail }}" alt="{{ item.title }} cover" class="item-cover-small">
+            {% else %}
+                <div class="item-cover-small item-cover-placeholder">?</div>
+            {% endif %}
+        {% endif%}
+
+
+        <div class="item-details">
+            {% if content_type_slug == 'movies' %}
+                <a href="{% url 'movie_detail' item.id %}" class="item-title-link">{{ item.title }}</a>
+                <span class="item-meta">
+                    {% for genre in item.genres.all|slice:":2" %}{{ genre.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+                    {% if item.genres.all and item.release_date %} • {% endif %}
+                    {{ item.release_date|date:"Y" }}
+                </span>
+            {% elif content_type_slug == 'games' %}
+                <a href="{% url 'game_detail' item.id %}" class="item-title-link">{{ item.name }}</a>
+                <span class="item-meta">
+                    {% for genre in item.genres|slice:":3" %}{{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}
+                </span>
+            {% elif content_type_slug == 'books' %}
+                <a href="{% url 'book_detail' item.id %}" class="item-title-link">{{ item.title }}</a>
+                <span class="item-meta">
+                    {% for author in item.authors.all|slice:":1" %}{{ author.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+                    {% if item.authors.all and item.publication_year %} • {% endif %}
+                    {{ item.publication_year }}
+                </span>
+            {% endif %}
+        </div>
+    </td>
+    <td class="item-platforms">
+        {% if content_type_slug == 'games' %}
+            {% for platform in item.platforms|parse_json|slice:":3" %}
+                {% get_platform_icon_for platform.name as icon_path %}
+                {% if icon_path %}
+                    <span class="platform-icon" title="{{ platform.name }}">
+                        <img src="{% static icon_path %}" alt="{{ platform.name }}">
+                    </span>
+                {% endif %}
+             {% empty %}
+                 {# Этот блок сработает, если item.platforms|parse_json вернет пустой список #}
+                 {# Можно убрать отладочные сообщения #}
+            {% endfor %}
+        {% elif content_type_slug == 'movies' %}
+        <span class="item-meta-info" style="font-size: 0.9em; color: #999;">
+            {{ item.release_date|date:"Y" }}
+            {% if item.runtime %}
+                • {{ item.runtime|runtime_format }}
+            {% endif %}
+        </span>
+        {% elif content_type_slug == 'books' %}
+            <span class="item-meta-info" style="font-size: 0.9em; color: #999;">
+                {% for author in item.authors.all|slice:":1" %}{{ author.name }}{% endfor %}
+                {% if item.authors.all and item.publication_year %} • {% endif %}
+                {{ item.publication_year }}
+            </span>
+        {% endif %}
+    </td>
+    <td class="item-date-added">
+        {{ item.latest_interaction_date|date:"d M. Y" }}
+    </td>
+    <td class="item-rating">
+        {% if item.user_rating is not None %}
+            {% with urating=item.user_rating %}
+                {% if urating >= 8 %}
+                    <span class="rating-badge" style="background-color: #15B000;">
+                    {{ item.user_rating }}
+                    </span>
+                {% elif urating >= 5 %}
+                    <span class="rating-badge" style="background-color: #FCDA17;">
+                    {{ item.user_rating }}
+                    </span>
+                {% elif urating > 1 %}
+                    {# Низкий рейтинг: Красный фон, белый текст #}
+                    <span class="rating-badge" style="background-color: #FF4949;">
+                    {{ item.user_rating }}
+                    </span>
+                {% else %}
+                    <span class="rating-badge" style="background-color: #B7485C;">
+                    {{ item.user_rating }}
+                    </span>
+                {% endif %}
+            {% endwith %}
+        {% else %}
+            <span class="rating-badge rating-badge-empty">?</span>
+        {% endif %}
+    </td>
+    
+    <td class="item-actions">
+        <button class="more-options-btn" aria-label="{% trans 'More options' %}">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
+        </button>
+    </td>
+</tr>
